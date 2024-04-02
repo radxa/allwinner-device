@@ -1,0 +1,1 @@
+-include device/softwinner/saturn/a527-evb/system/bsp-config.mk

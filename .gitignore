@@ -1,0 +1,9 @@
+configs/*/board.dts
+configs/*/dtbo/*.dtbo
+bin/boot0_*.bin
+bin/boot0_sdcard_sun55iw3p1.bin
+bin/fes1_*.bin
+bin/sboot_*.bin
+bin/u-boot-*.bin
+bin/scp.bin
+arisc.config
