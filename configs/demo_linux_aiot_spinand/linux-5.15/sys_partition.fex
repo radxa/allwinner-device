@@ -10,7 +10,7 @@
 ;    mbr的大小, 以Kbyte为单位
 ;***************************************************************************************************
 [mbr]
-size = 16384
+size = 248
 
 ;***************************************************************************************************
 ;                                              分区配置
@@ -35,27 +35,27 @@ size = 16384
 
 [partition]
     name         = boot-resource
-    size         = 65536
+    size         = 19840
     downloadfile = "boot-resource.fex"
     user_type    = 0x8000
 
 
 [partition]
     name         = env
-    size         = 32768
+    size         = 496
     downloadfile = "env.fex"
 	user_type    = 0x8000
 
 [partition]
     name         = boot
-    size         = 131072
+    size         = 49600
     downloadfile = "boot.fex"
 	user_type    = 0x8000
 
 [partition]
     name         = rootfs
-    size         = 1048576
-    downloadfile = "rootfs.fex"
+    size         = 526760
+    downloadfile = "rootfs-ubifs.fex"
 	user_type    = 0x8000
 
 [partition]

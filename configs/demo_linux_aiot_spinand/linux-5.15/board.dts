@@ -745,7 +745,7 @@
 			"PJ12","PJ13", "PJ14", "PJ15";
 		function = "gpio_in";
 	};
-	
+
 	spi0_pins_default: spi0@0 {
 		pins = "PC12", "PC2", "PC4"; /* clk, mosi, miso */
 		function = "spi0";
@@ -1300,7 +1300,7 @@
 
 &vind0 {
 	csi_top = <360000000>;
-	csi_isp = <320000000>;
+	csi_isp = <300000000>;
 	vind_mclkpin-supply = <&reg_aldo2>;
 	vind_mclkpin_vol = <2000000>;
 	vind_mcsipin-supply = <&reg_bldo3>;

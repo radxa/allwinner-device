@@ -56,7 +56,7 @@
 };
 
 &target {
-	boot_clock = <1296>;	/*CPU boot frequency, Unit: MHz*/
+	boot_clock = <1008>;	/*CPU boot frequency, Unit: MHz*/
 	storage_type = <0xffffffff>; /*boot medium, 0-nand, 1-card0, 2-card2, -1(defualt)auto scan*/
 	burn_key = <1>;		/*1:support burn key; 0:not support burn key*/
 	dragonboard_test = <0>;	/*1:support card boot dragonboard; 0:not support card boot dragonboard*/
@@ -654,40 +654,40 @@
 };
 
 
-&card0_boot_para {  /* Avoid dtc compiling warnings. @TODO: Developer should modify this to the actual value */
-	/* reg = <0x0 0x2 0x0 0x0>;  [> Avoid dtc compiling warnings. @TODO: Developer should modify this to the actual value <] */
-	device_type = "card0_boot_para";
-	card_ctrl = <0x0>;
-	card_high_speed = <0x1>;
-	card_line = <0x4>;
-	clk_mmc = "sdmmc0_mod";
-	pll-0 = "hosc";
-	pll-1 = "pll_periph1_400m";
-	pll-2 = "pll_periph1_300m";
-	pinctrl-0 = <&sdc0_pins_a>;
-};
+// &card0_boot_para {  /* Avoid dtc compiling warnings. @TODO: Developer should modify this to the actual value */
+// 	/* reg = <0x0 0x2 0x0 0x0>;  [> Avoid dtc compiling warnings. @TODO: Developer should modify this to the actual value <] */
+// 	device_type = "card0_boot_para";
+// 	card_ctrl = <0x0>;
+// 	card_high_speed = <0x1>;
+// 	card_line = <0x4>;
+// 	clk_mmc = "sdmmc0_mod";
+// 	pll-0 = "hosc";
+// 	pll-1 = "pll_periph1_400m";
+// 	pll-2 = "pll_periph1_300m";
+// 	pinctrl-0 = <&sdc0_pins_a>;
+// };
 
-&card2_boot_para {
-	/*
-	* Avoid dtc compiling warnings.
-	* @TODO: Developer should modify this to the actual value
-	*/
-	reg = <0x0 0x3 0x0 0x0>;
-	device_type = "card2_boot_para";
-	card_ctrl = <0x2>;
-	card_high_speed = <0x1>;
-	card_line = <0x8>;
-	clk_mmc = "sdmmc2_mod";
-	pll-0 = "hosc";
-	pll-1 = "pll_periph1_800m";
-	pll-2 = "pll_periph1_600m";
-	pinctrl-0 = <&sdc2_pins_a &sdc2_pins_c>;
-	sdc_ex_dly_used = <0x2>;
-	sdc_tm4_hs200_max_freq = <150>;
-	sdc_tm4_hs400_max_freq = <150>;
-	sdc_io_1v8 = <0x1>;
-	sdc_type = "tm4";
-};
+// &card2_boot_para {
+// 	/*
+// 	* Avoid dtc compiling warnings.
+// 	* @TODO: Developer should modify this to the actual value
+// 	*/
+// 	reg = <0x0 0x3 0x0 0x0>;
+// 	device_type = "card2_boot_para";
+// 	card_ctrl = <0x2>;
+// 	card_high_speed = <0x1>;
+// 	card_line = <0x8>;
+// 	clk_mmc = "sdmmc2_mod";
+// 	pll-0 = "hosc";
+// 	pll-1 = "pll_periph1_800m";
+// 	pll-2 = "pll_periph1_600m";
+// 	pinctrl-0 = <&sdc2_pins_a &sdc2_pins_c>;
+// 	sdc_ex_dly_used = <0x2>;
+// 	sdc_tm4_hs200_max_freq = <150>;
+// 	sdc_tm4_hs400_max_freq = <150>;
+// 	sdc_io_1v8 = <0x1>;
+// 	sdc_type = "tm4";
+// };
 
 &gpio_bias {  /* Avoid dtc compiling warnings. @TODO: Developer should modify this to the actual value */
 	device_type = "gpio_bias";

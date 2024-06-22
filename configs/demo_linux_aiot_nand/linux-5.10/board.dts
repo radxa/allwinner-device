@@ -1243,7 +1243,7 @@
 
 &vind0 {
 	csi_top = <360000000>;
-	csi_isp = <320000000>;
+	csi_isp = <300000000>;
 	vind_mclkpin-supply = <&reg_aldo2>;
 	vind_mclkpin_vol = <2000000>;
 	vind_mcsipin-supply = <&reg_bldo3>;

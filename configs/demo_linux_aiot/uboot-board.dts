@@ -56,7 +56,7 @@
 };
 
 &target {
-	boot_clock = <1296>;	/*CPU boot frequency, Unit: MHz*/
+	boot_clock = <1008>;	/*CPU boot frequency, Unit: MHz*/
 	storage_type = <0xffffffff>; /*boot medium, 0-nand, 1-card0, 2-card2, -1(defualt)auto scan*/
 	burn_key = <1>;		/*1:support burn key; 0:not support burn key*/
 	dragonboard_test = <0>;	/*1:support card boot dragonboard; 0:not support card boot dragonboard*/
