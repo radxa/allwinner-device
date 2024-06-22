@@ -1,0 +1,1268 @@
+/*
+ * Allwinner Technology CO., Ltd. sun50iw10p1 soc board.
+ *
+ * soc board support.
+ */
+&power_sply {
+	bldo1_vol = <1800>;
+	bldo2_vol = <1001800>;
+	bldo3_vol = <1001800>;
+	cldo2_vol = <1001800>;
+	cldo4_vol = <1103300>;
+	dcdc1_mode = <1>;
+	ext_dcdc0_mode = <1>;
+	ext_dcdc1_mode = <1>;
+	ext_dcdc2_mode = <1>;
+	dcdc2_mode = <1>;
+	dcdc3_mode = <1>;
+	bc12_mode = <0>;
+	ntc_status = <2>;
+	battery_exist = <0>;
+};
+
+&platform {
+	eraseflag   = <1>;
+	next_work   = <3>;
+	debug_mode  = <1>;
+};
+
+/*
+ *recovery_key_used :  模块使能端，    1：开启，0：关闭
+ *press_mode_enable :  长短按模式使能，1：开启，0：关闭
+ *                     a)如果开启了该模式，则key_work_mode失效，short_press_mode和long_press_mode生效,
+ *                     recovery按键可以通过长按和短按来触发两种不同的模式;
+ *                     b)如果关闭了该模式，则key_work_mode生效，recovery按键只能触发一种模式.
+ *key_work_mode     :  模式选择
+ *                     0: 刷机,
+ *                     1: 一键恢复(uboot阶段),
+ *                     2: 安卓recovery,
+ *                     3: 安卓恢复出厂设置.
+ *                     如果不设置，模式为安卓recovery.
+ *short_press_mode  :  长按触发的模式，选项同上.
+ *long_press_mode   :  短按触发的模式，选项同上.
+ *key_press_time    :  定义长按的时间，单位:毫秒.
+ *recovery_key      :  按键配置.
+ */
+&adc_boot_recovery {
+       recovery_adc_used = <0x1>;
+       recovery_adc_channel = <0x1>;
+       press_mode_enable = <0x1>;
+       adc_work_mode = <0x2>;
+       short_press_mode = <0x0>;
+       long_press_mode = <0x2>;
+       key_press_time = <0x1388>;
+       key_min = <9>;
+       key_max = <11>;
+};
+
+&target {
+	boot_clock = <1008>;	/*CPU boot frequency, Unit: MHz*/
+	storage_type = <0xffffffff>; /*boot medium, 0-nand, 1-card0, 2-card2, -1(defualt)auto scan*/
+	burn_key = <1>;		/*1:support burn key; 0:not support burn key*/
+	dragonboard_test = <0>;	/*1:support card boot dragonboard; 0:not support card boot dragonboard*/
+};
+
+&charger0 {
+	pmu_safe_vol = <3400>;
+	ntc_cur = <50>;
+	safe_temp_H = <600>;//60
+	safe_temp_L = <0xFFFFFFCE>;//-5
+	pmu_bat_temp_para1 = <4592>;
+	pmu_bat_temp_para2 = <2781>;
+	pmu_bat_temp_para3 = <2125>;
+	pmu_bat_temp_para4 = <1738>;
+	pmu_bat_temp_para5 = <1390>;
+	pmu_bat_temp_para6 = <1118>;
+	pmu_bat_temp_para7 = <906>;
+	pmu_bat_temp_para8 = <606>;
+	pmu_bat_temp_para9 = <415>;
+	pmu_bat_temp_para10 = <290>;
+	pmu_bat_temp_para11 = <244>;
+	pmu_bat_temp_para12 = <206>;
+	pmu_bat_temp_para13 = <175>;
+	pmu_bat_temp_para14 = <150>;
+	pmu_bat_temp_para15 = <110>;
+	pmu_bat_temp_para16 = <83>;
+};
+
+&twi6 {
+	clock-frequency = <200000>;
+	pinctrl-0 = <&s_twi0_pins_a>;
+	pinctrl-1 = <&s_twi0_pins_b>;
+	twi-supply = <&reg_aldo3>;
+	no_suspend = <1>;
+	twi_drv_used = <1>;
+	status = "okay";
+	pmu0: pmu@34 {
+		compatible = "x-powers,axp2202";
+		status = "okay";
+		reg = <0x35>;
+		/* interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+		 * interrupt-parent = <&gic>; */
+		x-powers,drive-vbus-en;
+
+		wakeup-source;
+
+		regulator0: regulators@0 {
+			reg_dcdc1: dcdc1 {
+				regulator-name = "axp2202-dcdc1";
+			};
+			reg_dcdc2: dcdc2 {
+				regulator-name = "axp2202-dcdc2";
+			};
+			reg_dcdc3: dcdc3 {
+				regulator-name = "axp2202-dcdc3";
+			};
+			reg_dcdc4: dcdc4 {
+				regulator-name = "axp2202-dcdc4";
+			};
+			reg_rtcldo: rtcldo {
+				/* RTC_LDO is a fixed, always-on regulator */
+				regulator-name = "axp2202-rtcldo";
+			};
+			reg_aldo1: aldo1 {
+				regulator-name = "axp2202-aldo1";
+			};
+			reg_aldo2: aldo2 {
+				regulator-name = "axp2202-aldo2";
+			};
+			reg_aldo3: aldo3 {
+				regulator-name = "axp2202-aldo3";
+			};
+			reg_aldo4: aldo4 {
+				regulator-name = "axp2202-aldo4";
+			};
+			reg_bldo1: bldo1 {
+				regulator-name = "axp2202-bldo1";
+			};
+			reg_bldo2: bldo2 {
+				regulator-name = "axp2202-bldo2";
+			};
+			reg_bldo3: bldo3 {
+				regulator-name = "axp2202-bldo3";
+			};
+			reg_bldo4: bldo4 {
+				regulator-name = "axp2202-bldo4";
+			};
+			reg_cldo1: cldo1 {
+				regulator-name = "axp2202-cldo1";
+			};
+			reg_cldo2: cldo2 {
+				regulator-name = "axp2202-cldo2";
+			};
+			reg_cldo3: cldo3 {
+				regulator-name = "axp2202-cldo3";
+			};
+			reg_cldo4: cldo4 {
+				regulator-name = "axp2202-cldo4";
+			};
+			reg_cpusldo: cpusldo {
+				regulator-name = "axp2202-cpusldo";
+			};
+		};
+	};
+
+	pmu1: pmu@36 {
+		compatible = "x-powers,axp1530";
+		status = "okay";
+
+		regulator1: regulators@1 {
+			reg_ext_dcdc1: ext_dcdc1 {
+				regulator-name = "axp1530-ext_dcdc1";
+			};
+			reg_ext_dcdc2: ext_dcdc2 {
+				regulator-name = "axp1530-ext_dcdc2";
+			};
+			reg_ext_dcdc3: ext_dcdc3 {
+				regulator-name = "axp1530-ext_dcdc3";
+			};
+			reg_ext_aldo1: ext_aldo1 {
+				regulator-name = "axp1530-ext_aldo1";
+			};
+			reg_ext_dldo1: ext_dldo1 {
+				regulator-name = "axp1530-ext_ldo1";
+			};
+		};
+	};
+};
+
+&recovery_key {
+	device_type = "recovery_key";
+	key_max = <11>;
+	key_min = <9>;
+};
+
+&pwm0_pin_a {
+	allwinner,pins = "PD23";
+	allwinner,function = "pwm0";
+	allwinner,drive = <0>;
+	allwinner,muxsel = <0x02>;
+};
+
+&pwm0_pin_b {
+	allwinner,pins = "PD23";
+	allwinner,function = "io_disabled";
+	allwinner,muxsel = <0x0f>;
+	allwinner,drive = <0>;
+	allwinner,pull = <0>;
+};
+
+&pwm1_pin_a {
+	allwinner,pins = "PD22";
+	allwinner,function = "pwm1";
+	allwinner,drive = <0>;
+	allwinner,muxsel = <0x02>;
+};
+
+&pwm1_pin_b {
+	allwinner,pins = "PD22";
+	allwinner,function = "io_disabled";
+	allwinner,muxsel = <0x0f>;
+	allwinner,drive = <0>;
+	allwinner,pull = <0>;
+};
+
+&pwm2_pin_a {
+	allwinner,pins = "PB11";
+	allwinner,function = "pwm2";
+	allwinner,drive = <0>;
+	allwinner,muxsel = <0x05>;
+};
+
+&pwm2_pin_b {
+	allwinner,pins = "PB11";
+	allwinner,function = "io_disabled";
+	allwinner,muxsel = <0x0f>;
+	allwinner,drive = <0>;
+	allwinner,pull = <0>;
+};
+
+&pwm3_pin_a {
+	allwinner,pins = "PB12";
+	allwinner,function = "pwm3";
+	allwinner,drive = <0>;
+	allwinner,muxsel = <0x05>;
+};
+
+&pwm3_pin_b {
+	allwinner,pins = "PB12";
+	allwinner,function = "io_disabled";
+	allwinner,muxsel = <0x0f>;
+	allwinner,drive = <0>;
+	allwinner,pull = <0>;
+};
+
+&pwm4_pin_a {
+	allwinner,pins = "PI3";
+	allwinner,function = "pwm4";
+	allwinner,drive = <0>;
+	allwinner,muxsel = <0x04>;
+};
+
+&pwm4_pin_b {
+	allwinner,pins = "PI3";
+	allwinner,function = "io_disabled";
+	allwinner,muxsel = <0x0f>;
+	allwinner,drive = <0>;
+	allwinner,pull = <0>;
+};
+
+&pwm5_pin_a {
+	allwinner,pins = "PI4";
+	allwinner,function = "pwm5";
+	allwinner,drive = <0>;
+	allwinner,muxsel = <0x04>;
+};
+
+&pwm5_pin_b {
+	allwinner,pins = "PI4";
+	allwinner,function = "io_disabled";
+	allwinner,muxsel = <0x0f>;
+	allwinner,drive = <0>;
+	allwinner,pull = <0>;
+};
+
+&pwm0 {
+	pinctrl-names = "active", "sleep";
+	pinctrl-0 = <&pwm0_pin_a>;
+	pinctrl-1 = <&pwm0_pin_b>;
+	status = "okay";
+};
+
+&pwm1 {
+	pinctrl-names = "active", "sleep";
+	pinctrl-0 = <&pwm1_pin_a>;
+	pinctrl-1 = <&pwm1_pin_b>;
+	status = "okay";
+};
+
+&pwm2 {
+	pinctrl-names = "active", "sleep";
+	pinctrl-0 = <&pwm2_pin_a>;
+	pinctrl-1 = <&pwm2_pin_b>;
+	status = "disabled";
+};
+
+&pwm3 {
+	pinctrl-names = "active", "sleep";
+	pinctrl-0 = <&pwm3_pin_a>;
+	pinctrl-1 = <&pwm3_pin_b>;
+	status = "disabled";
+};
+
+&pwm4 {
+	pinctrl-names = "active", "sleep";
+	pinctrl-0 = <&pwm4_pin_a>;
+	pinctrl-1 = <&pwm4_pin_b>;
+	status = "okay";
+};
+
+&pwm5 {
+	pinctrl-names = "active", "sleep";
+	pinctrl-0 = <&pwm5_pin_a>;
+	pinctrl-1 = <&pwm5_pin_b>;
+	status = "okay";
+};
+
+&sdc0_pins_a {
+	allwinner,pins = "PF0", "PF1", "PF2",
+			 "PF3", "PF4", "PF5";
+	allwinner,function = "sdc0";
+	allwinner,muxsel = <2>;
+	allwinner,drive = <3>;
+	allwinner,pull = <1>;
+};
+
+&sdc0_pins_b {
+	allwinner,pins = "PF0", "PF1", "PF2",
+			 "PF3", "PF4", "PF5";
+	allwinner,function = "io_disabled";
+	allwinner,muxsel = <7>;
+	allwinner,drive = <1>;
+	allwinner,pull = <1>;
+};
+
+&sdc0_pins_c {
+	allwinner,pins = "PF0", "PF1", "PF2",
+			 "PF3", "PF4", "PF5";
+	allwinner,function = "uart0_jtag";
+	allwinner,muxsel = <3>;
+	allwinner,drive = <1>;
+	allwinner,pull = <1>;
+};
+
+
+&sdc2_pins_a {
+	allwinner,pins = "PC1", "PC5", "PC6",
+			 "PC8", "PC9", "PC10", "PC11",
+			 "PC13", "PC14", "PC15", "PC16";
+	allwinner,function = "sdc2";
+	allwinner,muxsel = <3>;
+	allwinner,drive = <3>;
+	allwinner,pull = <1>;
+};
+
+&sdc2_pins_b {
+	allwinner,pins = "PC0", "PC1", "PC5", "PC6",
+			 "PC8", "PC9", "PC10", "PC11",
+			 "PC13", "PC14", "PC15", "PC16";
+	allwinner,function = "io_disabled";
+	allwinner,muxsel = <7>;
+	allwinner,drive = <1>;
+	allwinner,pull = <1>;
+};
+
+&sdc2_pins_c {
+	allwinner,pins = "PC0";
+	allwinner,function = "sdc2";
+	allwinner,muxsel = <3>;
+	allwinner,drive = <3>;
+	allwinner,pull = <2>;
+};
+
+&nand0_pins_a {
+	allwinner,pins = "PC0", "PC1", "PC2", "PC5",
+			 "PC8", "PC9", "PC10", "PC11",
+			 "PC12", "PC13", "PC14", "PC15",
+			 "PC16";
+	allwinner,pname= "nand0_we", "nand0_ale","nand0_cle", "nand0_nre",
+			 "nand0_d0", "nand0_d1", "nand0_d2", "nand0_d3",
+			 "nand0_d4", "nand0_d5", "nand0_d6", "nand0_d7",
+			 "nand0_ndqs";
+	allwinner,function = "nand0";
+	allwinner,muxsel = <2>;
+	allwinner,drive = <1>;
+	allwinner,pull = <0>;
+};
+
+&nand0_pins_b {
+	allwinner,pins = "PC4", "PC6", "PC03", "PC07";
+	allwinner,pname= "nand0_ce0", "nand0_rb0", "nand0_ce1", "nand0_rb1";
+	allwinner,function = "nand0";
+	allwinner,muxsel = <2>;
+	allwinner,drive = <1>;
+	allwinner,pull = <1>;	/* only RB&CE should be pulled up */
+};
+
+&nand0_pins_c {
+	allwinner,pins = "PC0", "PC1", "PC2", "PC3",
+			 "PC4", "PC5", "PC6", "PC7",
+			 "PC8", "PC9", "PC10", "PC11",
+			 "PC12", "PC13", "PC14", "PC15",
+			 "PC16";
+	allwinner,function = "io_disabled";
+	allwinner,muxsel = <7>;
+	allwinner,drive = <1>;
+	allwinner,pull = <0>;
+};
+
+&spi0_pins_a {
+	allwinner,pins = "PC12", "PC2", "PC4";
+	allwinner,pname = "spi0_clk", "spi0_mosi", "spi0_miso";
+	allwinner,function = "spi0";
+	allwinner,muxsel = <4>;
+	allwinner,drive = <1>;
+	allwinner,pull = <0>;
+};
+
+&spi0_pins_b {
+	allwinner,pins = "PC3", "PC15", "PC16";
+	allwinner,pname = "spi0_cs0", "spi0_wp", "spi0_hold";
+	allwinner,function = "spi0";
+	allwinner,muxsel = <4>;
+	allwinner,drive = <1>;
+	allwinner,pull = <1>;   // only CS should be pulled up
+};
+
+&spi0_pins_c {
+	allwinner,pins = "PC12", "PC2", "PC4", "PC3", "PC15", "PC16";
+	allwinner,function = "io_disabled";
+	allwinner,muxsel = <15>;
+	allwinner,drive = <1>;
+	allwinner,pull = <0>;
+};
+
+&lvds0_pins_a {
+	allwinner,pins = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD8", "PD9", "PD6", "PD7";
+	allwinner,pname = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD8", "PD9", "PD6", "PD7";
+	allwinner,function = "lvds0";
+	allwinner,muxsel = <3>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&lvds0_pins_b {
+	allwinner,pins = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD8", "PD9", "PD6", "PD7";
+	allwinner,pname = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD8", "PD9", "PD6", "PD7";
+	allwinner,function = "lvds0_suspend";
+	allwinner,muxsel = <7>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&lvds1_pins_a {
+	allwinner,pins = "PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD18", "PD19", "PD16", "PD17";
+	allwinner,pname = "PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD18", "PD19", "PD16", "PD17";
+	allwinner,function = "lvds1";
+	allwinner,muxsel = <3>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&lvds1_pins_b {
+	allwinner,pins = "PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD18", "PD19", "PD16", "PD17";
+	allwinner,pname = "PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD18", "PD19", "PD16", "PD17";
+	allwinner,function = "lvds1_suspend";
+	allwinner,muxsel = <7>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&lvds2_pins_a {
+	allwinner,pins = "PJ7", "PJ6", "PJ5", "PJ4", "PJ3", "PJ2", "PJ1", "PJ0", "PJ8", "PJ9";
+	allwinner,pname = "PJ7", "PJ6", "PJ5", "PJ4", "PJ3", "PJ2", "PJ1", "PJ0", "PJ8", "PJ9";
+	allwinner,function = "lvds2";
+	allwinner,muxsel = <3>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&lvds2_pins_b {
+	allwinner,pins = "PJ7", "PJ6", "PJ5", "PJ4", "PJ3", "PJ2", "PJ1", "PJ0", "PJ8", "PJ9";
+	allwinner,pname = "PJ7", "PJ6", "PJ5", "PJ4", "PJ3", "PJ2", "PJ1", "PJ0", "PJ8", "PJ9";
+	allwinner,function = "lvds2_suspend";
+	allwinner,muxsel = <7>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&lvds3_pins_a {
+	allwinner,pins = "PJ10", "PJ11", "PJ12", "PJ13", "PJ14", "PJ15", "PJ16", "PJ17", "PJ18", "PJ19";
+	allwinner,pname = "PJ10", "PJ11", "PJ12", "PJ13", "PJ14", "PJ15", "PJ16", "PJ17", "PJ18", "PJ19";
+	allwinner,function = "lvds3";
+	allwinner,muxsel = <3>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&lvds3_pins_b {
+	allwinner,pins = "PJ10", "PJ11", "PJ12", "PJ13", "PJ14", "PJ15", "PJ16", "PJ17", "PJ18", "PJ19";
+	allwinner,pname = "PJ10", "PJ11", "PJ12", "PJ13", "PJ14", "PJ15", "PJ16", "PJ17", "PJ18", "PJ19";
+	allwinner,function = "lvds3_suspend";
+	allwinner,muxsel = <7>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&lcd1_lvds2link_pins_a {
+	allwinner,pins = "PJ10", "PJ11", "PJ12", "PJ13", "PJ14", "PJ15", "PJ16", "PJ17", "PJ18", "PJ19", \
+	"PJ7", "PJ6", "PJ5", "PJ4", "PJ3", "PJ2", "PJ1", "PJ0", "PJ8", "PJ9";
+	allwinner,pname = "PJ10", "PJ11", "PJ12", "PJ13", "PJ14", "PJ15", "PJ16", "PJ17", "PJ18", "PJ19", \
+	"PJ7", "PJ6", "PJ5", "PJ4", "PJ3", "PJ2", "PJ1", "PJ0", "PJ8", "PJ9";
+	allwinner,function = "lvds3";
+	allwinner,muxsel = <3>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&lcd1_lvds2link_pins_b {
+	allwinner,pins = "PJ10", "PJ11", "PJ12", "PJ13", "PJ14", "PJ15", "PJ16", "PJ17", "PJ18", "PJ19", \
+	"PJ7", "PJ6", "PJ5", "PJ4", "PJ3", "PJ2", "PJ1", "PJ0", "PJ8", "PJ9";
+	allwinner,pname = "PJ10", "PJ11", "PJ12", "PJ13", "PJ14", "PJ15", "PJ16", "PJ17", "PJ18", "PJ19", \
+	"PJ7", "PJ6", "PJ5", "PJ4", "PJ3", "PJ2", "PJ1", "PJ0", "PJ8", "PJ9";
+	allwinner,function = "lvds3_suspend";
+	allwinner,muxsel = <7>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&lvds2link_pins_a {
+	allwinner,pins = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD8", "PD9", "PD6", "PD7", \
+	"PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD18", "PD19", "PD16", "PD17";
+	allwinner,pname = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD8", "PD9", "PD6", "PD7", \
+	"PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD18", "PD19", "PD16", "PD17";
+	allwinner,function = "lvds2link";
+	allwinner,muxsel = <3>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&lvds2link_pins_b {
+	allwinner,pins = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD8", "PD9", "PD6", "PD7", \
+	"PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD18", "PD19", "PD16", "PD17";
+	allwinner,pname = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD8", "PD9", "PD6", "PD7", \
+	"PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD18", "PD19", "PD16", "PD17";
+	allwinner,function = "lvds2link_suspend";
+	allwinner,muxsel = <7>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&rgb24_pins_a {
+	allwinner,pins = "PJ0", "PJ1", "PJ2", "PJ3", "PJ4", "PJ5", "PJ6", "PJ7", "PJ8", "PJ9", \
+	"PJ10", "PJ11", "PJ12", "PJ13", "PJ14", "PJ15", "PJ16", "PJ17", "PJ18", "PJ19", \
+	"PJ20", "PJ21", "PJ22", "PJ23", "PJ24", "PJ25", "PJ26", "PJ27";
+	allwinner,pname = "PJ0", "PJ1", "PJ2", "PJ3", "PJ4", "PJ5", "PJ6", "PJ7", "PJ8", "PJ9", \
+	"PJ10", "PJ11", "PJ12", "PJ13", "PJ14", "PJ15", "PJ16", "PJ17", "PJ18", "PJ19", \
+	"PJ20", "PJ21", "PJ22", "PJ23", "PJ24", "PJ25", "PJ26", "PJ27";
+	allwinner,function = "rgb24";
+	allwinner,muxsel = <2>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&rgb24_pins_b {
+	allwinner,pins = "PJ0", "PJ1", "PJ2", "PJ3", "PJ4", "PJ5", "PJ6", "PJ7", "PJ8", "PJ9", \
+	"PJ10", "PJ11", "PJ12", "PJ13", "PJ14", "PJ15", "PJ16", "PJ17", "PJ18", "PJ19", \
+	"PJ20", "PJ21", "PJ22", "PJ23", "PJ24", "PJ25", "PJ26", "PJ27";
+	allwinner,pname = "PJ0", "PJ1", "PJ2", "PJ3", "PJ4", "PJ5", "PJ6", "PJ7", "PJ8", "PJ9", \
+	"PJ10", "PJ11", "PJ12", "PJ13", "PJ14", "PJ15", "PJ16", "PJ17", "PJ18", "PJ19", \
+	"PJ20", "PJ21", "PJ22", "PJ23", "PJ24", "PJ25", "PJ26", "PJ27";
+	allwinner,function = "rgb24_suspend";
+	allwinner,muxsel = <7>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&rgb18_pins_a {
+	allwinner,pins = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD6", "PD7", "PD8", "PD9", \
+	"PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD16", "PD17", "PD18", "PD19", \
+	"PD20", "PD21";
+	allwinner,pname = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD6", "PD7", "PD8", "PD9", \
+	"PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD16", "PD17", "PD18", "PD19", \
+	"PD20", "PD21";
+	allwinner,function = "rgb18";
+	allwinner,muxsel = <2>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&rgb18_pins_b {
+	allwinner,pins = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD6", "PD7", "PD8", "PD9", \
+	"PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD16", "PD17", "PD18", "PD19", \
+	"PD20", "PD21";
+	allwinner,pname = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD6", "PD7", "PD8", "PD9", \
+	"PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD16", "PD17", "PD18", "PD19", \
+	"PD20", "PD21";
+	allwinner,function = "rgb18_suspend";
+	allwinner,muxsel = <7>;
+	allwinner,drive = <1>;
+	allwinner,pull = <0>;
+};
+
+&eink_pins_a {
+	allwinner,pins = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD6", "PD7", "PD8", "PD9", \
+	"PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD16", "PD17", "PD18", "PD19", \
+	"PD20", "PD21", "PD22";
+	allwinner,pname = "eink_pin0", "eink_pin1", "eink_pin2", "eink_pin3", "eink_pin4", \
+			  "eink_pin5", "eink_pin6", "eink_pin7", "eink_pin8", "eink_pin9", \
+			  "eink_pin10", "eink_pin11", "eink_pin12", "eink_pin13", "eink_pin14", \
+			  "eink_pin15", "eink_pinoeh", "eink_pinleh", "eink_pinckh", "eink_pinsth", \
+			  "eink_pinckv", "eink_pinmod", "eink_pinstv";
+	allwinner,function = "eink";
+	allwinner,muxsel = <5>;
+	allwinner,drive = <3>;
+	allwinner,pull = <0>;
+};
+
+&eink_pins_b {
+	allwinner,pins = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD6", "PD7", "PD8", "PD9", \
+	"PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD16", "PD17", "PD18", "PD19", \
+	"PD20", "PD21", "PD22";
+	allwinner,pname = "eink_pin0", "eink_pin1", "eink_pin2", "eink_pin3", "eink_pin4", \
+			  "eink_pin5", "eink_pin6", "eink_pin7", "eink_pin8", "eink_pin9", \
+			  "eink_pin10", "eink_pin11", "eink_pin12", "eink_pin13", "eink_pin14", \
+			  "eink_pin15", "eink_pinoeh", "eink_pinleh", "eink_pinckh", "eink_pinsth", \
+			  "eink_pinckv", "eink_pinmod", "eink_pinstv";
+	allwinner,function = "eink_suspend";
+	allwinner,muxsel = <7>;
+	allwinner,drive = <1>;
+	allwinner,pull = <0>;
+};
+
+&dsi0_4lane_pins_a {
+        allwinner,pins = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD6", "PD7", "PD8", "PD9";
+        allwinner,pname = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD6", "PD7", "PD8", "PD9";
+        allwinner,function = "dsi4lane";
+        allwinner,muxsel = <4>;
+        allwinner,drive = <3>;
+        allwinner,pull = <0>;
+};
+
+&dsi0_4lane_pins_b {
+        allwinner,pins = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD6", "PD7", "PD8", "PD9";
+        allwinner,pname = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5", "PD6", "PD7", "PD8", "PD9";
+        allwinner,function = "dsi4lane_suspend";
+        allwinner,muxsel = <7>;
+        allwinner,drive = <1>;
+        allwinner,pull = <0>;
+};
+
+&dsi1_4lane_pins_a {
+        allwinner,pins = "PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD16", "PD17", "PD18", "PD19";
+        allwinner,pname = "PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD16", "PD17", "PD18", "PD19";
+        allwinner,function = "dsi1";
+        allwinner,muxsel = <4>;
+        allwinner,drive = <3>;
+        allwinner,pull = <0>;
+};
+
+&dsi1_4lane_pins_b {
+        allwinner,pins = "PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD16", "PD17", "PD18", "PD19";
+        allwinner,pname = "PD10", "PD11", "PD12", "PD13", "PD14", "PD15", "PD16", "PD17", "PD18", "PD19";
+        allwinner,function = "io_disabled";
+        allwinner,muxsel = <7>;
+        allwinner,drive = <1>;
+        allwinner,pull = <0>;
+};
+
+
+&card0_boot_para {  /* Avoid dtc compiling warnings. @TODO: Developer should modify this to the actual value */
+	/* reg = <0x0 0x2 0x0 0x0>;  [> Avoid dtc compiling warnings. @TODO: Developer should modify this to the actual value <] */
+	device_type = "card0_boot_para";
+	card_ctrl = <0x0>;
+	card_high_speed = <0x1>;
+	card_line = <0x4>;
+	clk_mmc = "sdmmc0_mod";
+	pll-0 = "hosc";
+	pll-1 = "pll_periph1_400m";
+	pll-2 = "pll_periph1_300m";
+	pinctrl-0 = <&sdc0_pins_a>;
+};
+
+&card2_boot_para {
+	/*
+	* Avoid dtc compiling warnings.
+	* @TODO: Developer should modify this to the actual value
+	*/
+	reg = <0x0 0x3 0x0 0x0>;
+	device_type = "card2_boot_para";
+	card_ctrl = <0x2>;
+	card_high_speed = <0x1>;
+	card_line = <0x8>;
+	clk_mmc = "sdmmc2_mod";
+	pll-0 = "hosc";
+	pll-1 = "pll_periph1_800m";
+	pll-2 = "pll_periph1_600m";
+	pinctrl-0 = <&sdc2_pins_a &sdc2_pins_c>;
+	sdc_ex_dly_used = <0x2>;
+	sdc_tm4_hs200_max_freq = <150>;
+	sdc_tm4_hs400_max_freq = <150>;
+	sdc_io_1v8 = <0x1>;
+	sdc_type = "tm4";
+};
+
+&gpio_bias {  /* Avoid dtc compiling warnings. @TODO: Developer should modify this to the actual value */
+	device_type = "gpio_bias";
+	pc_bias = <1800>;
+	pl_supply = "aldo3_vol";
+};
+
+&power_delay {
+	device_type = "power_delay";
+	aldo3_vol_delay = <20000>;
+};
+
+&nand0 {
+	compatible = "allwinner,sun55iw3-nand";
+	device_type = "nand0";
+	//reg = <0x0 0x04011000 0x0 0x1000>;/* nand0 */
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&nand0_pins_a &nand0_pins_b>;
+	pinctrl-1 = <&nand0_pins_c>;
+	nand0_regulator1 = "vcc-nand";
+	nand0_regulator2 = "none";
+	nand0_cache_level = <0x55aaaa55>;
+	nand0_flush_cache_num = <0x55aaaa55>;
+	nand0_capacity_level = <0x55aaaa55>;
+	nand0_id_number_ctl = <0x55aaaa55>;
+	nand0_print_level = <0x55aaaa55>;
+	nand0_p0 = <0x55aaaa55>;
+	nand0_p1 = <0x55aaaa55>;
+	nand0_p2 = <0x55aaaa55>;
+	nand0_p3 = <0x55aaaa55>;
+	chip_code = "sun50iw10";
+	status = "disabled";
+};
+
+&spi0 {
+	clock-frequency = <100000000>;
+	pinctrl-0 = <&spi0_pins_a &spi0_pins_b>;
+	pinctrl-1 = <&spi0_pins_c>;
+	pinctrl-names = "default", "sleep";
+	spi_slave_mode = <0>;
+	spi_dbi_enable = <0>;
+	spi0_cs_number = <1>;
+	status = "disabled";
+
+	spi_board0 {
+		device_type = "spi_board0";
+		compatible = "spi-nor";
+		spi-max-frequency = <100000000>;
+		m25p,fast-read = <1>;
+		/*individual_lock;*/
+		reg = <0x0>;
+		spi-rx-bus-width=<0x01>;
+		spi-tx-bus-width=<0x01>;
+		status="disabled";
+	};
+
+	spi-nand@0 {
+		compatible = "spi-nand";
+		spi-max-frequency=<50000000>;
+		reg = <0x0>;
+		spi-rx-bus-width=<0x01>;
+		spi-tx-bus-width=<0x01>;
+		status="disabled";
+	};
+};
+
+/* ---------------------------------------------------------------------------------- */
+/* disp init configuration */
+/*  */
+/* disp_mode             (0:screen0<screen0,fb0>) */
+/* screenx_output_type   (0:none; 1:lcd; 2:tv; 3:hdmi;5:vdpo) */
+/* screenx_output_mode   (used for hdmi output, 0:480i 1:576i 2:480p 3:576p 4:720p50) */
+/*                       (5:720p60 6:1080i50 7:1080i60 8:1080p24 9:1080p50 10:1080p60) */
+/* screenx_output_format (for hdmi, 0:RGB 1:yuv444 2:yuv422 3:yuv420) */
+/* screenx_output_bits   (for hdmi, 0:8bit 1:10bit 2:12bit 2:16bit) */
+/* screenx_output_eotf   (for hdmi, 0:reserve 4:SDR 16:HDR10 18:HLG) */
+/* screenx_output_cs     (for hdmi, 0:undefined  257:BT709 260:BT601  263:BT2020) */
+/* screenx_output_dvi_hdmi (for hdmi, 0:undefined 1:dvi mode 2:hdmi mode) */
+/* screen0_output_range   (for hdmi, 0:default 1:full 2:limited) */
+/* screen0_output_scan    (for hdmi, 0:no data 1:overscan 2:underscan) */
+/* screen0_output_aspect_ratio  (for hdmi, 8-same as original picture 9-4:3 10-16:9 11-14:9) */
+/* fbx format            (4:RGB655 5:RGB565 6:RGB556 7:ARGB1555 8:RGBA5551 9:RGB888 10:ARGB8888 12:ARGB4444) */
+/* fbx pixel sequence    (0:ARGB 1:BGRA 2:ABGR 3:RGBA) */
+/* fb0_scaler_mode_enable(scaler mode enable, used FE) */
+/* fbx_width,fbx_height  (framebuffer horizontal/vertical pixels, fix to output resolution while equal 0) */
+/* lcdx_backlight        (lcd init backlight,the range:[0,256],default:197 */
+/* lcdx_yy               (lcd init screen bright/contrast/saturation/hue, value:0~100, default:50/50/57/50) */
+/* lcd0_contrast         (LCD contrast, 0~100) */
+/* lcd0_saturation       (LCD saturation, 0~100) */
+/* lcd0_hue              (LCD hue, 0~100) */
+/* framebuffer software rotation setting: */
+/* disp_rotation_used:   (0:disable; 1:enable,you must set fbX_width to lcd_y, */
+/* set fbX_height to lcd_x) */
+/* degreeX:              (X:screen index; 0:0 degree; 1:90 degree; 3:270 degree) */
+/* degreeX_Y:            (X:screen index; Y:layer index 0~15; 0:0 degree; 1:90 degree; 3:270 degree) */
+/* devX_output_type : config output type in bootGUI framework in UBOOT-2018. */
+/*                                    (0:none; 1:lcd; 2:tv; 4:hdmi;) */
+/* devX_output_mode : config output resolution(see include/video/sunxi_display2.h) of bootGUI framework in UBOOT-2018 */
+/* devX_screen_id   : config display index of bootGUI framework in UBOOT-2018 */
+/* devX_do_hpd      : whether do hpd detectation or not in UBOOT-2018 */
+/* chn_cfg_mode     : Hardware DE channel allocation config. 0:single display with 6 */
+/*                                    channel, 1:dual display with 4 channel in main display and 2 channel in second */
+/*                    display, 2:dual display with 3 channel in main display and 3 channel in second */
+/*                    in display. */
+/* ----------------------------------------------------------------------------------*/
+&disp {
+        disp_init_enable         = <1>;
+        disp_mode                = <0>;
+
+        screen0_output_type      = <1>;
+        screen0_output_mode      = <4>;
+        screen0_to_lcd_index     = <0>;
+
+        screen1_output_type      = <1>;
+        screen1_output_mode      = <4>;
+
+        screen1_output_format    = <0>;
+        screen1_output_bits      = <0>;
+        screen1_output_eotf      = <4>;
+        screen1_output_cs        = <257>;
+        screen1_output_dvi_hdmi  = <2>;
+        screen1_output_range     = <2>;
+        screen1_output_scan      = <0>;
+        screen1_output_aspect_ratio = <8>;
+        screen1_to_lcd_index     = <2>;
+
+        dev_num                  = <1>;
+        dev0_output_type         = <1>;
+        dev0_output_mode         = <4>;
+        dev0_screen_id           = <0>;
+        dev0_do_hpd              = <0>;
+
+        dev1_output_type         = <1>;
+        dev1_output_mode         = <4>;
+        dev1_screen_id           = <1>;
+        dev1_do_hpd              = <1>;
+
+        def_output_dev           = <0>;
+        hdmi_mode_check          = <1>;
+
+        fb0_format               = <0>;
+        fb0_width                = <1280>;
+        fb0_height               = <800>;
+        fb0_rot_used		 = <0>;
+        fb0_rot_degree		 = <0>;
+
+        fb1_format               = <0>;
+        fb1_width                = <1920>;
+        fb1_height               = <1080>;
+        fb1_rot_used		 = <0>;
+        fb1_rot_degree		 = <0>;
+
+        chn_cfg_mode             = <3>;
+
+        disp_para_zone           = <1>;
+        /*VCC-LCD*/
+        dcdc4-supply = <&reg_dcdc4>;
+        /*VCC-DSI*/
+        cldo1-supply = <&reg_cldo1>;
+        /*VCC-PD*/
+        cldo3-supply = <&reg_cldo3>;
+};
+
+/*----------------------------------------------------------------------------------
+;lcd0 configuration
+
+;lcd_if:               0:hv(sync+de); 1:8080; 2:ttl; 3:lvds; 4:dsi; 5:edp; 6:extend dsi
+;lcd_hv_if             0:Parallel RGB; 8:Serial RGB; 10:Dummy RGB; 11: RGB Dummy;12:CCIR656
+;lcd_hv_clk_phase      0:0 degree;1:90 degree;2:180 degree;3:270 degree
+;lcd_hv_sync_polarity  0:vs low,hs low; 1:vs high,hslow; 2:vs low,hs high; 3:vs high,hs high
+;lcd_hv_syuv_seq       0:YUYV; 1:YVYU; 2:UYVY; 3:VYUY
+;lcd_cpu_if            0:18bit/1 cycle parallel(RGB666); 4:16bit/1cycle parallel (RGB565)
+;                      6:18bit/3 cycle parallel(RGB666); 7:16bit/2cycle parallel (RGB565)
+;lcd_cpu_te            0:frame auto trigger; 1:frame triggered by te rising edge; 2:frame triggered by te falling edge;
+;lcd_dsi_if            0:video mode; 1: Command mode; 2:video burst mode
+;lcd_dsi_te            0:frame auto trigger; 1:frame triggered by te rising edge; 2:frame triggered by te falling edge;
+;lcd_x:                lcd horizontal resolution
+;lcd_y:                lcd vertical resolution
+;lcd_width:            width of lcd in mm
+;lcd_height:           height of lcd in mm
+;lcd_dclk_freq:        in MHZ unit
+;lcd_pwm_freq:         in HZ unit
+;lcd_pwm_pol:          lcd backlight PWM polarity
+;lcd_pwm_max_limit     lcd backlight PWM max limit(<=255)
+;lcd_hbp:              hsync back porch(pixel) + hsync plus width(pixel);
+;lcd_ht:               hsync total cycle(pixel)
+;lcd_vbp:              vsync back porch(line) + vysnc plus width(line)
+;lcd_vt:               vysnc total cycle(line)
+;lcd_hspw:             hsync plus width(pixel)
+;lcd_vspw:             vysnc plus width(pixel)
+;lcd_lvds_if:          0:single link;  1:dual link
+;lcd_lvds_colordepth:  0:8bit; 1:6bit
+;lcd_lvds_mode:        0:NS mode; 1:JEIDA mode
+;lcd_frm:              0:disable; 1:enable rgb666 dither; 2:enable rgb656 dither
+;lcd_io_phase:         0:noraml; 1:intert phase(0~3bit: vsync phase; 4~7bit:hsync phase;
+;                      8~11bit:dclk phase; 12~15bit:de phase)
+;lcd_gamma_en          lcd gamma correction enable
+;lcd_bright_curve_en   lcd bright curve correction enable
+;lcd_cmap_en           lcd color map function enable
+;deu_mode              0:smoll lcd screen; 1:large lcd screen(larger than 10inch)
+;lcdgamma4iep:         Smart Backlight parameter, lcd gamma vale * 10;
+;                      decrease it while lcd is not bright enough; increase while lcd is too bright
+;smart_color           90:normal lcd screen 65:retina lcd screen(9.7inch)
+;Pin setting for special function ie.LVDS, RGB data or vsync
+;   name(donot care) = port:PD12<pin function><pull up or pull down><drive ability><output level>
+;Pin setting for gpio:
+;   lcd_gpio_X     = port:PD12<pin function><pull up or pull down><drive ability><output level>
+;Pin setting for backlight enable pin
+;   lcd_bl_en     = port:PD12<pin function><pull up or pull down><drive ability><output level>
+;fsync setting, pulse to csi
+;lcd_fsync_en          (0:disable fsync,1:enable)
+;lcd_fsync_act_time    (active time of fsync, unit:pixel)
+;lcd_fsync_dis_time    (disactive time of fsync, unit:pixel)
+;lcd_fsync_pol         (0:positive;1:negative)
+;gpio config: <&pio for cpu or &r_pio for cpus, port, port num, pio function,
+pull up or pull down(default 0), driver level(default 1), data>
+;For dual link lvds: use lvds2link_pins_a  and lvds2link_pins_b instead
+;For rgb24: use rgb24_pins_a  and rgb24_pins_b instead
+;For lvds1: use lvds1_pins_a  and lvds1_pins_b instead
+;For lvds0: use lvds0_pins_a  and lvds0_pins_b instead
+;----------------------------------------------------------------------------------*/
+#if 0
+&lcd0{
+	/* dual-lvds */
+	lcd_used            = <1>;
+
+	lcd_driver_name     = "default_lcd";
+	lcd_backlight       = <50>;
+	lcd_if              = <3>;
+
+	lcd_x               = <1920>;
+	lcd_y               = <1080>;
+	lcd_width           = <476>;
+	lcd_height          = <268>;
+	lcd_dclk_freq       = <149>;
+
+	lcd_pwm_used        = <1>;
+	lcd_pwm_ch          = <4>;
+	lcd_pwm_freq        = <50000>;
+	lcd_pwm_pol         = <0>;
+	lcd_pwm_max_limit   = <255>;
+
+	lcd_hbp             = <148>;
+	lcd_ht              = <2200>;
+	lcd_hspw            = <44>;
+	lcd_vbp             = <36>;
+	lcd_vt              = <1125>;
+	lcd_vspw            = <5>;
+
+	lcd_lvds_if         = <1>;
+	lcd_lvds_colordepth = <0>;
+	lcd_lvds_mode       = <0>;
+	lcd_frm             = <0>;
+	lcd_hv_clk_phase    = <0>;
+	lcd_hv_sync_polarity= <0>;
+	lcd_gamma_en        = <0>;
+	lcd_bright_curve_en = <0>;
+	lcd_cmap_en         = <0>;
+	lcd_fsync_en        = <0>;
+	lcd_fsync_act_time  = <1000>;
+	lcd_fsync_dis_time  = <1000>;
+	lcd_fsync_pol       = <0>;
+
+	deu_mode            = <0>;
+	lcdgamma4iep        = <22>;
+	smart_color         = <90>;
+
+	lcd_power     = "dcdc4";
+	lcd_power1    = "cldo1";
+	lcd_bl_en        = <&pio PI 2 1 0 3 1>;
+
+	pinctrl-0 = <&lvds0_pins_a>, <&lvds1_pins_a>;
+	pinctrl-1 = <&lvds0_pins_b>, <&lvds1_pins_b>;
+};
+#else
+&lcd0{
+        lcd_used            = <1>;
+        status              = "okay";
+        lcd_driver_name     = "bp101wx1";
+        lcd_backlight       = <50>;
+        lcd_if              = <3>;
+
+        lcd_x               = <1280>;
+        lcd_y               = <800>;
+        lcd_width           = <150>;
+        lcd_height          = <94>;
+        lcd_dclk_freq       = <75>;
+
+        lcd_pwm_used        = <1>;
+        lcd_pwm_ch          = <4>;
+        lcd_pwm_freq        = <50000>;
+        lcd_pwm_pol         = <0>;
+        lcd_pwm_max_limit   = <255>;
+
+
+        lcd_hbp             = <88>;
+        lcd_ht              = <1451>;
+        lcd_hspw            = <18>;
+        lcd_vbp             = <23>;
+        lcd_vt              = <860>;
+        lcd_vspw            = <10>;
+
+        lcd_lvds_if         = <0>;
+        lcd_lvds_colordepth = <0>;
+        lcd_lvds_mode       = <0>;
+        lcd_frm             = <0>;
+        lcd_hv_clk_phase    = <0>;
+        lcd_hv_sync_polarity= <0>;
+        lcd_gamma_en        = <0>;
+        lcd_bright_curve_en = <0>;
+        lcd_cmap_en         = <0>;
+        lcd_fsync_en        = <0>;
+        lcd_fsync_pol       = <0>;
+        lcd_fsync_act_time  = <1000>;
+        lcd_fsync_dis_time  = <1000>;
+        deu_mode            = <0>;
+        lcdgamma4iep        = <22>;
+        smart_color         = <90>;
+        lcd_gpio_0 = <&pio PI 2 1 0 3 1>;
+        lcd_pin_power = "cldo3";
+        lcd_power = "dcdc4";
+        lcd_power1 = "cldo1";
+        lcd_bl_en        = <&pio PI 2 1 0 3 1>;
+        pinctrl-0 = <&lvds0_pins_a>;
+        pinctrl-1 = <&lvds0_pins_b>;
+        lvds0_pinctrl-0 = <&lvds0_pins_a>;
+        lvds0_pinctrl-1 = <&lvds0_pins_b>;
+        lvds1_pinctrl-0 = <&lvds1_pins_a>;
+        lvds1_pinctrl-1 = <&lvds1_pins_b>;
+        dsi0_pinctrl-0 = <&dsi0_4lane_pins_a>;
+        dsi0_pinctrl-1 = <&dsi0_4lane_pins_b>;
+        dual_dsi_pinctrl-0 = <&dsi0_4lane_pins_a>, <&dsi1_4lane_pins_a>;
+        dual_dsi_pinctrl-1 = <&dsi0_4lane_pins_b>, <&dsi1_4lane_pins_b>;
+        dual_lvds0_pinctrl-0 = <&lvds0_pins_a>, <&lvds1_pins_a>;
+        dual_lvds0_pinctrl-1 = <&lvds0_pins_b>, <&lvds1_pins_b>;
+};
+#endif
+
+#if 1
+&lcd1 {
+        lcd_used            = <1>;
+        status              = "disabled";
+        lcd_driver_name     = "SQ101D_Q5DI404_84H501";
+        lcd_backlight       = <200>;
+        lcd_if              = <4>;
+
+        lcd_x               = <1200>;
+        lcd_y               = <1920>;
+        lcd_width           = <136>;
+        lcd_height          = <217>;
+        lcd_dclk_freq       = <157>;
+
+        lcd_pwm_used        = <1>;
+        lcd_pwm_ch          = <0>;
+        lcd_pwm_freq        = <50000>;
+        lcd_pwm_pol         = <0>;
+        lcd_pwm_max_limit   = <255>;
+
+        lcd_hbp             = <50>;
+        lcd_ht              = <1330>;
+        lcd_hspw            = <10>;
+        lcd_vbp             = <20>;
+        lcd_vt              = <1960>;
+        lcd_vspw            = <4>;
+
+        lcd_frm             = <0>;
+        lcd_gamma_en        = <0>;
+        lcd_bright_curve_en = <0>;
+        lcd_cmap_en         = <0>;
+
+        deu_mode            = <0>;
+        lcdgamma4iep        = <22>;
+        smart_color         = <90>;
+
+        lcd_dsi_if          = <0>;
+        lcd_dsi_lane        = <4>;
+        lcd_dsi_format      = <0>;
+        lcd_dsi_te          = <0>;
+        lcd_dsi_eotp        = <0>;
+        lcd_start_delay     = <5>;
+
+        lcd_pin_power = "cldo3";
+
+        lcd_power1 = "cldo4";
+        lcd_power2 = "cldo1";
+
+        lcd_gpio_2 = <&pio PD 22 GPIO_ACTIVE_HIGH>; //reset
+
+        pinctrl-0 = <&dsi1_4lane_pins_a>;
+        pinctrl-1 = <&dsi1_4lane_pins_b>;
+
+        lcd_bl_en = <&pio PH 16 GPIO_ACTIVE_HIGH>;
+        lcd_bl_0_percent        = <5>;
+};
+#else
+&lcd1 {
+        lcd_used            = <1>;
+
+        lcd_driver_name     = "default_lcd";
+        lcd_backlight       = <50>;
+        lcd_if              = <0>;
+
+        lcd_x               = <800>;
+        lcd_y               = <480>;
+        lcd_width           = <150>;
+        lcd_height          = <94>;
+        lcd_dclk_freq       = <48>;
+
+        lcd_pwm_used        = <1>;
+        lcd_pwm_ch          = <7>;
+        lcd_pwm_freq        = <50000>;
+        lcd_pwm_pol         = <0>;
+
+        lcd_hbp             = <55>;
+        lcd_ht              = <1240>;
+        lcd_hspw            = <20>;
+        lcd_vbp             = <35>;
+        lcd_vt              = <650>;
+        lcd_vspw            = <10>;
+
+        lcd_lvds_if         = <0>;
+        lcd_lvds_colordepth = <1>;
+        lcd_lvds_mode       = <0>;
+        lcd_frm             = <1>;
+        lcd_io_phase        = <0x0000>;
+        lcd_gamma_en        = <0>;
+        lcd_bright_curve_en = <0>;
+        lcd_cmap_en         = <0>;
+
+        deu_mode            = <0>;
+        lcdgamma4iep        = <22>;
+        smart_color         = <90>;
+
+};
+#endif
+
+&lcd2{
+        lcd_used            = <1>;
+        status              = "disabled";
+        lcd_driver_name     = "bp101wx1";
+        lcd_backlight       = <50>;
+        lcd_if              = <3>;
+
+        lcd_x               = <1280>;
+        lcd_y               = <800>;
+        lcd_width           = <150>;
+        lcd_height          = <94>;
+        lcd_dclk_freq       = <75>;
+
+        lcd_pwm_used        = <1>;
+        lcd_pwm_ch          = <5>;
+        lcd_pwm_freq        = <50000>;
+        lcd_pwm_pol         = <0>;
+        lcd_pwm_max_limit   = <255>;
+
+
+        lcd_hbp             = <88>;
+        lcd_ht              = <1451>;
+        lcd_hspw            = <18>;
+        lcd_vbp             = <23>;
+        lcd_vt              = <860>;
+        lcd_vspw            = <10>;
+
+        lcd_lvds_if         = <0>;
+        lcd_lvds_colordepth = <0>;
+        lcd_lvds_mode       = <0>;
+        lcd_frm             = <0>;
+        lcd_hv_clk_phase    = <0>;
+        lcd_hv_sync_polarity= <0>;
+        lcd_gamma_en        = <0>;
+        lcd_bright_curve_en = <0>;
+        lcd_cmap_en         = <0>;
+        lcd_fsync_en        = <0>;
+        lcd_fsync_pol       = <0>;
+
+        deu_mode            = <0>;
+        lcdgamma4iep        = <22>;
+        smart_color         = <90>;
+
+        lcd_pin_power = "cldo3";
+        lcd_power = "dcdc4";
+
+        lcd_bl_en        = <&pio PI 5 1 0 3 1>;
+        pinctrl-0 = <&lvds2_pins_a>;
+        pinctrl-1 = <&lvds2_pins_b>;
+        lvds2_pinctrl-0 = <&lvds2_pins_a>;
+        lvds2_pinctrl-1 = <&lvds2_pins_b>;
+        lvds3_pinctrl-0 = <&lvds3_pins_a>;
+        lvds3_pinctrl-1 = <&lvds3_pins_b>;
+        dual_lvds1_pinctrl-0 = <&lvds2_pins_a>, <&lvds3_pins_a>;
+        dual_lvds1_pinctrl-1 = <&lvds2_pins_b>, <&lvds3_pins_b>;
+};
+
+&edp0 {
+	// use if hardware reset pin is need
+	/* edp_hw_reset_pin = <&pio PH XX GPIO_ACTIVE_LOW>; */
+
+	edp_ssc_en = <0>;
+	edp_ssc_mode = <0>;
+	edp_psr_support = <0>;
+	edp_colordepth = <8>; /* 6/8/10/12/16 */
+
+	lane0_sw = <0>;
+	lane0_pre = <0>;
+	lane1_sw = <0>;
+	lane1_pre = <0>;
+	lane2_sw = <0>;
+	lane2_pre = <0>;
+	lane3_sw = <0>;
+	lane3_pre = <0>;
+	efficient_training = <0>;
+
+	sink_capacity_prefer = <1>;
+	edid_timings_prefer = <1>;
+	timings_fixed = <1>;
+
+	edp_panel_used = <1>;
+	edp_panel_driver = "general_panel";
+	edp_bl_en = <&pio PI 5 1 0 3 1>;
+	edp_pwm_used = <1>;
+	edp_pwm_ch = <5>;
+	edp_pwm_freq = <50000>;
+	edp_pwm_pol = <0>;
+	edp_default_backlight = <200>;
+	edp_panel_power_0 = "edp-panel";
+
+	vcc-edp-supply = <&reg_bldo3>;
+	vdd-edp-supply = <&reg_dcdc2>;
+	edp-panel-supply = <&reg_dcdc4>;
+	status = "disabled";
+};
+
+&aliases {
+	nand0 = &nand0;
+	twi6 = &twi6;
+	pwm = &pwm;
+	pwm0 = &pwm0;
+	pwm1 = &pwm1;
+	pwm2 = &pwm2;
+	pwm3 = &pwm3;
+	pwm4 = &pwm4;
+	pwm5 = &pwm5;
+	pwm6 = &pwm6;
+	pwm7 = &pwm7;
+	pwm8 = &pwm8;
+	pwm9 = &pwm9;
+	disp = &disp;
+	lcd0 = &lcd0;
+	lcd1 = &lcd1;
+	lcd2 = &lcd2;
+	eink = &eink;
+	edp0 = &edp0;
+	pmu0 = &pmu0;
+
+};

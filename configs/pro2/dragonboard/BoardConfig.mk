@@ -1,1 +1,0 @@
-LICHEE_KERN_DEFCONF := dragonboard_defconfig
