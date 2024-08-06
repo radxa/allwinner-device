@@ -3,6 +3,134 @@
  *
  * soc board support.
  */
+ #include <media_bus_format.h>
+
+/{
+	edp_panel_backlight: edp_backlight {
+		compatible = "pwm-backlight";
+		status = "okay";
+		brightness-levels = <
+			  0   1   2   3   4   5   6   7
+			  8   9  10  11  12  13  14  15
+			 16  17  18  19  20  21  22  23
+			 24  25  26  27  28  29  30  31
+			 32  33  34  35  36  37  38  39
+			 40  41  42  43  44  45  46  47
+			 48  49  50  51  52  53  54  55
+			 56  57  58  59  60  61  62  63
+			 64  65  66  67  68  69  70  71
+			 72  73  74  75  76  77  78  79
+			 80  81  82  83  84  85  86  87
+			 88  89  90  91  92  93  94  95
+			 96  97  98  99 100 101 102 103
+			104 105 106 107 108 109 110 111
+			112 113 114 115 116 117 118 119
+			120 121 122 123 124 125 126 127
+			128 129 130 131 132 133 134 135
+			136 137 138 139 140 141 142 143
+			144 145 146 147 148 149 150 151
+			152 153 154 155 156 157 158 159
+			160 161 162 163 164 165 166 167
+			168 169 170 171 172 173 174 175
+			176 177 178 179 180 181 182 183
+			184 185 186 187 188 189 190 191
+			192 193 194 195 196 197 198 199
+			200 201 202 203 204 205 206 207
+			208 209 210 211 212 213 214 215
+			216 217 218 219 220 221 222 223
+			224 225 226 227 228 229 230 231
+			232 233 234 235 236 237 238 239
+			240 241 242 243 244 245 246 247
+			248 249 250 251 252 253 254 255>;
+		default-brightness-level = <200>;
+		enable-gpios = <&pio PH 18 1 0 3 1>;
+		enable1-gpios = <&pio PH 12 1 0 3 1>;
+		/* power-supply = <&reg_backlight_12v>; */
+		pwms = <&pwm 0 5000000 0>;
+	};
+
+	edp_panel: edp_panel {
+		compatible = "edp-general-panel";
+		status = "okay";
+		//enable1-gpios = <&pio PI 4 1 0 3 1>;
+		//enable2-gpios = <&pio PI 5 1 0 3 1>;
+		power0-supply = <&reg_cldo4>;
+		backlight = <&edp_panel_backlight>;
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			panel_in: port@0 {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				reg = <0>;
+				edp_panel_in: endpoint@0 {
+					reg = <0>;
+					remote-endpoint = <&edp_panel_out>;
+				};
+			};
+		};
+	};
+};
+
+&dsi0combophy {
+	status = "okay";
+};
+
+&dsi1combophy {
+	status = "okay";
+};
+
+&dlcd0 {
+	status = "okay";
+};
+
+&dlcd1 {
+	status = "okay";
+};
+
+&vo0 {
+	status = "okay";
+};
+
+&vo1 {
+	status = "okay";
+};
+
+&tv0 {
+	status = "okay";
+};
+
+&tv1 {
+	status = "okay";
+};
+
+&de {
+	chn_cfg_mode = <3>;
+	status = "okay";
+};
+
+&drm_edp {
+	status = "okay";
+
+	edp_colordepth = <8>; /* 6/8/10/12/16 */
+	edp_color_fmt = <0>; /* 0:RGB  1: YUV444  2: YUV422 */
+
+	vcc-edp-supply = <&reg_cldo1>;
+	vdd-edp-supply = <&reg_dcdc2>;
+	ports {
+		edp_out: port@1 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <1>;
+			edp_panel_out: endpoint@0 {
+				reg = <0>;
+				remote-endpoint = <&edp_panel_in>;
+			};
+		};
+	};
+};
+
 &power_sply {
 	bldo1_vol = <1800>;
 	bldo2_vol = <1001800>;
@@ -576,455 +704,6 @@
 	nand0_p3 = <0x55aaaa55>;
 	chip_code = "sun50iw10";
 	status = "disabled";
-};
-
-
-/* ---------------------------------------------------------------------------------- */
-/* disp init configuration */
-/*  */
-/* disp_mode             (0:screen0<screen0,fb0>) */
-/* screenx_output_type   (0:none; 1:lcd; 2:tv; 3:hdmi;5:vdpo) */
-/* screenx_output_mode   (used for hdmi output, 0:480i 1:576i 2:480p 3:576p 4:720p50) */
-/*                       (5:720p60 6:1080i50 7:1080i60 8:1080p24 9:1080p50 10:1080p60) */
-/* screenx_output_format (for hdmi, 0:RGB 1:yuv444 2:yuv422 3:yuv420) */
-/* screenx_output_bits   (for hdmi, 0:8bit 1:10bit 2:12bit 2:16bit) */
-/* screenx_output_eotf   (for hdmi, 0:reserve 4:SDR 16:HDR10 18:HLG) */
-/* screenx_output_cs     (for hdmi, 0:undefined  257:BT709 260:BT601  263:BT2020) */
-/* screenx_output_dvi_hdmi (for hdmi, 0:undefined 1:dvi mode 2:hdmi mode) */
-/* screen0_output_range   (for hdmi, 0:default 1:full 2:limited) */
-/* screen0_output_scan    (for hdmi, 0:no data 1:overscan 2:underscan) */
-/* screen0_output_aspect_ratio  (for hdmi, 8-same as original picture 9-4:3 10-16:9 11-14:9) */
-/* fbx format            (4:RGB655 5:RGB565 6:RGB556 7:ARGB1555 8:RGBA5551 9:RGB888 10:ARGB8888 12:ARGB4444) */
-/* fbx pixel sequence    (0:ARGB 1:BGRA 2:ABGR 3:RGBA) */
-/* fb0_scaler_mode_enable(scaler mode enable, used FE) */
-/* fbx_width,fbx_height  (framebuffer horizontal/vertical pixels, fix to output resolution while equal 0) */
-/* lcdx_backlight        (lcd init backlight,the range:[0,256],default:197 */
-/* lcdx_yy               (lcd init screen bright/contrast/saturation/hue, value:0~100, default:50/50/57/50) */
-/* lcd0_contrast         (LCD contrast, 0~100) */
-/* lcd0_saturation       (LCD saturation, 0~100) */
-/* lcd0_hue              (LCD hue, 0~100) */
-/* framebuffer software rotation setting: */
-/* disp_rotation_used:   (0:disable; 1:enable,you must set fbX_width to lcd_y, */
-/* set fbX_height to lcd_x) */
-/* degreeX:              (X:screen index; 0:0 degree; 1:90 degree; 3:270 degree) */
-/* degreeX_Y:            (X:screen index; Y:layer index 0~15; 0:0 degree; 1:90 degree; 3:270 degree) */
-/* devX_output_type : config output type in bootGUI framework in UBOOT-2018. */
-/*                                    (0:none; 1:lcd; 2:tv; 4:hdmi;) */
-/* devX_output_mode : config output resolution(see include/video/sunxi_display2.h) of bootGUI framework in UBOOT-2018 */
-/* devX_screen_id   : config display index of bootGUI framework in UBOOT-2018 */
-/* devX_do_hpd      : whether do hpd detectation or not in UBOOT-2018 */
-/* chn_cfg_mode     : Hardware DE channel allocation config. 0:single display with 6 */
-/*                                    channel, 1:dual display with 4 channel in main display and 2 channel in second */
-/*                    display, 2:dual display with 3 channel in main display and 3 channel in second */
-/*                    in display. */
-/* ----------------------------------------------------------------------------------*/
-&disp {
-	disp_init_enable         = <1>;
-	disp_mode                = <0>;
-
-	screen0_output_type      = <1>;
-	screen0_output_mode      = <4>;
-	screen0_to_lcd_index     = <1>;
-
-	screen1_output_type      = <3>;
-	screen1_output_mode      = <10>;
-
-	screen1_output_format    = <0>;
-	screen1_output_bits      = <0>;
-	screen1_output_eotf      = <4>;
-	screen1_output_cs        = <257>;
-	screen1_output_dvi_hdmi  = <2>;
-	screen1_output_range     = <2>;
-	screen1_output_scan      = <0>;
-	screen1_output_aspect_ratio = <8>;
-	screen1_to_lcd_index     = <2>;
-
-	dev0_output_type         = <32>;
-	dev0_output_mode         = <10>;
-	dev0_screen_id           = <0>;
-	dev0_do_hpd              = <0>;
-
-	dev1_output_type         = <4>;
-	dev1_output_mode         = <10>;
-	dev1_screen_id           = <1>;
-	dev1_do_hpd              = <1>;
-
-	def_output_dev           = <0>;
-	hdmi_mode_check          = <1>;
-
-	fb0_format               = <0>;
-	fb0_width                = <0>;
-	fb0_height               = <0>;
-
-	fb1_format               = <0>;
-	fb1_width                = <0>;
-	fb1_height               = <0>;
-
-	chn_cfg_mode             = <3>;
-	disp_para_zone           = <1>;
-	/*VCC-LCD*/
-	cldo4-supply = <&reg_cldo4>;
-	/*VCC-DSI*/
-	cldo1-supply = <&reg_cldo1>;
-	/*VCC-PD*/
-	cldo3-supply = <&reg_cldo3>;
-};
-/*----------------------------------------------------------------------------------
-;lcd0 configuration
-
-;lcd_if:               0:hv(sync+de); 1:8080; 2:ttl; 3:lvds; 4:dsi; 5:edp; 6:extend dsi
-;lcd_hv_if             0:Parallel RGB; 8:Serial RGB; 10:Dummy RGB; 11: RGB Dummy;12:CCIR656
-;lcd_hv_clk_phase      0:0 degree;1:90 degree;2:180 degree;3:270 degree
-;lcd_hv_sync_polarity  0:vs low,hs low; 1:vs high,hslow; 2:vs low,hs high; 3:vs high,hs high
-;lcd_hv_syuv_seq       0:YUYV; 1:YVYU; 2:UYVY; 3:VYUY
-;lcd_cpu_if            0:18bit/1 cycle parallel(RGB666); 4:16bit/1cycle parallel (RGB565)
-;                      6:18bit/3 cycle parallel(RGB666); 7:16bit/2cycle parallel (RGB565)
-;lcd_cpu_te            0:frame auto trigger; 1:frame triggered by te rising edge; 2:frame triggered by te falling edge;
-;lcd_dsi_if            0:video mode; 1: Command mode; 2:video burst mode
-;lcd_dsi_te            0:frame auto trigger; 1:frame triggered by te rising edge; 2:frame triggered by te falling edge;
-;lcd_x:                lcd horizontal resolution
-;lcd_y:                lcd vertical resolution
-;lcd_width:            width of lcd in mm
-;lcd_height:           height of lcd in mm
-;lcd_dclk_freq:        in MHZ unit
-;lcd_pwm_freq:         in HZ unit
-;lcd_pwm_pol:          lcd backlight PWM polarity
-;lcd_pwm_max_limit     lcd backlight PWM max limit(<=255)
-;lcd_hbp:              hsync back porch(pixel) + hsync plus width(pixel);
-;lcd_ht:               hsync total cycle(pixel)
-;lcd_vbp:              vsync back porch(line) + vysnc plus width(line)
-;lcd_vt:               vysnc total cycle(line)
-;lcd_hspw:             hsync plus width(pixel)
-;lcd_vspw:             vysnc plus width(pixel)
-;lcd_lvds_if:          0:single link;  1:dual link
-;lcd_lvds_colordepth:  0:8bit; 1:6bit
-;lcd_lvds_mode:        0:NS mode; 1:JEIDA mode
-;lcd_frm:              0:disable; 1:enable rgb666 dither; 2:enable rgb656 dither
-;lcd_io_phase:         0:noraml; 1:intert phase(0~3bit: vsync phase; 4~7bit:hsync phase;
-;                      8~11bit:dclk phase; 12~15bit:de phase)
-;lcd_gamma_en          lcd gamma correction enable
-;lcd_bright_curve_en   lcd bright curve correction enable
-;lcd_cmap_en           lcd color map function enable
-;deu_mode              0:smoll lcd screen; 1:large lcd screen(larger than 10inch)
-;lcdgamma4iep:         Smart Backlight parameter, lcd gamma vale * 10;
-;                      decrease it while lcd is not bright enough; increase while lcd is too bright
-;smart_color           90:normal lcd screen 65:retina lcd screen(9.7inch)
-;Pin setting for special function ie.LVDS, RGB data or vsync
-;   name(donot care) = port:PD12<pin function><pull up or pull down><drive ability><output level>
-;Pin setting for gpio:
-;   lcd_gpio_X     = port:PD12<pin function><pull up or pull down><drive ability><output level>
-;Pin setting for backlight enable pin
-;   lcd_bl_en     = port:PD12<pin function><pull up or pull down><drive ability><output level>
-;fsync setting, pulse to csi
-;lcd_fsync_en          (0:disable fsync,1:enable)
-;lcd_fsync_act_time    (active time of fsync, unit:pixel)
-;lcd_fsync_dis_time    (disactive time of fsync, unit:pixel)
-;lcd_fsync_pol         (0:positive;1:negative)
-;gpio config: <&pio for cpu or &r_pio for cpus, port, port num, pio function,
-pull up or pull down(default 0), driver level(default 1), data>
-;For dual link lvds: use lvds2link_pins_a  and lvds2link_pins_b instead
-;For rgb24: use rgb24_pins_a  and rgb24_pins_b instead
-;For lvds1: use lvds1_pins_a  and lvds1_pins_b instead
-;For lvds0: use lvds0_pins_a  and lvds0_pins_b instead
-;----------------------------------------------------------------------------------*/
-&lcd0 {
-	lcd_used            = <1>;
-	status              = "okay";
-	lcd_driver_name     = "SQ101D_Q5DI404_84H501";
-	lcd_backlight       = <50>;
-	lcd_if              = <4>;
-
-	lcd_x               = <1200>;
-	lcd_y               = <1920>;
-	lcd_width           = <136>;
-	lcd_height          = <217>;
-	lcd_dclk_freq       = <157>;
-
-	lcd_pwm_used        = <0>;
-	lcd_pwm_ch          = <7>;
-	lcd_pwm_freq        = <50000>;
-	lcd_pwm_pol         = <0>;
-	lcd_pwm_max_limit   = <255>;
-
-	lcd_hbp             = <50>;
-	lcd_ht              = <1330>;
-	lcd_hspw            = <10>;
-	lcd_vbp             = <20>;
-	lcd_vt              = <1960>;
-	lcd_vspw            = <4>;
-
-	lcd_frm             = <0>;
-	lcd_gamma_en        = <0>;
-	lcd_bright_curve_en = <0>;
-	lcd_cmap_en         = <0>;
-
-	deu_mode            = <0>;
-	lcdgamma4iep        = <22>;
-	smart_color         = <90>;
-
-	lcd_dsi_if          = <0>;
-	lcd_dsi_lane        = <4>;
-	lcd_dsi_format      = <0>;
-	lcd_dsi_te          = <0>;
-	lcd_dsi_eotp        = <0>;
-
-	lcd_power1 = "cldo4";
-	lcd_power2 = "cldo1";
-
-	lcd_gpio_2 = <&pio PD 22 GPIO_ACTIVE_HIGH>; //reset
-
-	pinctrl-0 = <&dsi0_4lane_pins_a>;
-	pinctrl-1 = <&dsi0_4lane_pins_b>;
-
-	//lcd_bl_en = <&pio PH 18 GPIO_ACTIVE_HIGH>;
-	lcd_bl_0_percent	= <5>;
-	#if defined(SKTL_LCD_10)
-	lcd_bl_100_percent  = <75>;
-	#else
-	lcd_bl_100_percent  = <90>;
-	#endif
-};
-
-#if 0
-&lcd1 {
-	lcd_used            = <1>;
-	status              = "okay";
-	lcd_driver_name     = "SQ101D_Q5DI404_84H501";
-	lcd_backlight       = <50>;
-	lcd_if              = <4>;
-
-	lcd_x               = <800>;
-	lcd_y               = <1280>;
-	lcd_width           = <136>;
-	lcd_height          = <217>;
-	lcd_dclk_freq       = <71>;
-
-	lcd_pwm_used        = <1>;
-	lcd_pwm_ch          = <0>;
-	lcd_pwm_freq        = <50000>;
-	lcd_pwm_pol         = <0>;
-	lcd_pwm_max_limit   = <255>;
-
-	lcd_hbp             = <56>;
-	lcd_ht              = <908>;
-	lcd_hspw            = <8>;
-	lcd_vbp             = <21>;
-	lcd_vt              = <1317>;
-	lcd_vspw            = <6>;
-
-	lcd_frm             = <0>;
-	lcd_gamma_en        = <0>;
-	lcd_bright_curve_en = <0>;
-	lcd_cmap_en         = <0>;
-
-	deu_mode            = <0>;
-	lcdgamma4iep        = <22>;
-	smart_color         = <90>;
-
-	lcd_dsi_if          = <0>;
-	lcd_dsi_lane        = <4>;
-	lcd_dsi_format      = <0>;
-	lcd_dsi_te          = <0>;
-	lcd_dsi_eotp        = <0>;
-	lcd_start_delay     = <2>;
-
-	//lcd_pin_power = "cldo3";
-
-	lcd_power1 = "cldo4";
-	lcd_power2 = "cldo1";
-
-	lcd_gpio_2 = <&pio PD 22 GPIO_ACTIVE_HIGH>; //reset
-
-	pinctrl-0 = <&dsi1_4lane_pins_a>;
-	pinctrl-1 = <&dsi1_4lane_pins_b>;
-
-	lcd_bl_en = <&pio PH 18 GPIO_ACTIVE_HIGH>;
-	lcd_bl_0_percent	= <5>;
-	#if defined(SKTL_LCD_10)
-	lcd_bl_100_percent  = <75>;
-	#else
-	lcd_bl_100_percent  = <90>;
-	#endif
-};
-#else
-
-&lcd1 {
-
-	lcd_used            = <1>;
-
-	lcd_driver_name     = "CC10132007_40A";
-	lcd_backlight       = <50>;
-	lcd_if              = <4>;
-
-	lcd_x               = <800>;
-	lcd_y               = <1280>;
-	lcd_width           = <135>;
-	lcd_height          = <216>;
-	lcd_dclk_freq       = <68>;
-
-	lcd_pwm_used        = <1>;
-	lcd_pwm_ch          = <7>;
-	lcd_pwm_freq        = <50000>;
-	lcd_pwm_pol         = <0>;
-	lcd_pwm_max_limit   = <255>;
-
-	lcd_hbp             = <40>;
-	lcd_ht              = <860>;
-	lcd_hspw            = <20>;
-	lcd_vbp             = <12>;
-	lcd_vt              = <1322>;
-	lcd_vspw            = <4>;
-
-	lcd_frm             = <0>;
-	lcd_gamma_en        = <0>;
-	lcd_bright_curve_en = <0>;
-	lcd_cmap_en         = <0>;
-	lcd_start_delay     = <1>;
-
-	lcd_dsi_if          = <0>;
-	lcd_dsi_lane        = <4>;
-	lcd_dsi_format      = <0>;
-	lcd_dsi_te          = <0>;
-	lcd_dsi_eotp        = <0>;
-
-	deu_mode            = <0>;
-	lcdgamma4iep        = <22>;
-	smart_color         = <90>;
-
-	lcd_power1 = "cldo4";
-	lcd_power2 = "cldo1";
-
-	lcd_gpio_2 = <&pio PD 22 GPIO_ACTIVE_HIGH>; //reset
-
-	pinctrl-0 = <&dsi1_4lane_pins_a>;
-	pinctrl-1 = <&dsi1_4lane_pins_b>;
-
-	lcd_bl_en = <&pio PH 18 GPIO_ACTIVE_HIGH>;
-	lcd_bl_0_percent	= <5>;
-
-};
-#endif
-
-&lcd2 {
-	lcd_used            = <1>;
-
-	lcd_driver_name     = "default_lcd";
-	lcd_backlight       = <50>;
-	lcd_if              = <0>;
-
-	lcd_x               = <800>;
-	lcd_y               = <480>;
-	lcd_width           = <150>;
-	lcd_height          = <94>;
-	lcd_dclk_freq       = <48>;
-
-	lcd_pwm_used        = <0>;
-	lcd_pwm_ch          = <7>;
-	lcd_pwm_freq        = <50000>;
-	lcd_pwm_pol         = <0>;
-
-	lcd_hbp             = <55>;
-	lcd_ht              = <1240>;
-	lcd_hspw            = <20>;
-	lcd_vbp             = <35>;
-	lcd_vt              = <650>;
-	lcd_vspw            = <10>;
-
-	lcd_lvds_if         = <0>;
-	lcd_lvds_colordepth = <1>;
-	lcd_lvds_mode       = <0>;
-	lcd_frm             = <1>;
-	lcd_io_phase        = <0x0000>;
-	lcd_gamma_en        = <0>;
-	lcd_bright_curve_en = <0>;
-	lcd_cmap_en         = <0>;
-
-	deu_mode            = <0>;
-	lcdgamma4iep        = <22>;
-	smart_color         = <90>;
-
-	pinctrl-0 = <&rgb24_pins_a>;
-	pinctrl-1 = <&rgb24_pins_b>;
-};
-
-/*lvds*/
-/*&lcd0 {
-    lcd_used            = <1>;
-
-    lcd_driver_name     = "default_lcd";
-    lcd_backlight       = <50>;
-    lcd_if              = <3>;
-    lcd_x               = <1024>;
-    lcd_y               = <600>;
-    lcd_width           = <223>;
-    lcd_height          = <125>;
-    lcd_dclk_freq       = <51>;
-    lcd_pwm_used        = <1>;
-    lcd_pwm_ch          = <0>;
-    lcd_pwm_freq        = <50000>;
-    lcd_pwm_pol         = <0>;
-    lcd_pwm_max_limit   = <255>;
-    lcd_hbp             = <20>;
-    lcd_ht              = <1344>;
-    lcd_hspw            = <10>;
-    lcd_vbp             = <20>;
-    lcd_vt              = <635>;
-    lcd_vspw            = <10>;
-    lcd_lvds_if         = <0>;
-    lcd_lvds_colordepth = <0>;
-    lcd_lvds_mode       = <0>;
-    lcd_frm             = <0>;
-    lcd_hv_clk_phase    = <0>;
-    lcd_hv_sync_polarity= <0>;
-    lcd_gamma_en        = <0>;
-    lcd_bright_curve_en = <0>;
-    lcd_cmap_en         = <0>;
-
-    deu_mode            = <0>;
-    lcdgamma4iep        = <22>;
-    smart_color         = <90>;
-    pinctrl-0 = <&lvds0_pins_a>;
-    pinctrl-1 = <&lvds0_pins_b>;
-};*/
-
-&edp0 {
-	// use if hardware reset pin is need
-	/* edp_hw_reset_pin = <&pio PH XX GPIO_ACTIVE_LOW>; */
-
-	edp_ssc_en = <0>;
-	edp_ssc_mode = <0>;
-	edp_colordepth = <8>; /* 6/8/10/12/16 */
-	edp_color_fmt = <0>; /* 0:RGB  1: YUV444  2: YUV422 */
-
-	lane0_sw = <0>;
-	lane0_pre = <0>;
-	lane1_sw = <0>;
-	lane1_pre = <0>;
-	lane2_sw = <0>;
-	lane2_pre = <0>;
-	lane3_sw = <0>;
-	lane3_pre = <0>;
-	efficient_training = <0>;
-
-	timings_fixed = <1>;
-	edid_timings_prefer = <1>;
-	sink_capacity_prefer = <1>;
-
-	edp_panel_used = <1>;
-	edp_panel_driver = "general_panel";
-	edp_bl_en = <&pio PH 18 1 0 3 1>;
-	edp_bl_pwr_en = <&pio PH 12 1 0 3 1>;
-	edp_pwm_used = <1>;
-	edp_pwm_ch = <0>;
-	edp_pwm_freq = <50000>;
-	edp_pwm_pol = <0>;
-	edp_default_backlight = <100>;
-	edp_panel_power_0 = "edp-panel";
-
-	vcc-edp-supply = <&reg_cldo1>;
-	vdd-edp-supply = <&reg_dcdc2>;
-	edp-panel-supply = <&reg_cldo4>;
-	status = "okay";
 };
 
 &aliases {
