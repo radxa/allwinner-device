@@ -1,7 +1,0 @@
-LICHEE_BUILDING_SYSTEM:=buildroot
-LICHEE_BR_VER:=202205
-LICHEE_BR_DEFCONF:=sun55iw3p1_defconfig
-LICHEE_KERN_DEFCONF:=buildroot_linux_defconfig
-LICHEE_KERN_DEFCONF_RECOVERY:=bsp_recovery_defconfig
-LICHEE_RTOS_PROJECT_NAME:=t527_e906_demo_fastboot
-LICHEE_BOOT0_BIN_NAME:=mmc_car_fastboot

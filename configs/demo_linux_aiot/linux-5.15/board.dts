@@ -218,7 +218,7 @@
 
 	edp_panel_backlight: edp_backlight {
 		compatible = "pwm-backlight";
-		status = "okay";
+		status = "disabled";
 		brightness-levels = <
 			  0   1   2   3   4   5   6   7
 			  8   9  10  11  12  13  14  15
@@ -260,7 +260,7 @@
 
 	edp_panel: edp_panel {
 		compatible = "edp-general-panel";
-		status = "okay";
+		status = "disabled";
 		power0-supply = <&reg_dcdc4>;
 
 		backlight = <&edp_panel_backlight>;
@@ -525,7 +525,7 @@
 };
 
 &drm_edp {
-	status = "okay";
+	status = "disabled";
 
 	edp_colordepth = <8>; /* 6/8/10/12/16 */
 	edp_color_fmt = <0>; /* 0:RGB  1: YUV444  2: YUV422 */
@@ -1048,6 +1048,7 @@
 			"PH4", "PH5", "PH6", "PH7",
 			 "PH9", "PH10","PH13","PH14",
 			  "PH15","PH16","PH17","PH18";
+		muxsel = <5>; /* for uboot used */
 		drive-strength = <40>;
 		function = "gmac0";
 		bias-pull-up;
@@ -3158,11 +3159,14 @@
 	sunxi,phy-clk-type = <0>;
 	tx-delay = <3>;
 	rx-delay = <4>;
-
 	gmac3v3-supply = <&reg_cldo3>;
 	status = "okay";
 };
 
+&gmac1_phy0 {
+	compatible = "ethernet-phy-id001c.c916";
+	reset-gpios = <&pio PI 5 GPIO_ACTIVE_LOW>;
+};
 
 &gmac1 {
 	phy-mode = "rgmii";
@@ -3172,14 +3176,9 @@
 	aw,soc-phy25m;
 	tx-delay = <3>;
 	rx-delay = <4>;
-	dwmac3v3-supply = <&reg_cldo3>;
-	status = "okay";
-	mdio1: mdio1@1 {
-		gmac1_phy0: ethernet-phy@1 {
-			reset-gpios = <&pio PI 5 GPIO_ACTIVE_LOW>;
-		};
-	};
-
+	dwmac3v3-supply = <&reg_dcdc4>;
+	phy3v3-supply = <&reg_dcdc4>;
+	status = "disabled";
 };
 
 &npu {

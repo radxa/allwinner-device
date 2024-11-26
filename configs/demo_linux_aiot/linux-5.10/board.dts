@@ -3119,7 +3119,6 @@
 	sunxi,phy-clk-type = <0>;
 	tx-delay = <3>;
 	rx-delay = <4>;
-
 	gmac3v3-supply = <&reg_cldo3>;
 	status = "okay";
 };
@@ -3139,7 +3138,7 @@
 	rx-delay = <4>;
 	dwmac3v3-supply = <&reg_dcdc4>;
 	phy3v3-supply = <&reg_dcdc4>;
-	status = "okay";
+	status = "disabled";
 };
 
 &npu {

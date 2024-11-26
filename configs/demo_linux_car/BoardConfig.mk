@@ -1,4 +1,0 @@
-LICHEE_BRANDY_DEFCONF:=sun55iw3p1_linux_car_defconfig
-LICHEE_KERN_VER:=
-LICHEE_RTOS_PROJECT_NAME:=t527_e906_demo_fastboot
-LICHEE_BOOT0_BIN_NAME:=mmc_car_fastboot

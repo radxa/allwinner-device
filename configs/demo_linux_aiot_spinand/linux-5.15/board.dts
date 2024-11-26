@@ -3149,11 +3149,14 @@
 	sunxi,phy-clk-type = <0>;
 	tx-delay = <3>;
 	rx-delay = <4>;
-
-	gmac3v3-supply = <&reg_dcdc4>;
+	gmac3v3-supply = <&reg_cldo3>;
 	status = "okay";
 };
 
+&gmac1_phy0 {
+	compatible = "ethernet-phy-id001c.c916";
+	reset-gpios = <&pio PI 5 GPIO_ACTIVE_LOW>;
+};
 
 &gmac1 {
 	phy-mode = "rgmii";
@@ -3164,13 +3167,8 @@
 	tx-delay = <3>;
 	rx-delay = <4>;
 	dwmac3v3-supply = <&reg_dcdc4>;
-	status = "okay";
-	mdio1: mdio1@1 {
-		gmac1_phy0: ethernet-phy@1 {
-			reset-gpios = <&pio PI 5 GPIO_ACTIVE_LOW>;
-		};
-	};
-
+	phy3v3-supply = <&reg_dcdc4>;
+	status = "disabled";
 };
 
 &npu {
