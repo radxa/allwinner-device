@@ -118,19 +118,19 @@ dram_mr6       = 0x0
 dram_mr11      = 0x04
 dram_mr12      = 0x72
 dram_mr13      = 0x0
-dram_mr14      = 0xc
+dram_mr14      = 0xe
 dram_mr16      = 0x0
 dram_mr17      = 0x0
 dram_mr22      = 0x26
 dram_tpr0      = 0x80808080
 dram_tpr1      = 0x06060606
-dram_tpr2      = 0x5f090503
+dram_tpr2      = 0x1f0b0503
 dram_tpr3      = 0x0
-dram_tpr6      = 0x38000000
+dram_tpr6      = 0x3a000000
 dram_tpr10     = 0x802f3333
-dram_tpr11     = 0xc6c4c2c0
-dram_tpr12     = 0x3a373233
-dram_tpr13     = 0x00064
+dram_tpr11     = 0xc0c0bbbf
+dram_tpr12     = 0x35352f31
+dram_tpr13     = 0x00000c60
 dram_tpr14     = 0x48484848
 
 
