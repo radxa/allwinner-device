@@ -58,5 +58,11 @@ size = 16384
     downloadfile = "rootfs.fex"
     user_type    = 0x8000
 
+[partition]
+    name         = recovery
+    size         = 196608
+    ;downloadfile = "recovery.fex"
+    user_type    = 0x8000
+
 
 

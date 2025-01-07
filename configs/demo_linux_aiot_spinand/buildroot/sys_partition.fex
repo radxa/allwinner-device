@@ -54,8 +54,14 @@ size = 248
 
 [partition]
     name         = rootfs
-    size         = 525760
+    size         = 589248
     downloadfile = "rootfs-ubifs.fex"
+    user_type    = 0x8000
+
+[partition]
+    name         = recovery
+    size         = 109120
+    ;downloadfile = "recovery.fex"
     user_type    = 0x8000
 
 
