@@ -19,7 +19,7 @@ machine = "evb1"
 ;----------------------------------------------------------------------------------
 [target]
 boot_clock   	= 1008
-storage_type    = -1
+storage_type    = 1
 power_mode      = 33
 
 [power_sply]
