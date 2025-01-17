@@ -5,7 +5,7 @@
 /dts-v1/;
 
 #include "sun55iw3p1.dtsi"
-//#define USE_PCIE 1
+#define USE_PCIE 1
 
 /{
 	board = "A527", "A527-CUBIE-A5-AXP717C";
@@ -1655,22 +1655,22 @@
 		compatible = "spi-nor";
 		m25p,fast-read = <1>;
 		reg = <0x0>;
-		spi-max-frequency = <100000000>;
+		spi-max-frequency = <50000000>;
 		spi-tx-bus-width = <1>;
 		spi-rx-bus-width = <1>;
 		status = "okay";
 
-		partitions {
-			compatible = "fixed-partitions";
-			#address-cells = <1>;
-			#size-cells = <1>;
+		// partitions {
+		// 	compatible = "fixed-partitions";
+		// 	#address-cells = <1>;
+		// 	#size-cells = <1>;
 
-			partition@0 {
-				label = "uboot";
-				reg = <0x0 0x100000>;
-			};
+		// 	partition@0 {
+		// 		label = "uboot";
+		// 		reg = <0x0 0x100000>;
+		// 	};
 		
-		};
+		// };
 	};
 };
 
@@ -1698,8 +1698,8 @@
 	vmmc-supply = <&reg_cldo3>;
 	vqmmc33sw-supply = <&reg_cldo3>;
 	vdmmc33sw-supply = <&reg_cldo3>;
-	// vqmmc18sw-supply = <&reg_cldo3>;
-	// vdmmc18sw-supply = <&reg_cldo3>;
+	vqmmc18sw-supply = <&reg_cldo3>;
+	vdmmc18sw-supply = <&reg_cldo3>;
 	status = "okay";
 };
 
@@ -1709,18 +1709,21 @@
 	no-mmc;
 	no-sd;
 	cap-sd-highspeed;
+	cap-mmc-highspeed;
 	/*sd-uhs-sdr12*/
 	sd-uhs-sdr25;
 	sd-uhs-sdr50;
 	sd-uhs-ddr50;
 	sd-uhs-sdr104;
 	/*sunxi-power-save-mode;*/
-	sunxi-dis-signal-vol-sw;
+	//sunxi-dis-signal-vol-sw;
 	cap-sdio-irq;
 	keep-power-in-suspend;
 	ignore-pm-notify;
-	max-frequency = <208000000>;
+	max-frequency = <150000000>;
 	ctl-spec-caps = <0x428>;
+	vmmc-supply = <&reg_bldo1>;
+	vqmmc-supply = <&reg_bldo1>;
 	status = "okay";
 };
 
@@ -1741,12 +1744,9 @@
 	cqe-on;
 	ctl-cmdq-md = <0x2>;
 	max-frequency = <200000000>;
-	vmmc-supply = <&reg_cldo3>;
-	/*emmc io vol 3.3v*/
-	/*vqmmc-supply = <&reg_aldo1>;*/
-	/*emmc io vol 1.8v*/
+	vmmc-supply  = <&reg_cldo3>;
 	vqmmc-supply = <&reg_cldo1>;
-	status = "okay";
+	status = "disabled";
 };
 
 &rfkill {
