@@ -956,6 +956,8 @@
 &gpio_bias {  /* Avoid dtc compiling warnings. @TODO: Developer should modify this to the actual value */
 	device_type = "gpio_bias";
 	pc_bias = <1800>;
+	pg_bias = <1800>;
+	pg_supply = "bldo1_vol";
 	pl_supply = "aldo3_vol";
 };
 
@@ -997,4 +999,27 @@
 	pwm  = &pwm;
 	pwm0 = &pwm0;
 
+};
+
+&spi0 {
+	clock-frequency = <100000000>;
+	pinctrl-0 = <&spi0_pins_a &spi0_pins_b>;
+	pinctrl-1 = <&spi0_pins_c>;
+	pinctrl-names = "default", "sleep";
+	spi_slave_mode = <0>;
+	spi_dbi_enable = <0>;
+	spi0_cs_number = <1>;
+	status = "okay";
+
+	spi_board0 {
+		device_type = "spi_board0";
+		compatible = "spi-nor";
+		spi-max-frequency = <50000000>;
+		m25p,fast-read = <1>;
+		/*individual_lock;*/
+		reg = <0x0>;
+		spi-rx-bus-width=<0x01>;
+		spi-tx-bus-width=<0x01>;
+		status="okay";
+	};
 };
