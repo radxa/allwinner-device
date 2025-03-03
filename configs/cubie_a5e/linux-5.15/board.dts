@@ -9,7 +9,7 @@
 
 /{
 	board = "A527", "A527-CUBIE-A5-AXP717C";
-	compatible = "allwinner,a523", "arm,sun55iw3p1";
+	compatible = "radxa,cubie-a5e", "arm,sun55iw3p1";
 	aliases {
 		pmu0 = &pmu0;
 		axp1530 = &axp1530;
