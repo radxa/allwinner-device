@@ -1639,38 +1639,26 @@
 };
 
 &spi0 {
-	compatible = "allwinner,sunxi-spi-v1.3";
-	device_type = "spi0";
+	clock-frequency = <50000000>;
 	pinctrl-0 = <&spi0_pins_default &spi0_pins_cs>;
 	pinctrl-1 = <&spi0_pins_sleep>;
 	pinctrl-names = "default", "sleep";
-	clock-frequency = <100000000>;
-	sunxi,spi-bus-mode = <0x10>;
-	sunxi,spi-cs-mode = <0x01>;
-	sunxi,spi-num-cs = <1>;
+	sunxi,spi-bus-mode = <SUNXI_SPI_BUS_NOR>;
+	sunxi,spi-cs-mode = <SUNXI_SPI_CS_SOFT>;
+	spi_slave_mode = <0>;
+	spi0_cs_number = <1>;
+	spi0_cs_bitmap = <1>;
 	status = "okay";
 
-	spi_board0 {
+	spi_board@0 {
 		device_type = "spi_board0";
 		compatible = "spi-nor";
+		spi-max-frequency = <50000000>;
 		m25p,fast-read = <1>;
 		reg = <0x0>;
-		spi-max-frequency = <50000000>;
-		spi-tx-bus-width = <1>;
 		spi-rx-bus-width = <1>;
+		spi-tx-bus-width = <1>;
 		status = "okay";
-
-		// partitions {
-		// 	compatible = "fixed-partitions";
-		// 	#address-cells = <1>;
-		// 	#size-cells = <1>;
-
-		// 	partition@0 {
-		// 		label = "uboot";
-		// 		reg = <0x0 0x100000>;
-		// 	};
-		
-		// };
 	};
 };
 
