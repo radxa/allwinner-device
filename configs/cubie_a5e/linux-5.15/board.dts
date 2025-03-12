@@ -218,6 +218,7 @@
 		height-mm = <216>;
 
 		backlight = <&backlight0>;
+		dsi,flags = <MIPI_DSI_MODE_VIDEO>;
 		dsi,lanes = <4>;
 		dsi,format = <0>;
 		panel-init-sequence = [
@@ -1319,6 +1320,7 @@
 				regulator-max-microvolt = <3500000>;
 				regulator-step-delay-us = <25>;
 				regulator-final-delay-us = <50>;
+				regulator-always-on;
 			};
 
 			reg_ext_axp1530_dldo1: ldo2 {
@@ -1453,6 +1455,8 @@
 				regulator-min-microvolt = <500000>;
 				regulator-max-microvolt = <3500000>;
 				regulator-enable-ramp-delay = <1000>;
+				regulator-always-on;
+				regulator-boot-on;
 			};
 			reg_aldo3: aldo3 {
 				regulator-name = "axp2202-aldo3";
