@@ -149,11 +149,6 @@
 		compatible = "gpio-leds";
 
 		led-0 {
-			label = "radxa:green:power";
-			gpios = <&r_pio PL 4 GPIO_ACTIVE_LOW>;	
-		};
-
-		led-1 {
 			label = "radxa:blue:user";
 			gpios = <&r_pio PL 5 GPIO_ACTIVE_LOW>;
 			linux,default-trigger = "heartbeat";
