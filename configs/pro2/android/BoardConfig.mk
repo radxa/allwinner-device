@@ -1,0 +1,1 @@
+-include device/softwinner/jupiter/a733-pro2/system/bsp-config.mk

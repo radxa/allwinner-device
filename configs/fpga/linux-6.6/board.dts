@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+
+/dts-v1/;
+
+#include "sun60iw2p1.dtsi"
+
+/{
+	board = "A733", "A733-FPGA";
+	compatible = "allwinner,a733", "arm,sun60iw2p1";
+	aliases {
+	};
+};
+
+&pio {
+	uart0_pins_active: uart0_pins@0 {
+		pins = "PB8", "PB9";
+		function = "uart0";
+		drive-strength = <10>;
+	};
+
+	uart0_pins_sleep: uart0_pins@1 {
+		pins = "PB8", "PB9";
+		function = "gpio_in";
+		drive-strength = <10>;
+	};
+};
+
+&uart0 {
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&uart0_pins_active>;
+	pinctrl-1 = <&uart0_pins_sleep>;
+	status = "okay";
+};

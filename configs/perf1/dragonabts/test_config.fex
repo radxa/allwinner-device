@@ -1,0 +1,395 @@
+;-------------------------------------------------------------------------------
+; 测试模块配置示例
+;
+; [example]
+; display_name= "Example"
+; activated   = 1
+; program     = "example.sh"
+; category    = 0
+; run_type    = 1
+; need_box    = 0
+;
+; display_name
+;   显示到界面的名称，字符串类型，如果需要显示双引号，可以使用以下语法：
+;       display_name= string:"Example"
+;   区别在于后者会显示"string:"后面所有的字符，包括空格和制表符。该项能够容纳
+;   64个英文字符，32个中文字符。如果display_name为空，测试程序不会运行。
+;
+; activated
+;   0: 不测试该模块
+;   1: 测试该模块
+;
+; program
+;   模块的测试程序，该项能够容纳32个英文字符。
+;
+; category
+;   0: 自动化测试模块
+;   1: 手动测试模块
+;
+; run_type
+;   0: 等待当前模块的测试程序执行完毕再运行下一个模块的测试程序
+;   1: 不等待当前模块的测试程序执行完毕
+;      一般为了提高整体的测试速度，对于耗时较长的测试程序建议填0，反之填1。
+;      注意:当 category = 1，即手动测试模块时，该项无效。
+;
+; need_box
+;   0: 不需要盒子参与
+;   1: 需要盒子参与
+;-------------------------------------------------------------------------------
+[pmu]
+display_name= "PMU"
+activated   = 1
+program     = "pmutester.sh"
+category    = 0
+run_type    = 1
+need_box    = 0
+
+[lcd]
+display_name= "LCD"
+activated   = 1
+program     = "lcdtester.sh"
+category    = 0
+run_type    = 1
+need_box    = 1
+
+;-------------------------------------------------------------------------------
+; test_size
+;   unit: MB
+;-------------------------------------------------------------------------------
+[dram]
+display_name= "内存"
+activated   = 1
+program     = "memtester.sh"
+category    = 0
+run_type    = 1
+need_box    = 0
+dram_size   = 4096
+platform    = "sun55iw3p1"
+
+[rtc]
+display_name= "时钟"
+activated   = 1
+program     = "rtctester.sh"
+category    = 0
+run_type    = 1
+need_box    = 0
+set_date    = "021400002023.00"
+
+;-------------------------------------------------------------------------------
+; test_size
+;   Test size for flash read and write test.
+;-------------------------------------------------------------------------------
+[emmc]
+display_name= "eMMC"
+activated   = 1
+program     = "emmctester.sh"
+category    = 0
+run_type    = 1
+need_box    = 0
+
+[mmc]
+display_name= "SD卡"
+activated   = 0
+program     = "mmctester.sh"
+category    = 0
+run_type    = 1
+need_box    = 0
+
+[gsensor]
+display_name= "重力传感"
+activated   = 1
+program     = "gsensortester.sh"
+category    = 0
+run_type    = 1
+need_box    = 0
+module_count= 1
+module1_path= "/system/vendor/modules/mir3da.ko"
+device_count= 1
+device1_name= "mir3da"
+device1_convert = 32
+
+[hallsensor]
+display_name= "霍尔传感"
+activated   = 1
+program     = "hallsensor.sh"
+category    = 0
+run_type    = 1
+need_box    = 1
+module_count= 1
+module1_path= "/system/vendor/modules/hall_sensor.ko"
+device_count= 1
+device1_name= "MH248"
+
+[motor]
+display_name= "振动马达"
+activated   = 0
+program     = "motortester.sh"
+module_path = "/system/vendor/modules/sunxi-vibrator.ko"
+category    = 0
+run_type    = 1
+need_box    = 1
+
+;-------------------------------------------------------------------------------
+;type(may unuesd):
+;    0: DTP:
+;    1: CTP
+;
+;tp_test_type(default 1):
+;    depends on category=1
+;    1:manual test,need press pass or fail button;
+;    2:semi-automatic test,when get touch event will pass;
+;-------------------------------------------------------------------------------
+[tp]
+display_name= "TP"
+activated   = 1
+program     = "tptester.sh"
+category    = 0
+run_type    = 1
+need_box    = 0
+type        = 1
+tp_test_type= 1
+module_path = "/system/vendor/modules/gt9xx.ko"
+device_name = "goodix-ts"
+
+[key]
+display_name= "音量按键"
+activated   = 1
+program     = "keytester"
+category    = 0
+run_type    = 1
+need_box    = 1
+key_num     = 2
+key_code1   = 114
+key_code2   = 115
+
+[power_key]
+display_name= "电源按键"
+activated   = 1
+program     = "pwkeytester.sh"
+category    = 0
+run_type    = 1
+need_box    = 1
+
+;-------------------------------------------------------------------------------
+; module_path
+;   The full path of wifi module file.
+; module_args
+;   The arguments of wifi module.
+;-------------------------------------------------------------------------------
+[wifi]
+display_name= "Wi-Fi"
+activated   = 1
+program     = "wifitester.sh"
+category    = 0
+run_type    = 1
+need_box    = 0
+wifi_vnd    = "common"
+module_count=
+module_path =
+module_args =
+module0_path=
+module0_args=
+signal_low_threshold =
+
+[bluetooth]
+display_name= "蓝牙"
+activated   = 1
+program     = "bttester.sh"
+category    = 0
+run_type    = 1
+need_box    = 0
+device_node = "ttyS1"
+baud_rate   = 115200
+test_time   = 4
+dst_bt      = ":"
+bt_vnd      = "common"
+module_path = ""
+
+[camera]
+display_name= "摄像头"
+activated   = 1
+program     = "camera.sh"
+category    = 0
+run_type    = 1
+need_box    = 0
+module_count= 8
+module1_path= "/system/vendor/modules/videobuf2-common.ko"
+module2_path= "/system/vendor/modules/videobuf2-memops.ko"
+module3_path= "/system/vendor/modules/videobuf2-dma-contig.ko"
+module4_path= "/system/vendor/modules/videobuf2-v4l2.ko"
+module5_path= "/system/vendor/modules/vin_io.ko"
+module6_path= "/system/vendor/modules/imx319_mipi.ko"
+module7_path= "/system/vendor/modules/s5k5e8.ko"
+module8_path= "/system/vendor/modules/vin_v4l2.ko"
+dev_cnt     = 2
+csi_cnt     = 2
+fps         = 15
+pass_rate   = 80
+frame_count = 20
+
+[flashlight]
+display_name= "闪光灯"
+activated   = 1
+program     = "flashlight.sh"
+category    = 0
+run_type    = 1
+need_box    = 1
+sensor_name = "imx319_mipi"
+
+;-------------------------------------------------------------------------------
+; TODO:音频模块
+;-------------------------------------------------------------------------------
+[spk1]
+display_name = "左声道喇叭"
+activated    = 1
+program      = "TEST-AUDIO-001-SPK.sh"
+category     = 0
+run_type     = 1
+need_box     = 1
+board        = "A523-pro1"
+
+[spk2]
+display_name = "右声道喇叭"
+activated    = 1
+program      = "TEST-AUDIO-001-SPK.sh"
+category     = 0
+run_type     = 1
+need_box     = 1
+board        = "A523-pro1"
+
+[hpout]
+display_name = "耳机播放"
+activated    = 1
+program      = "TEST-AUDIO-002-HPOUT.sh"
+category     = 0
+run_type     = 1
+need_box     = 1
+board        = "A523-pro1"
+
+[hpmic]
+display_name = "耳机MIC"
+activated    = 1
+program      = "TEST-AUDIO-003-HPMIC.sh"
+category     = 0
+run_type     = 1
+need_box     = 1
+board        = "A523-pro1"
+range        = 250
+times	     = 25
+
+[mic1]
+display_name = "模拟MIC1"
+activated    = 1
+program      = "TEST-AUDIO-004-MIC.sh"
+category     = 0
+run_type     = 1
+need_box     = 1
+board        = "A523-pro1"
+range        = 200
+times        = 25
+
+[mic2]
+display_name = "模拟MIC2"
+activated    = 1
+program      = "TEST-AUDIO-004-MIC.sh"
+category     = 0
+run_type     = 1
+need_box     = 1
+board        = "A523-pro1"
+range        = 200
+times        = 25
+
+[obmic1]
+display_name = "板载MIC1"
+activated    = 0
+program      = "TEST-AUDIO-005-OBMIC.sh"
+category     = 0
+run_type     = 1
+need_box     = 1
+board        = "A523-pro1"
+range        = 200
+times        = 25
+
+[obmic2]
+display_name = "板载MIC2"
+activated    = 0
+program      = "TEST-AUDIO-005-OBMIC.sh"
+category     = 0
+run_type     = 1
+need_box     = 1
+board        = "A523-pro1"
+range        = 200
+times        = 25
+
+[dmic]
+display_name = "数字MIC"
+activated    = 0
+program      = "TEST-AUDIO-006-DMIC.sh"
+category     = 0
+run_type     = 1
+need_box     = 1
+board        = "A523-pro1"
+range        = 200
+times        = 25
+
+;-------------------------------------------------------------------------------
+; manual_menu_name
+;   manual test case menu name, 32bytes.
+; auto_menu_name
+;   auto test case menu name, 32bytes.
+; clear_button_name
+;   clear screen button name, 8bytes.
+; font_size
+;   test case font display size, valid value: 20pixel(default), 24pixel.
+;
+; Color Index
+;   0: White
+;   1: Yellow
+;   2: Green
+;   3: Cyan
+;   4: Magenta
+;   5: Red
+;   6: Blue
+;   7: Black
+;   8: Beauty
+; menu_bgcolor
+;   The background color index of test case category menu.
+; menu_fgcolor
+;   The foreground color index of test case category menu.
+; item_init_bgcolor
+;   The background color index of test case item init status.
+; item_init_fgcolor
+;   The foreground color index of test case item init status.
+; item_ok_bgcolor
+;   The background color index of test case item OK status.
+; item_ok_fgcolor
+;   The foreground color index of test case item OK status.
+; item_fail_bgcolor
+;   The background color index of test case item fail status.
+; item_fail_fgcolor
+;   The foreground color index of test case item fail status.
+;
+; pass_str
+;   The string display after test case display_name when test OK.
+; fail_str
+;   The string display after test case display_name when test Fail.
+;-------------------------------------------------------------------------------
+[df_view]
+manual_menu_name    = "手动测试项"
+auto_menu_name      = "自动测试项"
+clear_button_name   = "清 屏"
+wifi_menu_name      = "Wi-Fi热点列表"
+font_size           = 20
+menu_bgcolor        = 1
+menu_fgcolor        = 7
+item_init_bgcolor   = 7
+item_init_fgcolor   = 0
+item_ok_bgcolor     = 7
+item_ok_fgcolor     = 6
+item_fail_bgcolor   = 7
+item_fail_fgcolor   = 5
+tp_draw_color       = 0
+pass_str            = "通过"
+fail_str            = "失败"
+delay               = 30
+test_model          = "auto"

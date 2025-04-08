@@ -1,0 +1,10 @@
+LICHEE_CHIP:=sun60iw2p1
+LICHEE_ARCH:=arm64
+LICHEE_BRANDY_VER:=2.0
+LICHEE_BRANDY_DEFCONF:=sun60iw2p1_a733_defconfig
+LICHEE_BRANDY_BUILD_OPTION=uboot
+LICHEE_USE_INDEPENDENT_BSP=true
+
+ifeq ($(BSP_BUILD_WITH_CLANG),true)
+	ANDROID_CLANG_PATH  := prebuilts/clang/host/linux-x86/clang-r510928/bin
+endif
