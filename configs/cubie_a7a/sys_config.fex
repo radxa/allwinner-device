@@ -106,9 +106,12 @@ twi_sda         = port:PL1<2><1><default><default>
 ;*****************************************************************************
 
 [dram_select_para]
-select_mode	= 3
+select_mode	= 0
 gpadc_channel	= 1
 select_gpio0	= port:PH16<0><1><default><default>
+select_gpio1	= port:PH17<0><1><default><default>
+;select_gpio2	= port:PH1<0><1><default><default>
+;select_gpio3	= port:PH0<0><1><default><default>
 
 
 ;*****************************************************************************
@@ -123,7 +126,7 @@ dram_dx_dri    = 0x0f0f0f0f
 dram_ca_dri    = 0xec030e0f
 dram_para0     = 0
 dram_para1     = 0xa10a
-dram_para2     = 0x1001
+dram_para2     = 0x0001
 dram_mr0       = 0
 dram_mr1       = 0
 dram_mr2       = 0
@@ -136,52 +139,18 @@ dram_mr12      = 0x44
 dram_mr13      = 0
 dram_mr14      = 0x34
 dram_mr16      = 0
-dram_mr17      = 0x86
+dram_mr17      = 0x06
 dram_mr22      = 0
 dram_tpr0      = 0x4040
 dram_tpr1      = 0
-dram_tpr2      = 0
+dram_tpr2      = 0x170b0703
 dram_tpr3      = 0x3800
 dram_tpr6      = 0x3514
 dram_tpr10     = 0x325f0000
 dram_tpr11     = 0
 dram_tpr12     = 0
-dram_tpr13     = 0x61
+dram_tpr13     = 0x65
 dram_tpr14     = 0
-
-[dram_para1]
-dram_clk       = 720
-dram_type      = 8
-dram_dx_odt    = 0x07070707
-dram_dx_dri    = 0x0d0d0d0d
-dram_ca_dri    = 0x0e0e
-dram_para0     = 0x84848484
-dram_para1     = 0x30fa
-dram_para2     = 0x00000000
-dram_mr0       = 0x0
-dram_mr1       = 0x34
-dram_mr2       = 0x00
-dram_mr3       = 0x33
-dram_mr4       = 0x3
-dram_mr5       = 0x0
-dram_mr6       = 0x0
-dram_mr11      = 0x04
-dram_mr12      = 0x72
-dram_mr13      = 0x0
-dram_mr14      = 0x00000007
-dram_mr16      = 0x0
-dram_mr17      = 0x0
-dram_mr22      = 0x26
-dram_tpr0      = 0x80808080
-dram_tpr1      = 0x06060606
-dram_tpr2      = 0x0
-dram_tpr3      = 0x0
-dram_tpr6      = 0x40000000
-dram_tpr10     = 0x802e0000
-dram_tpr11     = 0x9a9a9a9a
-dram_tpr12     = 0x0e0f070a
-dram_tpr13     = 0x00000061
-dram_tpr14     = 0x48484848
 
 [secure]
 dram_region_mbytes       = 120
