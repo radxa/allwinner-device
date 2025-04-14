@@ -45,277 +45,228 @@
 		pwms = <&pwm0 4 25000 0>;
 	};
 
-	panel_0: panel_0@0 {
+	dsi_panel: dsi_panel@0 {
+		compatible = "allwinner,panel-dsi";
 		status = "okay";
 		power-delay-ms = <10>;
 		power0-supply = <&reg_dc1sw1>;
 		power1-supply = <&reg_bldo2>;
 
-		enable0-gpios = <&pio PH 9 1 0 3 1>;
-		enable1-gpios = <&pio PH 10 1 0 3 1>;
-		// enable2-gpios = <&pio PD 22 1 0 3 1>;
-		reset-num = <2>;
-		reset-delay-ms = <10>;
-		reset-gpios = <&pio PD 21 1 0 3 1>;
+		enable0-gpios = <&pio PD 23 GPIO_ACTIVE_HIGH>;
+		//enable1-gpios = <&pio PE 15 GPIO_ACTIVE_HIGH>;
+		reset-num = <1>;
+		reset-delay-ms = <20>;
+		reset-gpios = <&pio PD 21 GPIO_ACTIVE_LOW>; //reset
 		backlight = <&backlight0>;
-		width-mm = <143>;
-		height-mm = <238>;
-		dsi,flags = <MIPI_DSI_MODE_VIDEO>;
+		dsi,flags = <(MIPI_DSI_MODE_VIDEO)>;
 		dsi,lanes = <4>;
 		dsi,format = <0>;
+
 		panel-init-sequence = [
+			15 00 02 E0 00
+			15 00 02 E1 93
+			15 00 02 E2 65
+			15 00 02 E3 F8
+			15 00 02 80 03
+
+			15 00 02 E0 01
 			15 00 02 00 00
-			15 00 02 FA 5A
-			15 00 02 00 00
-			39 00 04 FF 82 05 01
-			15 00 02 00 80
-			39 00 03 FF 82 05
-			15 00 02 00 93
-			15 00 02 C5 6B
-			15 00 02 00 97
-			15 00 02 C5 6B
-			15 00 02 00 9E
-			15 00 02 C5 0A
-			15 00 02 00 9A
-			15 00 02 C5 CD
-			15 00 02 00 9C
-			15 00 02 C5 CD
-			15 00 02 00 B6
-			39 00 03 C5 57 57
-			15 00 02 00 B8
-			39 00 03 C5 43 43
-			15 00 02 00 A0
-			15 00 02 A5 04
-			15 00 02 00 00
-			39 00 03 D8 B4 B4
-			15 00 02 00 82
-			15 00 02 C5 95
-			15 00 02 00 83
-			15 00 02 C5 07
-			15 00 02 00 D9
-			15 00 02 CB 40
-			15 00 02 00 00
-			39 00 11 E1 00 04 11 1E 27 31 41 4F 52 5F 63 79 88 73 71 65
-			15 00 02 00 10
-			39 00 09 E1 5B 4F 3E 34 2B 1E 16 15
-			15 00 02 00 00
-			39 00 11 E2  00 04 11 1E 27 31 41 4F 52 5F 63 79 88 73 71 65
-			15 00 02 00 10
-			39 00 09 E2 5B 4F 3E 34 2B 1B 0C 0A
-			15 00 02 00 A1
-			39 00 03 B3 04 B0
-			15 00 02 00 A3
-			39 00 03 B3 07 D0
-			15 00 02 00 A5
-			39 00 03 B3 80 13
-			15 00 02 00 80
-			39 00 08 CB 3C 3C 3C 3C 3C 3C 3C
-			15 00 02 00 87
-			15 00 02 CB 3C
-			15 00 02 00 88
-			39 00 09 CB 3C 3C 3C 3C 3C 3C 3C 3C
-			15 00 02 00 90
-			39 00 07 CB 03 3C 3C 3C 3C 3C
-			15 00 02 00 97
-			15 00 02 CB 33
-			15 00 02 00 98
-			39 00 09 CB 34 34 34 34 34 34 34 34
-			15 00 02 00 A0
-			39 00 09 CB 34 34 34 37 34 34 34 34
-			15 00 02 00 A8
-			39 00 07 CB C8 34 34 34 34 34
-			15 00 02 00 B0
-			39 00 08 CB 00 00 00 00 00 00 00
-			15 00 02 00 B7
-			15 00 02 CB 00
-			15 00 02 00 B8
-			39 00 09 CB 00 00 00 00 00 00 00 00
-			15 00 02 00 C0
-			39 00 08 CB 00 00 00 00 00 00 00
-			15 00 02 00 C7
-			15 00 02 CB 00
-			15 00 02 00 80
-			39 00 09 CC 2F 2F 2F 27 31 32 01 2C
-			15 00 02 00 88
-			39 00 09 CC 2D 1B 1D 1F 21 0B 0D 0F
-			15 00 02 00 90
-			39 00 07 CC 11 13 15 03 2F 2F
-			15 00 02 00 80
-			39 00 09 CD 2F 2F 2F 27 31 32 02 2C
-			15 00 02 00 88
-			39 00 09 CD 2D 1C 1E 20 22 0C 0E 10
-			15 00 02 00 90
-			39 00 07 CD 12 14 16 04 2F 2F
-			15 00 02 00 80
-			39 00 05 C2 8C 0A 7A AA
-			15 00 02 00 84
-			39 00 05 C2 8B 0A 7A AA
-			15 00 02 00 C0
-			39 00 08 C2 86 87 00 06 7A AA 0B
-			15 00 02 00 C7
-			39 00 08 C2 85 86 00 06 7A AA 0B
-			15 00 02 00 D0
-			39 00 08 C2 84 85 00 06 7A AA 0B
-			15 00 02 00 D7
-			39 00 08 C2 83 84 00 06 7A AA 0B
-			15 00 02 00 E0
-			39 00 08 C2 82 83 00 06 7A AA 0B
-			15 00 02 00 E7
-			39 00 08 C2 81 82 00 06 7A AA 0B
-			15 00 02 00 F0
-			39 00 08 C2 80 81 00 06 7A AA 0B
-			15 00 02 00 F7
-			39 00 08 C2 01 80 00 06 7A AA 0B
-			15 00 02 00 80
-			39 00 08 C3 02 8B 00 06 7A AA 0B
-			15 00 02 00 87
-			39 00 08 C3 03 8A 00 06 7A AA 0B
-			15 00 02 00 90
-			39 00 08 C3 04 89 00 06 7A AA 0B
-			15 00 02 00 97
-			39 00 08 C3 05 88 00 06 7A AA 0B
-			15 00 02 00 A0
-			39 00 05 C2 06 46 7A AA
-			15 00 02 00 A4
-			39 00 05 C2 05 46 7A AA
-			15 00 02 00 A8
-			39 00 05 C2 04 46 7A AA
-			15 00 02 00 AC
-			39 00 05 C2 03 46 7A AA
-			15 00 02 00 B0
-			39 00 05 C2 02 46 7A AA
-			15 00 02 00 B4
-			39 00 05 C2 01 46 7A AA
-			15 00 02 00 B8
-			39 00 05 C2 00 06 7A AA
-			15 00 02 00 BC
-			39 00 05 C2 01 06 7A AA
-			15 00 02 00 A0
-			39 00 09 C3 00 70 D3 0A 7A AA 00 00
-			15 00 02 00 A8
-			39 00 09 C3 00 70 D4 0B 7A AA 00 00
-			15 00 02 00 F0
-			39 00 06 CC 3D 8E 8E 18 18
-			15 00 02 00 A2
-			15 00 02 F3 55
-			15 00 02 00 E0
-			39 00 05 C3 27 00 00 00
-			15 00 02 00 E4
-			39 00 05 C3 27 00 00 00
-			15 00 02 00 EC
-			39 00 03 C3 C2 C2
-			15 00 02 00 E8
-			39 00 05 C3 44 00 0C 70
-			15 00 02 00 EE
-			15 00 02 C3 02
-			15 00 02 00 80
-			39 00 07 C0 00 8C 00 DC 00 10
-			15 00 02 00 90
-			39 00 07 C0 00 8C 00 DC 00 10
-			15 00 02 00 A0
-			39 00 07 C0 00 F0 00 DC 00 10
-			15 00 02 00 B0
-			39 00 06 C0 00 A7 00 DC 10
-			15 00 02 00 A3
-			39 00 07 C1 00 24 00 24 00 04
-			15 00 02 00 80
-			39 00 0D CE 01 81 0B 21 00 35 00 AC 00 2A 00 3A
-			15 00 02 00 90
-			39 00 0F CE 00 88 0C 66 00 88 80 0B 21 00 03 00 1C 0C
-			15 00 02 00 A0
-			39 00 04 CE 10 00 00
-			15 00 02 00 B0
-			39 00 04 CE 62 00 00
-			15 00 02 00 CC
-			39 00 03 CE 07 F8
-			15 00 02 00 D0
-			39 00 09 CE 01 00 0F 01 01 00 DE 01
-			15 00 02 00 E1
-			39 00 08 CE 0A 01 6B 02 37 00 82
-			15 00 02 00 F0
-			39 00 0B CE 00 11 08 01 2D 01 D6 00 EC 1A
-			15 00 02 00 B0
-			39 00 05 CF 07 07 DA DE
-			15 00 02 00 B5
-			39 00 05 CF 03 03 A6 AA
-			15 00 02 00 C0
-			39 00 05 CF 07 07 DA DE
-			15 00 02 00 C5
-			39 00 05 CF 00 07 1C D0
-			15 00 02 00 90
-			15 00 02 C1 22
-			15 00 02 00 9C
-			15 00 02 C1 08
-			15 00 02 00 00
-			15 00 02 35 01
-			15 00 02 00 9F
-			15 00 02 C5 00
-			15 00 02 00 98
-			15 00 02 C5 54
-			15 00 02 00 91
-			15 00 02 C5 4C
-			15 00 02 00 8C
-			39 00 03 CF 40 40
-			15 00 02 00 93
-			15 00 02 C4 90
-			15 00 02 00 D7
-			15 00 02 C0 F0
-			15 00 02 00 A2
-			15 00 02 F5 1F
-			15 00 02 00 90
-			15 00 02 E9 10
-			15 00 02 00 B1
-			15 00 02 F5 02
-			15 00 02 00 80
-			15 00 02 A4 2C
-			15 00 02 00 84
-			15 00 02 C5 FD
-			15 00 02 00 88
-			15 00 02 B0 07
-			15 00 02 00 00
-			15 00 02 FA 01
-			15 00 02 00 A8
-			15 00 02 C5 99
-			15 00 02 00 B6
-			39 00 03 C5 55 55
-			15 00 02 00 B8
-			39 00 03 C5 41 41
-			15 00 02 00 9A
-			15 00 02 F5 00
-			15 00 02 00 B2
-			15 00 02 CE 92
-			15 00 02 00 00
-			15 00 02 FA 5A
-			15 00 02 00 88
-			15 00 02 B0 01
-			15 00 02 00 00
-			39 00 04 FF 00 00 00
-			15 00 02 00 80
-			39 00 03 FF 00 00
-			15 96 02 11 00
-			15 32 02 29 00
-			15 00 02 35 00
+			15 00 02 01 7E
+			15 00 02 03 00
+			15 00 02 04 65
+			15 00 02 0C 74
+			15 00 02 17 00
+			15 00 02 18 B7
+			15 00 02 19 00
+			15 00 02 1A 00
+			15 00 02 1B B7
+			15 00 02 1C 00
+			
+			15 00 02 24 FE
+			15 00 02 37 19
+			15 00 02 38 05
+			15 00 02 39 00
+			15 00 02 3A 01
+			15 00 02 3B 01
+			15 00 02 3C 70
+			15 00 02 3D FF
+			15 00 02 3E FF
+			15 00 02 3F FF
+
+			15 00 02 40 06
+			15 00 02 41 A0
+			15 00 02 43 1E
+			15 00 02 44 0F
+			15 00 02 45 28
+			15 00 02 4B 04
+
+			15 00 02 55 02
+			15 00 02 56 01
+			15 00 02 57 A9
+			15 00 02 58 0A
+			15 00 02 59 0A
+			15 00 02 5A 37
+			15 00 02 5B 19
+			15 00 02 5D 78
+			15 00 02 5E 63
+			15 00 02 5F 54
+			
+			15 00 02 60 49
+			15 00 02 61 45
+			15 00 02 62 38
+			15 00 02 63 3D
+			15 00 02 64 28
+			15 00 02 65 43
+			15 00 02 66 41
+			15 00 02 67 43
+			15 00 02 68 62
+			15 00 02 69 50
+			15 00 02 6A 57
+			15 00 02 6B 49
+			15 00 02 6C 44
+			15 00 02 6D 37
+			15 00 02 6E 23
+			15 00 02 6F 10
+			
+			15 00 02 70 78
+			15 00 02 71 63
+			15 00 02 72 54
+			15 00 02 73 49
+			15 00 02 74 45
+			15 00 02 75 38
+			15 00 02 76 3D
+			15 00 02 77 28
+			15 00 02 78 43
+			15 00 02 79 41
+			15 00 02 7A 43
+			15 00 02 7B 62
+			15 00 02 7C 50
+			15 00 02 7D 57
+			15 00 02 7E 49
+			15 00 02 7F 44
+			
+			15 00 02 80 37
+			15 00 02 81 23
+			15 00 02 82 10
+
+			15 00 02 E0 02
+			15 00 02 00 47
+			15 00 02 01 47
+			15 00 02 02 45
+			15 00 02 03 45
+			15 00 02 04 4B
+			15 00 02 05 4B
+			15 00 02 06 49
+			15 00 02 07 49
+			15 00 02 08 41
+			15 00 02 09 1F
+			15 00 02 0A 1F
+			15 00 02 0B 1F
+			15 00 02 0C 1F
+			15 00 02 0D 1F
+			15 00 02 0E 1F
+			15 00 02 0F 5F
+			15 00 02 10 5F
+			15 00 02 11 57
+			15 00 02 12 77
+			15 00 02 13 35
+			15 00 02 14 1F
+			15 00 02 15 1F
+
+			15 00 02 16 46
+			15 00 02 17 46
+			15 00 02 18 44
+			15 00 02 19 44
+			15 00 02 1A 4A
+			15 00 02 1B 4A
+			15 00 02 1C 48
+			15 00 02 1D 48
+			15 00 02 1E 40
+			15 00 02 1F 1F
+			15 00 02 20 1F
+			15 00 02 21 1F
+			15 00 02 22 1F
+			15 00 02 23 1F
+			15 00 02 24 1F
+			15 00 02 25 5F
+			15 00 02 26 5F
+			15 00 02 27 57
+			15 00 02 28 77
+			15 00 02 29 35
+			15 00 02 2A 1F
+			15 00 02 2B 1F
+
+			15 00 02 58 40
+			15 00 02 59 00
+			15 00 02 5A 00
+			15 00 02 5B 10
+			15 00 02 5C 06
+			15 00 02 5D 40
+			15 00 02 5E 01
+			15 00 02 5F 02
+			15 00 02 60 30
+			15 00 02 61 01
+			15 00 02 62 02
+			15 00 02 63 03
+			15 00 02 64 6B
+			15 00 02 65 05
+			15 00 02 66 0C
+			15 00 02 67 73
+			15 00 02 68 09
+			15 00 02 69 03
+			15 00 02 5A 56
+			15 00 02 6B 08
+			15 00 02 6C 00
+			15 00 02 6D 04
+			15 00 02 6E 04
+			15 00 02 6F 88
+			15 00 02 70 00
+			15 00 02 71 00
+			15 00 02 72 06
+			15 00 02 73 7B
+			15 00 02 74 00
+			15 00 02 75 F8
+			15 00 02 76 00
+			15 00 02 77 D5
+			15 00 02 78 2E
+			15 00 02 79 12
+			15 00 02 7A 03
+			15 00 02 7B 00
+			15 00 02 7C 00
+			15 00 02 7D 03
+			15 00 02 7E 7B
+
+			15 00 02 E0 04
+			15 00 02 00 0E
+			15 00 02 02 B3
+			15 00 02 09 60
+			15 00 02 0E 2A
+			15 00 02 37 58
+			15 78 02 E0 00
+			05 78 01 11
+			05 14 01 29
 		];
 
 		panel-exit-sequence = [
 			05 00 01 28
-			05 78 01 10
+			05 00 01 10
 		];
 
-		display-timings {
-			native-mode = <&timing0>;
-			timing0: timing0 {
-				clock-frequency = <171993120>;
-				hback-porch = <26>;
-				hactive = <1200>;
-				hfront-porch = <46>;
-				hsync-len = <10>;
-				vback-porch = <20>;
-				vactive = <2000>;
-				vfront-porch = <212>;
+		disp_timings0: display-timings {
+			native-mode = <&dsi1_timing0>;
+			dsi1_timing0: timing0 {
+				clock-frequency = <70000000>;
+				hback-porch = <18>;
+				hactive = <800>;
+				hfront-porch = <18>;
+				hsync-len = <18>;
+				vback-porch = <10>;
+				vactive = <1280>;
+				vfront-porch = <20>;
 				vsync-len = <4>;
 			};
 		};
+
 		port {
 			panel0_in: endpoint@0 {
 				reg = <0>;
@@ -339,11 +290,13 @@
 };
 
 &power_sply {
-	ntc_status = <0>;
+	ntc_status = <2>;
+	battery_exist = <0>;
 };
 
 &charger0 {
 	pmu_safe_vol = <3400>;
+	bat_bmp_type = <1>;
 	ntc_cur = <60>;
 	safe_temp_H = <600>;//60
 	safe_temp_L = <0xFFFFFFCE>;//-5
@@ -369,7 +322,7 @@
 	clock-frequency = <200000>;
 	pinctrl-0 = <&s_twi0_pins_a>;
 	pinctrl-1 = <&s_twi0_pins_b>;
-	twi-supply = <&reg_aldo3>;
+	// twi-supply = <&reg_aldo3>;
 	status = "okay";
 
 	pmu1: pmu@36 {
@@ -504,20 +457,19 @@
 };
 
 &sdc0_pins_a {
-		allwinner,pins = "PF0", "PF1", "PF2",
+		allwinner,pins = "PF0", "PF1",
 				 "PF3", "PF4", "PF5";
 		allwinner,function = "sdc0";
 		allwinner,muxsel = <2>;
-		allwinner,drive = <1>;
+		allwinner,drive = <0>;
 		allwinner,pull = <1>;
 };
 
 &sdc0_pins_b {
-		allwinner,pins = "PF0", "PF1", "PF2",
-				 "PF3", "PF4", "PF5";
-		allwinner,function = "io_disabled";
-		allwinner,muxsel = <7>;
-		allwinner,drive = <0>;
+		allwinner,pins = "PF2";
+		allwinner,function = "sdc0";
+		allwinner,muxsel = <2>;
+		allwinner,drive = <2>;
 		allwinner,pull = <1>;
 };
 
@@ -530,32 +482,29 @@
 		allwinner,pull = <1>;
 };
 
-
 &sdc2_pins_a {
-		allwinner,pins = "PC1", "PC5", "PC6",
+		allwinner,pins = "PC6",
 				 "PC8", "PC9", "PC10", "PC11",
 				 "PC13", "PC14", "PC15", "PC16";
-		allwinner,function = "sdc2";
-		allwinner,muxsel = <3>;
+		allwinner,function = "sdc3";
+		allwinner,muxsel = <4>;
 		allwinner,drive = <1>;
 		allwinner,pull = <1>;
 };
 
 &sdc2_pins_b {
-		allwinner,pins = "PC0", "PC1", "PC5", "PC6",
-				 "PC8", "PC9", "PC10", "PC11",
-				 "PC13", "PC14", "PC15", "PC16";
-		allwinner,function = "io_disabled";
-		allwinner,muxsel = <7>;
-		allwinner,drive = <0>;
+		allwinner,pins = "PC1", "PC5";
+		allwinner,function = "sdc3";
+		allwinner,muxsel = <4>;
+		allwinner,drive = <3>;
 		allwinner,pull = <1>;
 };
 
 &sdc2_pins_c {
 		allwinner,pins = "PC0";
-		allwinner,function = "sdc2";
-		allwinner,muxsel = <3>;
-		allwinner,drive = <1>;
+		allwinner,function = "sdc3";
+		allwinner,muxsel = <4>;
+		allwinner,drive = <3>;
 		allwinner,pull = <2>;
 };
 
@@ -575,6 +524,54 @@
 		allwinner,pull = <2>;
 };
 
+&pwm16_pin_active {
+	allwinner,pins = "PI15";
+	allwinner,function = "pwm1_6";
+	allwinner,muxsel = <0x5>;
+	allwinner,drive = <3>;
+	allwinner,pull = <2>;
+};
+
+&pwm16_pin_sleep {
+	allwinner,pins = "PI15";
+	allwinner,function = "io_disabled";
+	allwinner,muxsel = <0xf>;
+	allwinner,drive = <3>;
+	allwinner,pull = <2>;
+};
+
+// &pwm18_pin_active {
+// 	allwinner,pins = "PJ26";
+// 	allwinner,function = "pwm1_8";
+// 	allwinner,muxsel = <0x3>;
+// 	allwinner,drive = <3>;
+// 	allwinner,pull = <2>;
+// };
+
+// &pwm18_pin_sleep {
+// 	allwinner,pins = "PJ26";
+// 	allwinner,function = "io_disabled";
+// 	allwinner,muxsel = <0xf>;
+// 	allwinner,drive = <3>;
+// 	allwinner,pull = <2>;
+// };
+
+&pwm19_pin_active {
+	allwinner,pins = "PE15";
+	allwinner,function = "pwm1_9";
+	allwinner,muxsel = <0x5>;
+	allwinner,drive = <3>;
+	allwinner,pull = <2>;
+};
+
+&pwm19_pin_sleep {
+	allwinner,pins = "PE15";
+	allwinner,function = "io_disabled";
+	allwinner,muxsel = <0xf>;
+	allwinner,drive = <3>;
+	allwinner,pull = <2>;
+};
+
 &card0_boot_para {
 		/* Avoid dtc compiling warnings. @TODO: Developer should modify this to the actual value */
 		/* reg = <0x0 0x2 0x0 0x0>;  [> Avoid dtc compiling warnings. @TODO: Developer should modify this to the actual value <] */
@@ -586,7 +583,7 @@
 	pll-0 = "hosc";
 	pll-1 = "pll_periph1_400m";
 	pll-2 = "pll_periph1_300m";
-	pinctrl-0 = <&sdc0_pins_a>;
+	pinctrl-0 = <&sdc0_pins_a &sdc0_pins_b>;
 	clk_type = "typ1";
 };
 
@@ -604,29 +601,62 @@
 	pll-0 = "hosc";
 	pll-1 = "pll_periph1_800m";
 	pll-2 = "pll_periph1_600m";
-	pinctrl-0 = <&sdc2_pins_a &sdc2_pins_c>;
+	pinctrl-0 = <&sdc2_pins_a &sdc2_pins_c &sdc2_pins_b>;
 	sdc_ex_dly_used = <0x2>;
-	sdc_tm4_hs200_max_freq = <150>;
-	sdc_tm4_hs400_max_freq = <150>;
+	sdc_tm4_hs200_max_freq = <200>;
+	sdc_tm4_hs400_max_freq = <200>;
 	sdc_tm4_win_th = <0x7>;
 	sdc_io_1v8 = <0x1>;
+	sdc_mbus = <0x1>;
 	sdc_type = "tm4";
 	clk_type = "typ1";
 };
 
-&key_boot_recovery {
-	device_type = "key_boot_recovery";
-	recovery_key_used = <0x1>;
-	press_mode_enable = <0x0>;
-	key_work_mode = <0x2>;
+/*
+ *recovery_adc_used :  模块使能端，    1：开启，0：关闭
+ *press_mode_enable :  长短按模式使能，1：开启，0：关闭
+ *                     a)如果开启了该模式，则key_work_mode失效，short_press_mode和long_press_mode生效,
+ *                     recovery按键可以通过长按和短按来触发两种不同的模式;
+ *                     b)如果关闭了该模式，则key_work_mode生效，recovery按键只能触发一种模式.
+ *key_work_mode     :  模式选择
+ *                     0: 刷机,
+ *                     1: 一键恢复(uboot阶段),
+ *                     2: 安卓recovery,
+ *                     3: 安卓恢复出厂设置.
+ *                     如果不设置，模式为安卓recovery.
+ *short_press_mode  :  长按触发的模式，选项同上.
+ *long_press_mode   :  短按触发的模式，选项同上.
+ *key_press_time    :  定义长按的时间，单位:毫秒.
+ *recovery_key      :  按键配置.
+ */
+&adc_boot_recovery {
+	recovery_adc_used = <1>;
+	recovery_adc_channel = <0>; /* vol+ key */
+	press_mode_enable = <1>;
 	short_press_mode = <0x0>;
-	long_press_mode = <0x1>;
-	key_press_time = <0x7d0>;
-	recovery_key = <&pio PB 1 0x0 0xffffffff 0xffffffff 0x1>;//vol+
+	long_press_mode = <0x2>;
+	key_press_time = <2000>;
+	key_min = <9>;
+	key_max = <11>;
+};
+
+&gpadc_boot_recovery {
+	recovery_adc_used = <1>;
+	recovery_adc_channel = <9>; /* recovery key */
+	press_mode_enable = <1>;
+	short_press_mode = <0x0>;
+	long_press_mode = <0x3>;
+	key_press_time = <5000>;
+	key_min = <455>;
+	key_max = <500>;
 };
 
 &de {
-	chn_cfg_mode = <0>;
+	chn_cfg_mode = <2>;
+	status = "okay";
+};
+
+&sunxi_drm {
 	status = "okay";
 };
 
@@ -634,8 +664,24 @@
 	status = "okay";
 };
 
+&vo1 {
+	status = "okay";
+};
+
 &lcd0 {
 	status = "okay";
+};
+
+&lcd2 {
+	status = "disabled";
+};
+
+&serdes {
+	status = "okay";
+	combophy0: combo-phy0@6c01000 {
+		lane_invert = <0 0 0 0>;
+		lane_remap = <2 3 0 1>;
+	};
 };
 
 &dsi0 {
@@ -643,6 +689,7 @@
 	pinctrl-0 = <&dsi0_4lane_pins_a>;
 	pinctrl-1 = <&dsi0_4lane_pins_b>;
 	pinctrl-names = "active","sleep";
+
 	ports {
 		dsi0_out: port@1{
 			dsi_out_panel: endpoint {
@@ -673,13 +720,74 @@
 	};
 };
 
+&sid {
+	sid-supply = <&reg_dldo1>;
+	voltage = <1800>;
+	power_supply = "dldo6";
+};
+
 &dsi0combophy {
 	status = "okay";
 };
 
+/* dual lvds or each other */
+&dsi1combophy {
+	status = "disabled";
+};
+
+&tv0 {
+	status = "okay";
+};
+
+&tv1 {
+	status = "okay";
+};
+
+&hdmi0 {
+	dcdc2-supply = <&reg_dcdc2>;
+	cldo2-supply = <&reg_cldo2>;
+	hdmi_power0 = "dcdc2-supply";
+	hdmi_power1 = "cldo2-supply";
+	uhdmi_power_count = <2>;
+
+	/*
+	 * @uhdmi_fast_output: config uboot hdmi boot mode
+	 *	- 1: use fast output mode. will only output 1080P video.
+	 *	- 0: use compatible output mode. will read edid and check config mode
+	 * @uhdmi_resistor_select: select hdmi resistor config. Actual onboard config!!!
+	 *	- 1: use onboard resistor
+	 *	- 0: use onchip resistor
+	 */
+	uhdmi_fast_output = <0>;
+	uhdmi_resistor_select = <1>;
+
+	/* match rule: min clk <= clock < max clk */
+	snps_phy = <
+		 25000 185625 0x0007 0x8160 0x8188
+		185625 185625 0x0007 0x8160 0x8198
+		185625 340000 0x0004 0x8040 0x8E85
+		340000 600000 0x0000 0x80c0 0x82F6>;
+
+	status = "okay";
+};
+
+&disp1_hdmi0 {
+	enable = <1>;
+	logo,uboot = "bootlogo.bmp";
+};
+
 &disp0_dsi0 {
 	enable = <1>;
-	status = "okay";
+	logo,uboot = "bootlogo.bmp";
+};
+
+&disp0_lvds0 {
+	enable = <0>;
+	logo,uboot = "bootlogo.bmp";
+};
+
+&disp0_edp0 {
+	enable = <0>;
 	logo,uboot = "bootlogo.bmp";
 };
 
@@ -687,5 +795,26 @@
 	pinctrl-names = "active","sleep";
 	pinctrl-0 = <&pwm4_pin_active>;
 	pinctrl-1 = <&pwm4_pin_sleep>;
+	status = "okay";
+};
+
+&pwm16 {
+	pinctrl-names = "active","sleep";
+	pinctrl-0 = <&pwm16_pin_active>;
+	pinctrl-1 = <&pwm16_pin_sleep>;
+	status = "disabled";
+};
+
+// &pwm18 {
+// 	pinctrl-names = "active","sleep";
+// 	pinctrl-0 = <&pwm18_pin_active>;
+// 	pinctrl-1 = <&pwm18_pin_sleep>;
+// 	status = "okay";
+// };
+
+&pwm19 {
+	pinctrl-names = "active","sleep";
+	pinctrl-0 = <&pwm19_pin_active>;
+	pinctrl-1 = <&pwm19_pin_sleep>;
 	status = "okay";
 };
