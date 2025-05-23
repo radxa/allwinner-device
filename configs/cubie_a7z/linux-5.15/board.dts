@@ -11,8 +11,7 @@
 		arisc-config = &arisc_config;
 		pmu0 = &pmu0;
 		bat_supply = &bat_power_supply;
-		// husb311 = &husb311;
-		// phy_switcher = &phy_switcher;
+		phy_switcher = &phy_switcher;
 	};
 
 	reg_usb0_vbus: usb0-vbus {
@@ -59,18 +58,6 @@
 		regulator-boot-on;
 	};
 
-	eeprom_wp: eeprom-wp {
-		compatible = "regulator-fixed";
-		regulator-name = "eeprom_wp";
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
-		regulator-enable-ramp-delay = <1000>;
-		gpio = <&pio PC 7 GPIO_ACTIVE_HIGH>;
-		enable-active-high;
-		regulator-always-on;
-		regulator-boot-on;
-	};
-
 	arisc_config: arisc_config {
 		s_uart_config{
 			pins = "PL2", "PL3";
@@ -79,282 +66,12 @@
 		};
 	};
 
-	backlight0: backlight0 {
-		compatible = "pwm-backlight";
-		status = "okay";
-		brightness-levels = <
-			  0   1   2   3   4   5   6   7
-			  8   9  10  11  12  13  14  15
-			 16  17  18  19  20  21  22  23
-			 24  25  26  27  28  29  30  31
-			 32  33  34  35  36  37  38  39
-			 40  41  42  43  44  45  46  47
-			 48  49  50  51  52  53  54  55
-			 56  57  58  59  60  61  62  63
-			 64  65  66  67  68  69  70  71
-			 72  73  74  75  76  77  78  79
-			 80  81  82  83  84  85  86  87
-			 88  89  90  91  92  93  94  95
-			 96  97  98  99 100 101 102 103
-			104 105 106 107 108 109 110 111
-			112 113 114 115 116 117 118 119
-			120 121 122 123 124 125 126 127
-			128 129 130 131 132 133 134 135
-			136 137 138 139 140 141 142 143
-			144 145 146 147 148 149 150 151
-			152 153 154 155 156 157 158 159
-			160 161 162 163 164 165 166 167
-			168 169 170 171 172 173 174 175
-			176 177 178 179 180 181 182 183
-			184 185 186 187 188 189 190 191
-			192 193 194 195 196 197 198 199
-			200 201 202 203 204 205 206 207
-			208 209 210 211 212 213 214 215
-			216 217 218 219 220 221 222 223
-			224 225 226 227 228 229 230 231
-			232 233 234 235 236 237 238 239
-			240 241 242 243 244 245 246 247
-			248 249 250 251 252 253 254 255>;
-		default-brightness-level = <73>;
-		pwms = <&pwm0 4 25000 0>;
-	};
-
-	dsi_panel: dsi_panel@1 {
-		compatible = "allwinner,panel-dsi";
-		status = "okay";
-		power-delay-ms = <10>;
-		power0-supply = <&reg_dc1sw1>;
-		power1-supply = <&reg_bldo2>;
-
-		enable0-gpios = <&pio PD 23 GPIO_ACTIVE_HIGH>;
-		//enable1-gpios = <&pio PE 15 GPIO_ACTIVE_HIGH>;
-		reset-num = <1>;
-		reset-delay-ms = <20>;
-		reset-gpios = <&pio PD 21 GPIO_ACTIVE_HIGH>; //reset
-		backlight = <&backlight0>;
-		dsi,flags = <(MIPI_DSI_MODE_VIDEO)>;
-		dsi,lanes = <4>;
-		dsi,format = <0>;
-
-		panel-init-sequence = [
-			15 00 02 E0 00
-			15 00 02 E1 93
-			15 00 02 E2 65
-			15 00 02 E3 F8
-			15 00 02 80 03
-
-			15 00 02 E0 01
-			15 00 02 00 00
-			15 00 02 01 7E
-			15 00 02 03 00
-			15 00 02 04 65
-			15 00 02 0C 74
-			15 00 02 17 00
-			15 00 02 18 B7
-			15 00 02 19 00
-			15 00 02 1A 00
-			15 00 02 1B B7
-			15 00 02 1C 00
-			
-			15 00 02 24 FE
-			15 00 02 37 19
-			15 00 02 38 05
-			15 00 02 39 00
-			15 00 02 3A 01
-			15 00 02 3B 01
-			15 00 02 3C 70
-			15 00 02 3D FF
-			15 00 02 3E FF
-			15 00 02 3F FF
-
-			15 00 02 40 06
-			15 00 02 41 A0
-			15 00 02 43 1E
-			15 00 02 44 0F
-			15 00 02 45 28
-			15 00 02 4B 04
-
-			15 00 02 55 02
-			15 00 02 56 01
-			15 00 02 57 A9
-			15 00 02 58 0A
-			15 00 02 59 0A
-			15 00 02 5A 37
-			15 00 02 5B 19
-			15 00 02 5D 78
-			15 00 02 5E 63
-			15 00 02 5F 54
-			
-			15 00 02 60 49
-			15 00 02 61 45
-			15 00 02 62 38
-			15 00 02 63 3D
-			15 00 02 64 28
-			15 00 02 65 43
-			15 00 02 66 41
-			15 00 02 67 43
-			15 00 02 68 62
-			15 00 02 69 50
-			15 00 02 6A 57
-			15 00 02 6B 49
-			15 00 02 6C 44
-			15 00 02 6D 37
-			15 00 02 6E 23
-			15 00 02 6F 10
-			
-			15 00 02 70 78
-			15 00 02 71 63
-			15 00 02 72 54
-			15 00 02 73 49
-			15 00 02 74 45
-			15 00 02 75 38
-			15 00 02 76 3D
-			15 00 02 77 28
-			15 00 02 78 43
-			15 00 02 79 41
-			15 00 02 7A 43
-			15 00 02 7B 62
-			15 00 02 7C 50
-			15 00 02 7D 57
-			15 00 02 7E 49
-			15 00 02 7F 44
-			
-			15 00 02 80 37
-			15 00 02 81 23
-			15 00 02 82 10
-
-			15 00 02 E0 02
-			15 00 02 00 47
-			15 00 02 01 47
-			15 00 02 02 45
-			15 00 02 03 45
-			15 00 02 04 4B
-			15 00 02 05 4B
-			15 00 02 06 49
-			15 00 02 07 49
-			15 00 02 08 41
-			15 00 02 09 1F
-			15 00 02 0A 1F
-			15 00 02 0B 1F
-			15 00 02 0C 1F
-			15 00 02 0D 1F
-			15 00 02 0E 1F
-			15 00 02 0F 5F
-			15 00 02 10 5F
-			15 00 02 11 57
-			15 00 02 12 77
-			15 00 02 13 35
-			15 00 02 14 1F
-			15 00 02 15 1F
-
-			15 00 02 16 46
-			15 00 02 17 46
-			15 00 02 18 44
-			15 00 02 19 44
-			15 00 02 1A 4A
-			15 00 02 1B 4A
-			15 00 02 1C 48
-			15 00 02 1D 48
-			15 00 02 1E 40
-			15 00 02 1F 1F
-			15 00 02 20 1F
-			15 00 02 21 1F
-			15 00 02 22 1F
-			15 00 02 23 1F
-			15 00 02 24 1F
-			15 00 02 25 5F
-			15 00 02 26 5F
-			15 00 02 27 57
-			15 00 02 28 77
-			15 00 02 29 35
-			15 00 02 2A 1F
-			15 00 02 2B 1F
-
-			15 00 02 58 40
-			15 00 02 59 00
-			15 00 02 5A 00
-			15 00 02 5B 10
-			15 00 02 5C 06
-			15 00 02 5D 40
-			15 00 02 5E 01
-			15 00 02 5F 02
-			15 00 02 60 30
-			15 00 02 61 01
-			15 00 02 62 02
-			15 00 02 63 03
-			15 00 02 64 6B
-			15 00 02 65 05
-			15 00 02 66 0C
-			15 00 02 67 73
-			15 00 02 68 09
-			15 00 02 69 03
-			15 00 02 5A 56
-			15 00 02 6B 08
-			15 00 02 6C 00
-			15 00 02 6D 04
-			15 00 02 6E 04
-			15 00 02 6F 88
-			15 00 02 70 00
-			15 00 02 71 00
-			15 00 02 72 06
-			15 00 02 73 7B
-			15 00 02 74 00
-			15 00 02 75 F8
-			15 00 02 76 00
-			15 00 02 77 D5
-			15 00 02 78 2E
-			15 00 02 79 12
-			15 00 02 7A 03
-			15 00 02 7B 00
-			15 00 02 7C 00
-			15 00 02 7D 03
-			15 00 02 7E 7B
-
-			15 00 02 E0 04
-			15 00 02 00 0E
-			15 00 02 02 B3
-			15 00 02 09 60
-			15 00 02 0E 2A
-			15 00 02 37 58
-			15 78 02 E0 00
-			05 78 01 11
-			05 14 01 29
-		];
-
-		panel-exit-sequence = [
-			05 00 01 28
-			05 00 01 10
-		];
-
-		disp_timings0: display-timings {
-			native-mode = <&dsi1_timing0>;
-			dsi1_timing0: timing0 {
-				clock-frequency = <70000000>;
-				hback-porch = <18>;
-				hactive = <800>;
-				hfront-porch = <18>;
-				hsync-len = <18>;
-				vback-porch = <10>;
-				vactive = <1280>;
-				vfront-porch = <20>;
-				vsync-len = <4>;
-			};
-		};
-
-		port {
-			panel0_in: endpoint@0 {
-				reg = <0>;
-				remote-endpoint = <&panel_output_0>;
-			};
-		};
-	};
-
 	leds {
 		compatible = "gpio-leds";
 
 		led-0 {
 			label = "radxa:blue:user";
-			gpios = <&pio PJ 27 GPIO_ACTIVE_HIGH>;
+			gpios = <&r_pio PM 2 GPIO_ACTIVE_HIGH>;
 			linux,default-trigger = "heartbeat";
 		};
 	};
@@ -366,8 +83,8 @@
 		//aux_n = <&r_pio PL 13 GPIO_ACTIVE_HIGH>;
 		phys = <&combo0_dp>, <&combo0_usb>;
 		phy-names = "dp-phy", "usb-phy";
-		//extcon = <&usb_power_supply>;
-		//usb_psy = <&reg_usb0_vbus>;
+		// extcon = <&usb_power_supply>;
+		usb_psy = <&reg_usb0_vbus>;
 		dp_configure_delay = <50>;
 
 		status = "okay";
@@ -1053,53 +770,6 @@
 	/*vqmmc-supply = <&reg_aldo1>;*/
 	/*emmc io vol 1.8v*/
 	/*vqmmc-supply = <&reg_cldo1>;*/
-	status = "disabled";
-};
-
-&sdc3 {
-	non-removable;
-	bus-width = <8>;
-	mmc-ddr-1_8v;
-	mmc-hs200-1_8v;
-	mmc-hs400-1_8v;
-	no-sdio;
-	no-sd;
-	ctl-spec-caps = <0x328>;
-	cap-mmc-highspeed;
-	/*sunxi-power-save-mode;*/
-	sunxi-dis-signal-vol-sw;
-	mmc-bootpart-noacc;
-	/*cap-hsq;*/
-	cqe-on;
-	ctl-cmdq-md = <0x2>;
-	max-frequency = <200000000>;
-	vmmc-supply = <&reg_dc1sw2>;
-	/*emmc io vol 3.3v*/
-	/*vmmc-supply = <&reg_dcdc1>;*/
-	/*emmc io vol 1.8v*/
-	vqmmc-supply = <&reg_cldo5>;
-	status = "disabled";
-};
-
-&sdc1 {
-	bus-width = <4>;
-	no-mmc;
-	no-sd;
-	cap-sd-highspeed;
-	/*sd-uhs-sdr12*/
-	sd-uhs-sdr25;
-	sd-uhs-sdr50;
-	sd-uhs-ddr50;
-	sd-uhs-sdr104;
-	/*sunxi-power-save-mode;*/
-	sunxi-dis-signal-vol-sw;
-	cap-sdio-irq;
-	keep-power-in-suspend;
-	ignore-pm-notify;
-	execute_tuning_in_kernel;
-	max-frequency = <208000000>;
-	sunxi-dly-208M  = <0 0 0 0 0 0>;
-	ctl-spec-caps = <0x428>;
 	status = "okay";
 };
 
@@ -1107,8 +777,8 @@
 	bus-width = <4>;
 	cd-gpios = <&pio PF 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 	non-removable;
-	broken-cd;
-	/*cd-inverted*/
+	/*broken-cd;*/
+	cd-inverted;
 	/*data3-detect;*/
 	/*card-pwr-gpios = <&pio PH 14 1 1 2 0xffffffff>;*/
 	cd-used-24M;
@@ -1227,7 +897,7 @@
 };
 
 &xhci2 {
-	dr_mode = "host"; //dr_mode option: host, peripheral, otg
+	dr_mode = "otg"; //dr_mode option: host, peripheral, otg
 	drvvbus-supply = <&reg_usb1_vbus>;
 #ifdef TYPEC_DP
 	phys = <&u2phy>, <&combo0_usb>;
@@ -1236,16 +906,32 @@
 #endif
 	phy-names = "usb2-phy", "usb3-phy";
 	status = "okay";
+	usb-role-switch;
+	//extcon = <&>;
+	
+	port {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		dwc3_0_role_switch: endpoint@0 {
+			reg = <0>;
+			remote-endpoint = <&fusb302_role_switch>;
+		};
+	};
+	
  };
 
 &u2phy {
 	status = "okay";
 };
 
-
 &serdes {
 	serdes1v8-supply = <&reg_cldo5>;
 	status = "okay";
+	combophy0: combo-phy0@6c01000 {
+		lane_invert = <1 1 1 1>;
+		lane_remap = <2 3 0 1>;
+		typec_remap = <2 3 0 1>;
+	};
 };
 
 &pcie_rc {
@@ -1255,37 +941,6 @@
 	pcie1v8-supply = <&reg_bldo1>;
 	pcie3v3-supply = <&reg_dcdc1>;
 	status = "okay";
-};
-
-&twi2 {
-	clock-frequency = <400000>;
-	pinctrl-0 = <&twi2_pins_default>;
-	pinctrl-1 = <&twi2_pins_sleep>;
-	pinctrl-names = "default", "sleep";
-	/* For stability and backwards compatibility, we recommend setting ‘twi_drv_used’ to 1 */
-	twi_drv_used = <1>;
-	no_suspend = <1>;
-	twi-supply = <&reg_bldo1>;
-	status = "disabled";
-
-	ctp@14 {
-		compatible = "allwinner,goodix";
-		reg = <0x14>;
-		device_type = "ctp";
-		status = "okay";
-		ctp_name = "gt9xxnew_ts";
-		ctp_twi_id = <0x2>;
-		ctp_twi_addr = <0x14>;
-		ctp_screen_max_x = <0x500>;
-		ctp_screen_max_y = <0x320>;
-		ctp_revert_x_flag = <0x0>;
-		ctp_revert_y_flag = <0x0>;
-		ctp_exchange_x_y_flag = <0x0>;
-		ctp_int_port = <&pio PD 18 IRQ_TYPE_LEVEL_HIGH>;
-		ctp_wakeup = <&pio PD 19 GPIO_ACTIVE_HIGH>;
-		// ctp-supply = <&reg_vcc_tp>;
-		// ctp_power_ldo_vol = <3300>;
-	};
 };
 
 &twi3 {
@@ -1298,30 +953,6 @@
 	no_suspend = <1>;
 	twi-supply = <&reg_bldo1>;
 	status = "okay";
-};
-
-&twi5 {
-	clock-frequency = <400000>;
-	pinctrl-0 = <&twi5_pins_default>;
-	pinctrl-1 = <&twi5_pins_sleep>;
-	pinctrl-names = "default", "sleep";
-	/* For stability and backwards compatibility, we recommend setting ‘twi_drv_used’ to 1 */
-	twi_drv_used = <1>;
-	twi-supply = <&reg_dc1sw2>;
-	status = "disabled";
-};
-
-
-
-&twi11 {
-	clock-frequency = <400000>;
-	pinctrl-0 = <&twi11_pins_default>;
-	pinctrl-1 = <&twi11_pins_sleep>;
-	pinctrl-names = "default", "sleep";
-	/* For stability and backwards compatibility, we recommend setting ‘twi_drv_used’ to 1 */
-	twi_drv_used = <1>;
-	twi-supply = <&reg_dc1sw2>;
-	status = "disabled";
 };
 
 &s_twi0 {
@@ -1901,87 +1532,6 @@
 			dc1sw-supply = <&reg_dc1sw2>;
 		};
 	};
-
-// 	husb311: husb311@4e {
-// 		compatible = "hynetek,husb311";
-// 		reg = <0x4e>;
-// 		interrupt-parent = <&r_pio>;
-// 		husb311,intr_gpio = <&r_pio PL 10 GPIO_ACTIVE_LOW>;
-// 		// interrupts = <PM 5 GPIO_ACTIVE_LOW>;
-// 		// interrupt-names = "wakeup";
-// 		vbus-supply = <&reg_usb0_vbus>;
-// 		// det_usb_supply = <&usb_power_supply>;
-// 		// aw,port-reset-quirk;
-// 		wakeup-source;
-// 		status = "disabled";
-
-// #ifdef TYPEC_DP
-// 		ports {
-// 			#address-cells = <1>;
-// 			#size-cells = <0>;
-
-// 			port@0 {
-// 				reg = <0>;
-// 				usbc0_role_sw: endpoint@0 {
-// 					remote-endpoint = <&usbc0_role_switch>;
-// 				};
-// 			};
-// 		};
-// #endif
-
-		// usb_con: connector {
-		// 	compatible = "usb-c-connector";
-		// 	label = "USB-C";
-		// 	data-role = "dual";
-		// 	power-role = "dual";
-		// 	try-power-role = "sink";
-		// 	op-sink-microwatt = <1000000>;
-		// 	typec-power-opmode = "default";
-		// 	//pd-disable;
-		// 	slow-charger-loop;
-		// 	sink-pdos = < PDO_FIXED(5000, 500, (0x1<<29)|(0x1<<25))
-		// 				 PDO_VAR(5000, 5000, 2000)
-		// 				/* PDO_VAR(9000, 9000, 2000)
-		// 				 PDO_VAR(12000, 12000, 3000)
-		// 				 PDO_VAR(15000, 15000, 3000)
-		// 				 PDO_VAR(20000, 20000, 2250)*/
-		// 				>;
-		// 	source-pdos = < PDO_FIXED(5000, 500, (0x1<<29)|(0x1<<25))
-		// 					PDO_VAR(5000, 5000, 1200) >;
-		// 	/* fixme */
-		// 	sink-vdos = <0xd1002e99 0x00 0x03110000>;
-		// 	sink-vdos-v1 = <0xd1002e99 0x00 0x03110000>;
-
-		// 	altmodes {
-		// 		#address-cells = <1>;
-		// 		#size-cells = <0>;
-
-		// 		altmode@0 {
-		// 			reg = <0>;
-		// 			svid = <0xff01>;
-		// 			vdo = <0xffffffff>;
-		// 		};
-		// 	};
-
-		// 	ports {
-		// 		#address-cells = <1>;
-		// 		#size-cells = <0>;
-
-		// 		port@0 {
-		// 			reg = <0>;
-		// 			usbc0_orien_sw: endpoint@0 {
-		// 				remote-endpoint = <&usbdp_orientation_switch>;
-		// 			};
-		// 		};
-		// 		port@1 {
-		// 			reg = <1>;
-		// 			dp_altmode_mux: endpoint@1 {
-		// 				remote-endpoint = <&usbdp_dp_altmode_mux>;
-		// 			};
-		// 		};
-		// 	};
-		// };
-	//};
 };
 
 &s_twi1 {
@@ -1994,11 +1544,24 @@
 	no_suspend = <1>;
 	status = "okay";
 
-	fusb302: typec-portc@54 {
+	fusb302: typec-portc@22 {
 		compatible = "fcs,fusb302";
-		reg = <0x54>;
+		reg = <0x22>;
 		interrupt-parent = <&r_pio>;
 		interrupts = <PL 3 IRQ_TYPE_LEVEL_LOW>;
+		status = "okay";
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+				fusb302_role_switch: endpoint@0 {
+					remote-endpoint = <&dwc3_0_role_switch>;
+				};
+			};
+		};
 
 		usb_con: connector {
 			compatible = "usb-c-connector";
@@ -2010,6 +1573,7 @@
 			typec-power-opmode = "default";
 			//pd-disable;
 			slow-charger-loop;
+			status = "okay";
 			sink-pdos = < PDO_FIXED(5000, 500, (0x1<<29)|(0x1<<25))
 						 PDO_VAR(5000, 5000, 2000)
 						/* PDO_VAR(9000, 9000, 2000)
@@ -2056,107 +1620,10 @@
 
 };
 
-&s_twi2 {
-	clock-frequency = <400000>;
-	pinctrl-0 = <&s_twi2_pins_default>;
-	pinctrl-1 = <&s_twi2_pins_sleep>;
-	pinctrl-names = "default", "sleep";
-	/* For stability and backwards compatibility, we recommend setting ‘twi_drv_used’ to 1 */
-	twi_drv_used = <1>;
-	no_suspend = <1>;
-	status = "disabled";
-
-	ac101: ac101@1a {
-		#sound-dai-cells		= <0>;
-		compatible			= "allwinner,sunxi-ac101";
-		reg				= <0x1a>;
-		//pllclk-src			= "MCLK";
-		sysclk-src			= "MCLK";
-		pcm-bit-first			= "MSB";
-		frame-sync-width		= <1>;
-		hp-plug-gpio			= <&pio PK 7 GPIO_ACTIVE_LOW>;
-		hp-det-gpio			= <&pio PK 8 GPIO_ACTIVE_LOW>;
-		jack-det-threshold		= <1>;
-		jack-key-det-threshold		= <10>;
-		jack-det-debouce-time		= <15>;
-		jack-key-det-debouce-time	= <2>;
-
-		/* jack-key-det-voltage = <min max> */
-		jack-key-det-voltage-hook	= <23 24>;
-		jack-key-det-voltage-up		= <21 22>;
-		jack-key-det-voltage-down	= <18 20>;
-		// jack-key-det-voltage-voice	= <1 1>;
-
-		/* rglt */
-		rglt-max        = <2>;
-		rglt0-mode      = "PMU";
-		rglt0-voltage   = <3300000>;
-		rglt0-supply    = <&reg_aldo5>;
-
-		rglt1-mode      = "PMU";
-		rglt1-voltage   = <1800000>;
-		rglt1-supply    = <&reg_bldo4>;
-		status                  = "okay";
-	};
-};
-
 &de {
 	assigned-clock-rates = <600000000>;
 	chn_cfg_mode = <2>;
 	status = "okay";
-};
-
-&dlcd0 {
-	status = "okay";
-};
-
-&dlcd2 {
-	status = "disabled";
-};
-
-&dsi0 {
-	status = "disabled";
-	pinctrl-0 = <&dsi0_4lane_pins_a>;
-	pinctrl-1 = <&dsi0_4lane_pins_b>;
-	pinctrl-names = "active","sleep";
-
-	ports {
-		dsi0_out: port@1{
-			dsi_out_panel: endpoint {
-				remote-endpoint = <&panel_input>;
-			};
-		};
-	};
-	panel: panel@0 {
-		compatible = "allwinner,virtual-panel";
-		status = "okay";
-		reg = <0>;
-		ports {
-			panel_in: port@0 {
-				reg = <0>;
-				panel_input: endpoint@0 {
-					reg = <0>;
-					remote-endpoint = <&dsi_out_panel>;
-				};
-			};
-			panel_out: port@1 {
-				reg = <1>;
-				panel_output_0: endpoint@0 {
-					reg = <0>;
-					remote-endpoint = <&panel0_in>;
-				};
-			};
-		};
-	};
-};
-
-&dsi0combophy {
-	status = "okay";
-};
-
-/* dual lvds or each other */
-&dsi1combophy {
-	status = "disabled";
 };
 
 &vo0 {
@@ -2173,26 +1640,6 @@
 
 &tv1 {
 	status = "okay";
-};
-
-&serdes {
-	status = "okay";
-	combophy0: combo-phy0@6c01000{
-		lane_invert = <0 0 0 0>;
-#ifdef TYPEC_DP
-		lane_remap = <0 1 2 3>;
-#else
-		lane_remap = <2 3 0 1>;
-#endif
-	};
-};
-
-&xhci2 {
-#ifdef TYPEC_DP
-	phys = <&u2phy>, <&combo0_usb>;
-#else
-	phys = <&u2phy>, <&combo1_usb>;
-#endif
 };
 
 &hdmi0 {
@@ -2236,7 +1683,45 @@
 		185625 340000 0x0004 0x8040 0x8E85
 		340000 600000 0x0000 0x80c0 0x82F6>;
 
+	status = "disabled";
+};
+
+
+&edp0 {
+	#sound-dai-cells = <0>; /* audio driver match method arg */
+	compatible = "allwinner,drm-dp";
+	phys = <&combo0_dp>, <&aux_hpd_phy>;
+	phy-names = "dp-phy", "aux-phy";
+	sys = <&vo1>;
+
+	edp_colordepth = <8>; /* 6/8/10/12/16 */
+	edp_color_fmt = <0>;
+	edp_ssc_en = <0>;
+	edp_ssc_mode = <0>;
+
+	edp_lane_rate = <1>;
+	edp_lane_cnt = <4>;
+	//extcon = <&serdes>;
+
 	status = "okay";
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		edp_in: port@0 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0>;
+			edp0_in_tcon4: endpoint@0 {
+				reg = <0>;
+				remote-endpoint = <&tcon4_out_edp0>;
+			};
+		};
+		edp_out: port@1 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <1>;
+		};
+	};
 };
 
 &cpu0 {
@@ -2309,170 +1794,6 @@
         status = "okay";
 };
 
-/* audio dirver module -> I2S/PCM */
-&i2s0_plat {
-	tdm-num		= <0>;
-	/* "tx-pin"
-	 * 1. tx pin enable setting.
-	 * 2. we can set it like tx_pin = <3 0> - enable tx_pin0 and tx_pin3.
-	 *
-	 * "rx-pin"
-	 * 1. rx pin enable setting.
-	 * 2. we can set it like rx_pin = <1 2> - enable rx_pin1 and rx_pin2.
-	 *
-	 * "tx-pin-chmap"
-	 * 1. tx pin channel map setting.
-	 * 2. the subscript of value corresponds to the channel number.
-	 * 3. the value corresponds to slot number.
-	 * 4. we can use it like tx-pin1-chmap = <1 2 ... 15> to set pin1 channel map.
-	 * 5. if enabled the pin, but not set "tx-pin-chmap", default set <0 1 2 ...>.
-	 * 6. if the count of value is less than 16, then missing member will be set 0.
-	 *
-	 * rxfifo map
-	 * 1. "rxfifo-pinmap" - set the corresponding pin.
-	 * 2. "rxfifo-chmap" - set the corresponding slot.
-	 * 3. we can use it like rxfifo-pinmap = <0 1 2>; rxfifo-chmap = <1 2 14>; to set rxfifo map.
-	 * 4. the count of value of "rxfifo-pinmap" can != the count of value of "rxfifo-pinmap",
-	 *    then missing member would be set 0.
-	 */
-	tx-pin		= <0>;
-	rx-pin		= <0>;
-	/* tx-pin0-chmap = <0 1 5>; */
-	/* rxfifo-pinmap = <0 0>; */
-	/* rxfifo-chmap = <0 1>; */
-
-	pinctrl-used;
-	pinctrl-names	= "default","sleep";
-	pinctrl-0	= <&i2s0_pins_a &i2s0_pins_b &i2s0_pins_c &i2s0_pins_d &i2s0_pins_e>;
-	pinctrl-1	= <&i2s0_pins_f>;
-
-	tx-hub-en;
-	rx-sync-en;
-	status		= "okay";
-};
-
-&i2s0_mach {
-    soundcard-mach,format        = "i2s";
-    soundcard-mach,frame-master    = <&i2s0_cpu>;
-    soundcard-mach,bitclock-master    = <&i2s0_cpu>;
-    /* soundcard-mach,frame-inversion; */
-    /* soundcard-mach,bitclock-inversion; */
-    soundcard-mach,slot-num        = <4>;
-    soundcard-mach,slot-width    = <16>;
-    soundcard-mach,jack-support    = <4>;
-    soundcard-mach,pin-switches    = "MIC1", "MIC2",
-                      "LINEINL","LINEINR",
-                      "HPOUTL","HPOUTR",
-                      "LINEOUTL","LINEOUTR",
-                      "SPK";
-    soundcard-mach,routing    = "MIC1P_PIN", "MIC1",
-                  "MIC1N_PIN", "MIC1",
-                  "MIC2P_PIN", "MIC2",
-                  "MIC2N_PIN", "MIC2",
-                  "LINEINL_PIN", "LINEINL",
-                  "LINEINR_PIN", "LINEINR",
-                  "LINEOUTL", "LINEOUTLP_PIN",
-                  "LINEOUTL", "LINEOUTLN_PIN",
-                  "LINEOUTR", "LINEOUTRP_PIN",
-                  "LINEOUTR", "LINEOUTRN_PIN",
-                  "SPK", "LINEOUTLP_PIN",
-                  "SPK", "LINEOUTLN_PIN",
-                  "SPK", "LINEOUTRP_PIN",
-                  "SPK", "LINEOUTRN_PIN",
-                  "HPOUTL", "HPOUTL_PIN",
-                  "HPOUTR", "HPOUTR_PIN";
-    status        = "disabled";
-    i2s0_cpu: soundcard-mach,cpu {
-        sound-dai = <&i2s0_plat>;
-        /* note: pll freq = 24.576M or 22.5792M * pll-fs */
-        soundcard-mach,pll-fs    = <1>;
-        soundcard-mach,mclk-fs    = <2>;
-        soundcard-mach,mclk-fp    = <11289600 12288000>;
-    };
-    i2s0_codec: soundcard-mach,codec {
-        sound-dai               = <&ac101>;
-    };
-};
-
-&i2s1_plat {
-	tdm-num		= <1>;
-	tx-pin		= <1>;
-	rx-pin		= <1>;
-	rxfifo-pinmap	= <1 1>;
-	rxfifo-chmap	= <0 1>;
-	pinctrl-used;
-	pinctrl-names= "default","sleep";
-	pinctrl-0	= <&i2s1_pins_a &i2s1_pins_b &i2s1_pins_c &i2s1_pins_d &i2s1_pins_e>;
-	pinctrl-1	= <&i2s1_pins_f>;
-	tx-hub-en;
-	rx-sync-en;
-	status		= "disabled";
-};
-
-&i2s1_mach {
-	soundcard-mach,format		= "dsp_a";
-	soundcard-mach,frame-master	= <&i2s1_cpu>;
-	soundcard-mach,bitclock-master	= <&i2s1_cpu>;
-	/* soundcard-mach,frame-inversion; */
-	soundcard-mach,bitclock-inversion;
-	soundcard-mach,slot-num		= <2>;
-	soundcard-mach,slot-width	= <16>;
-	status		= "disabled";
-	i2s1_cpu: soundcard-mach,cpu {
-		sound-dai = <&i2s1_plat>;
-		/* note: pll freq = 24.576M or 22.5792M * pll-fs */
-		soundcard-mach,pll-fs	= <1>;
-		/* note:
-		 * mclk freq = mclk-fs * 12.288M or 11.2896M	(when mclk-fp ture)
-		 * mclk freq = mclk-fs * pcm rate		(when mclk-fp false)
-		 */
-		soundcard-mach,mclk-fp;
-		soundcard-mach,mclk-fs	= <1>;
-	};
-	i2s1_codec: soundcard-mach,codec {
-		soundcard-mach,pll-fs   = <1>;
-	};
-};
-
-&i2s2_plat {
-	tdm-num		= <2>;
-	tx-pin		= <0>;
-	rx-pin		= <0>;
-	pinctrl-used;
-	pinctrl-names= "default","sleep";
-	pinctrl-0	= <&i2s2_pins_b &i2s2_pins_c &i2s2_pins_d &i2s2_pins_e>;
-	pinctrl-1	= <&i2s2_pins_f>;
-	tx-hub-en;
-	rx-sync-en;
-	status		= "disabled";
-};
-
-&i2s2_mach {
-	soundcard-mach,format		= "i2s";
-	soundcard-mach,frame-master	= <&i2s2_codec>;
-	soundcard-mach,bitclock-master	= <&i2s2_codec>;
-	/* soundcard-mach,frame-inversion; */
-	soundcard-mach,bitclock-inversion;
-	soundcard-mach,slot-num		= <2>;
-	soundcard-mach,slot-width	= <32>;
-	soundcard-mach,wait-time	= <4000>;
-	status		= "disabled";
-	i2s2_cpu: soundcard-mach,cpu {
-		sound-dai = <&i2s2_plat>;
-		/* note: pll freq = 24.576M or 22.5792M * pll-fs */
-		soundcard-mach,pll-fs	= <1>;
-		/* note:
-		 * mclk freq = mclk-fs * 12.288M or 11.2896M	(when mclk-fp ture)
-		 * mclk freq = mclk-fs * pcm rate		(when mclk-fp false)
-		 */
-		soundcard-mach,mclk-fp;
-		soundcard-mach,mclk-fs	= <1>;
-	};
-	i2s2_codec: soundcard-mach,codec {
-		soundcard-mach,pll-fs   = <1>;
-	};
-};
-
 &i2s3_plat {
 	tdm-num		= <3>;
 	tx-pin          = <0 1 2 3>;
@@ -2520,60 +1841,6 @@
 	};
 };
 
-&i2s4_plat {
-	tdm-num		= <4>;
-	tx-pin          = <0>;
-	rx-pin		= <0>;
-
-	tx-hub-en;
-	rx-sync-en;
-
-	pinctrl-used;
-	pinctrl-names	= "default","sleep";
-	pinctrl-0	= <&i2s4_pins_a &i2s4_pins_b &i2s4_pins_c &i2s4_pins_d>;
-	pinctrl-1	= <&i2s4_pins_f>;
-
-	status		= "disabled";
-};
-
-
-/* audio dirver module -> owa */
-&owa_plat {
-	pinctrl-used;
-	pinctrl-names	= "default","sleep";
-	pinctrl-0	= <&owa_pins_a>;
-	pinctrl-1	= <&owa_pins_b>;
-	tx-hub-en;
-	status		= "disabled";
-};
-
-&owa_mach {
-	status		= "disabled";
-	soundcard-mach,cpu {
-		sound-dai = <&owa_plat>;
-	};
-	soundcard-mach,codec {
-	};
-};
-
-// &gmac0_phy0 {
-// 	compatible = "ethernet-phy-id001c.c916";
-// 	reset-gpios = <&pio PH 16 GPIO_ACTIVE_LOW>;
-// };
-
-// &gmac0 {
-// 	phy-mode = "rgmii";
-// 	pinctrl-0 = <&gmac0_pins_default>;
-// 	pinctrl-1 = <&gmac0_pins_sleep>;
-// 	pinctrl-names = "default", "sleep";
-// 	aw,soc-phy-clk-en;
-// 	tx-delay = <13>;
-// 	rx-delay = <10>;
-// 	dwmac3v3-supply = <&reg_dc1sw2>;
-// 	phy3v3-supply = <&reg_dc1sw1>;
-// 	status = "okay";
-// };
-
 &lradc {
 	key_cnt = <5>;
 	key0 = <210 115>;
@@ -2603,48 +1870,6 @@
 	pinctrl-0 = <&s_irrx_pins_default>;
 	pinctrl-1 = <&s_irrx_pins_sleep>;
 	status = "okay";
-};
-
-&spi0 {
-	clock-frequency = <8000000>;
-	pinctrl-0 = <&spi0_pins_default &spi0_pins_cs>;
-	pinctrl-1 = <&spi0_pins_sleep>;
-	pinctrl-names = "default", "sleep";
-	sunxi,spi-bus-mode = <SUNXI_SPI_BUS_NOR>;
-	sunxi,spi-cs-mode = <SUNXI_SPI_CS_SOFT>;
-	spi_slave_mode = <0>;
-	spi0_cs_bitmap = <1>;
-	sunxi,spi-num-cs = <1>;
-	spi0_cs_number = <1>;
-	status = "okay";
-
-	spidev@0 {
-		device_type = "spi_board0";
-		compatible = "spi-nor";
-		reg = <0x0>;
-		spi-max-frequency = <8000000>;
-		spi-rx-bus-width = <1>;
-		spi-tx-bus-width = <1>;
-		m25p,fast-read = <1>;
-		status = "okay";
-	};
-};
-
-&ledc  {
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&ledc_pins_a>;
-	pinctrl-1 = <&ledc_pins_b>;
-	led_count = <34>;
-	output_mode = "GRB";
-	reset_ns = <84>;
-	t1h_ns = <800>;
-	t1l_ns = <320>;
-	t0h_ns = <300>;
-	t0l_ns = <800>;
-	wait_time0_ns = <84>;
-	wait_time1_ns = <84>;
-	wait_data_time_ns = <600000>;
-	status = "disabled";
 };
 
 &csi1 {
