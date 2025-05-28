@@ -991,10 +991,9 @@
 	status = "okay";
 };
 
-// &soc{
-
-
-// };
+&mipi0 {
+	status = "disabled";
+};
 
 &cpul_thermal_zone {
 	cooling-maps {
@@ -2096,7 +2095,7 @@
 };
 
 &dsi0 {
-	status = "okay";
+	status = "disabled";
 	pinctrl-0 = <&dsi0_4lane_pins_a>;
 	pinctrl-1 = <&dsi0_4lane_pins_b>;
 	pinctrl-names = "active","sleep";
@@ -2548,8 +2547,8 @@
 	pinctrl-1 = <&gmac0_pins_sleep>;
 	pinctrl-names = "default", "sleep";
 	aw,soc-phy-clk-en;
-	tx-delay = <13>;
-	rx-delay = <10>;
+	tx-delay = <10>;
+	rx-delay = <14>;
 	dwmac3v3-supply = <&reg_dc1sw2>;
 	phy3v3-supply = <&reg_dc1sw1>;
 	status = "okay";
