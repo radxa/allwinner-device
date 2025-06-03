@@ -47,6 +47,18 @@
 		regulator-boot-on;
 	};
 
+	wifi_chip_en: wifi_chip_en {
+		compatible = "regulator-fixed";
+		regulator-name = "wifi_chip_en";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-enable-ramp-delay = <1000>;
+		gpio = <&r_pio PM 1 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-always-on;
+		regulator-boot-on;
+	};
+
 	eeprom_wp: eeprom-wp {
 		compatible = "regulator-fixed";
 		regulator-name = "eeprom_wp";
@@ -65,6 +77,14 @@
 			function = <3>, <3>;
 			status = "disabled";
 		};
+	};
+
+	fan0: pwm-fan {
+		compatible = "pwm-fan";
+		#cooling-cells = <2>; 
+		cooling-levels = <0 18 102 170 255>;
+		//fan-supply = <&vdd_5v>;
+		pwms = <&s_pwm0 7 25000 0>;
 	};
 
 	backlight0: backlight0 {
@@ -345,6 +365,12 @@
 			gpios = <&pio PJ 27 GPIO_ACTIVE_HIGH>;
 			linux,default-trigger = "heartbeat";
 		};
+
+		led-1 {
+			label = "radxa:green:user";
+			gpios = <&pio PJ 26 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "default-on";
+		};
 	};
 
 	// phy_switcher: phy_switcher@10 {
@@ -516,26 +542,26 @@
 	};
 
 	twi0_pins_default: twi0@0 {
-		pins = "PD22", "PD23";
+		pins = "PG8", "PG9";
 		function = "twi0";
 		drive-strength = <10>;
 		bias-pull-up;
 	};
 
 	twi0_pins_sleep: twi0@1 {
-		pins = "PD22", "PD23";
+		pins = "PG8", "PG9";
 		function = "gpio_in";
 	};
 
 	twi2_pins_default: twi2@0 {
-		pins = "PE1", "PE2";
+		pins = "PD16", "PD17";
 		function = "twi2";
 		drive-strength = <10>;
 		bias-pull-up;
 	};
 
 	twi2_pins_sleep: twi2@1 {
-		pins = "PE1", "PE2";
+		pins = "PD16", "PD17";
 		function = "gpio_in";
 	};
 
@@ -871,17 +897,6 @@
 		device_type = "auto_print";
 		status = "okay";
 	};
-
-	gpio_leds {
-		compatible = "allwinner,sunxi-gpio-leds";
-		supply-num = <1>;
-		gpio1-supply = <&reg_dcdc1>;
-		gpio-pins = <&pio PJ 26 GPIO_ACTIVE_HIGH>;
-		pin-names = "standby_led";
-		init-status = <GPIO_ACTIVE_HIGH>;
-		status = "okay";
-	};
-
 };
 
 &msgbox {
@@ -899,12 +914,12 @@
 	status = "okay";
 };
 
-&uart1 {
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&uart1_pins_active>;
-	pinctrl-1 = <&uart1_pins_sleep>;
-	status = "okay";
-};
+// &uart1 {
+// 	pinctrl-names = "default", "sleep";
+// 	pinctrl-0 = <&uart1_pins_active>;
+// 	pinctrl-1 = <&uart1_pins_sleep>;
+// 	status = "okay";
+// };
 
 &uart2 {
 	pinctrl-names = "default", "sleep";
@@ -976,16 +991,10 @@
 	status = "okay";
 };
 
-&soc{
+// &soc{
 
-	fan0: pwm-fan {
-		compatible = "pwm-fan";
-		#cooling-cells = <2>; 
-		cooling-levels = <0 18 102 170 255>;
-		//fan-supply = <&vdd_5v>;
-		pwms = <&s_pwm0 7 25000 0>;
-	};
-};
+
+// };
 
 &cpul_thermal_zone {
 	cooling-maps {
@@ -1041,32 +1050,14 @@
 	/*vqmmc-supply = <&reg_aldo1>;*/
 	/*emmc io vol 1.8v*/
 	/*vqmmc-supply = <&reg_cldo1>;*/
-	status = "disabled";
+	status = "okay";
 };
 
-&sdc3 {
-	non-removable;
-	bus-width = <8>;
-	mmc-ddr-1_8v;
-	mmc-hs200-1_8v;
-	mmc-hs400-1_8v;
-	no-sdio;
-	no-sd;
-	ctl-spec-caps = <0x328>;
-	cap-mmc-highspeed;
-	/*sunxi-power-save-mode;*/
-	sunxi-dis-signal-vol-sw;
-	mmc-bootpart-noacc;
-	/*cap-hsq;*/
-	cqe-on;
-	ctl-cmdq-md = <0x2>;
-	max-frequency = <200000000>;
-	vmmc-supply = <&reg_dc1sw2>;
-	/*emmc io vol 3.3v*/
-	/*vmmc-supply = <&reg_dcdc1>;*/
-	/*emmc io vol 1.8v*/
-	vqmmc-supply = <&reg_cldo5>;
-	status = "disabled";
+&ufs {
+	vcc-supply = <&reg_dldo6>;
+	vccq-supply = <&reg_dcdc8>;
+	vccq2-supply = <&reg_dcdc8>;
+	status = "okay";
 };
 
 &sdc1 {
@@ -1088,7 +1079,7 @@
 	max-frequency = <208000000>;
 	sunxi-dly-208M  = <0 0 0 0 0 0>;
 	ctl-spec-caps = <0x428>;
-	status = "okay";
+	status = "disabled";
 };
 
 &sdc0 {
@@ -1209,6 +1200,7 @@
 
 &xhci2 {
 	dr_mode = "host"; //dr_mode option: host, peripheral, otg
+	drvvbus-supply = <&reg_usb1_vbus>;
 #ifdef TYPEC_DP
 	phys = <&u2phy>, <&combo0_usb>;
 #else
@@ -1229,6 +1221,7 @@
 };
 
 &pcie_rc {
+	power-gpios =  <&pio PE 11 GPIO_ACTIVE_HIGH>;
 	reset-gpios = <&pio PE 13 GPIO_ACTIVE_HIGH>;
 	wake-gpios = <&pio PE 12 GPIO_ACTIVE_HIGH>;
 	pcie1v8-supply = <&reg_bldo1>;
@@ -1242,81 +1235,55 @@
 // 	pinctrl-1 = <&twi0_pins_sleep>;
 // 	pinctrl-names = "default", "sleep";
 // 	/* For stability and backwards compatibility, we recommend setting ‘twi_drv_used’ to 1 */
-// 	twi_drv_used = <1>;
-// 	twi-supply = <&reg_bldo2>;
-// 	status = "disabled";
-// 	ctp {
-// 		compatible = "allwinner,goodix";
-// 		reg = <0x5d>;
-// 		device_type = "ctp";
-// 		status = "disabled";
-// 		ctp_name = "gt9xxnew_ts";
-// 		ctp_twi_id = <0x0>;
-// 		ctp_twi_addr = <0x5d>;
-// 		ctp_screen_max_x = <0x320>;
-// 		ctp_screen_max_y = <0x500>;
-// 		ctp_revert_x_flag = <0x1>;
-// 		ctp_revert_y_flag = <0x1>;
-// 		ctp_exchange_x_y_flag = <0x0>;
-// 		ctp_int_port = <&pio PH 9 GPIO_ACTIVE_LOW>;
-// 		ctp_wakeup = <&pio PH 10 GPIO_ACTIVE_LOW>;
-// 		ctp-supply = <&reg_dldo2>;
-// 		ctp_power_ldo_vol = <3300>;
-// 	};
+// 	twi_drv_used = <0>;
+// 	no_suspend = <1>;
+// 	twi-supply = <&reg_cldo3>;
+// 	status = "okay";
 
-// 	gt9xx {
-// 		compatible = "goodix,gt9xx";
-// 		reg = <0x5d>;
-// 		status = "disabled";
-// 		irq-gpios = <&pio PD 20 GPIO_ACTIVE_LOW>;
-// 		irq-flags = <2>;
-// 		reset-gpios = <&pio PD 21 GPIO_ACTIVE_LOW>;
-// 		vdd_ana-supply = <&reg_dldo2>;
-
-// 		touchscreen-max-id = <11>;
-// 		touchscreen-size-x = <1280>;
-// 		touchscreen-size-y = <800>;
-// 		touchscreen-max-w = <512>;
-// 		touchscreen-max-p = <512>;
-// 		//touchscreen-key-map = <172>, <158>; /*KEY_HOMEPAGE=172, KEY_BACK=158，KEY_MENU=139*/
-// 		goodix,slide-wakeup = <0>;
-// 		goodix,type-a-report = <1>;
-// 		goodix,driver-send-cfg = <0>;
-// 		goodix,send-cfg-id = <0>;
-// 		goodix,resume-in-workqueue = <0>;
-// 		goodix,int-sync = <1>;
-// 		goodix,revert_x = <0>;
-// 		goodix,revert_y = <0>;
-// 		goodix,swap-x2y = <0>;
-// 		goodix,tp_idle_support = <1>;
-// 		goodix,esd-protect = <1>;
-// 		goodix,auto-update-cfg = <0>;
-// 		goodix,power-off-sleep = <1>;
-// 		goodix,pen-suppress-finger = <0>;
-// 		/* GT9271_Config_20221222_v67.cfg*/
-// 		goodix,cfg-group0 = [
-// 			B4 00 05 20 03 0A 3D 00 01 0A
-// 			28 0F 50 32 03 05 00 00 00 00
-// 			00 00 06 17 19 1F 14 8E 2E 99
-// 			2D 2F 35 11 00 00 00 1A 03 10
-// 			00 00 00 00 00 00 00 00 00 00
-// 			00 32 50 94 D5 02 07 00 00 04
-// 			8E 48 00 8A 4D 00 86 53 00 83
-// 			59 00 80 60 00 80 00 00 00 00
-// 			00 00 00 00 00 00 00 00 00 00
-// 			00 00 00 00 00 00 00 00 00 00
-// 			00 00 00 00 00 00 00 00 00 00
-// 			00 00 00 01 04 05 06 07 08 09
-// 			0C 0D 0E 0F 10 11 14 15 16 17
-// 			FF FF FF FF FF FF FF FF FF FF
-// 			FF FF 28 27 26 25 24 23 22 21
-// 			20 1F 1E 1C 1B 19 13 12 11 10
-// 			0F 0D 0C 0A 08 07 06 04 02 00
-// 			FF FF FF FF FF FF FF FF FF FF
-// 			FF FF FF FF AB 01
-// 		];
+// 	eeprom@50 {
+// 		compatible = "atmel,24c16";
+// 		reg = <0x50>;
+// 		//num-addresses = <1>;
+// 		status = "okay";
 // 	};
 // };
+
+/ {
+	i2c_gpio1: i2c-gpio1 {
+		compatible = "i2c-gpio";
+		gpios = <&pio PG 9 GPIO_ACTIVE_HIGH>, /* SDA */
+				<&pio PG 8 GPIO_ACTIVE_HIGH>; /* SCL */
+		i2c-gpio,delay-us = <5>;    /* 时钟延迟（微妙） */
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		eeprom@50 {
+			compatible = "atmel,24c16";
+			reg = <0x50>;
+			//num-addresses = <1>;
+			status = "okay";
+		};
+	};
+
+	i2c_gpio2: i2c-gpio2 {
+		compatible = "i2c-gpio";
+		gpios = <&r_pio PL 13 GPIO_ACTIVE_HIGH>, /* SDA */
+				<&r_pio PL 12 GPIO_ACTIVE_HIGH>; /* SCL */
+		i2c-gpio,delay-us = <5>;    /* 时钟延迟（微妙） */
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		rtc@51 {
+			compatible = "haoyu,hym8563";
+			reg = <0x51>;
+			#clock-cells = <0>;
+			clock-output-names = "xin32k";
+			interrupt-parent = <&r_pio>;
+			interrupts = <PL 3 IRQ_TYPE_NONE>;
+		};
+	};
+
+};
 
 &twi2 {
 	clock-frequency = <400000>;
@@ -1325,8 +1292,28 @@
 	pinctrl-names = "default", "sleep";
 	/* For stability and backwards compatibility, we recommend setting ‘twi_drv_used’ to 1 */
 	twi_drv_used = <1>;
+	no_suspend = <1>;
 	twi-supply = <&reg_bldo1>;
 	status = "okay";
+
+	ctp@5d {
+		compatible = "allwinner,goodix";
+		reg = <0x14>;
+		device_type = "ctp";
+		status = "okay";
+		ctp_name = "gt9xxnew_ts";
+		ctp_twi_id = <0x2>;
+		ctp_twi_addr = <0x5d>;
+		ctp_screen_max_x = <0x500>;
+		ctp_screen_max_y = <0x320>;
+		ctp_revert_x_flag = <0x0>;
+		ctp_revert_y_flag = <0x0>;
+		ctp_exchange_x_y_flag = <0x0>;
+		ctp_int_port = <&pio PD 18 IRQ_TYPE_LEVEL_HIGH>;
+		ctp_wakeup = <&pio PD 19 GPIO_ACTIVE_HIGH>;
+		// ctp-supply = <&reg_vcc_tp>;
+		// ctp_power_ldo_vol = <3300>;
+	};
 };
 
 &twi3 {
@@ -2024,34 +2011,31 @@
 		// };
 	//};
 };
-
-&s_twi1 {
-	clock-frequency = <400000>;
-	pinctrl-0 = <&s_twi1_pins_default>;
-	pinctrl-1 = <&s_twi1_pins_sleep>;
-	pinctrl-names = "default", "sleep";
-	/* For stability and backwards compatibility, we recommend setting ‘twi_drv_used’ to 1 */
-	twi_drv_used = <1>;
-	no_suspend = <1>;
-	status = "okay";
-
-	// eeprom@50 {
-	// 	compatible = "atmel,24c16";
-	// 	reg = <0x50>;
-	// 	//num-addresses = <1>;
-	// 	status = "okay";
-	// };
-
-	rtc@51 {
-		compatible = "haoyu,hym8563";
-		reg = <0x51>;
-		#clock-cells = <0>;
-		clock-output-names = "xin32k";
-		interrupt-parent = <&r_pio>;
-		interrupts = <PL 3 IRQ_TYPE_NONE>;
-	};
-
+/*Disable soc rtc*/
+&rtc {
+	status = "disabled";
 };
+
+// &s_twi1 {
+// 	clock-frequency = <400000>;
+// 	pinctrl-0 = <&s_twi1_pins_default>;
+// 	pinctrl-1 = <&s_twi1_pins_sleep>;
+// 	pinctrl-names = "default", "sleep";
+// 	/* For stability and backwards compatibility, we recommend setting ‘twi_drv_used’ to 1 */
+// 	twi_drv_used = <0>;
+// 	no_suspend = <1>;
+// 	status = "okay";
+
+// 	rtc@51 {
+// 		compatible = "haoyu,hym8563";
+// 		reg = <0x51>;
+// 		#clock-cells = <0>;
+// 		clock-output-names = "xin32k";
+// 		interrupt-parent = <&r_pio>;
+// 		interrupts = <PL 3 IRQ_TYPE_NONE>;
+// 	};
+
+// };
 
 &s_twi2 {
 	clock-frequency = <400000>;
@@ -2071,8 +2055,8 @@
 		sysclk-src			= "MCLK";
 		pcm-bit-first			= "MSB";
 		frame-sync-width		= <1>;
-		hp-plug-gpio			= <&pio PK 7 GPIO_ACTIVE_LOW>;
-		hp-det-gpio			= <&pio PK 8 GPIO_ACTIVE_LOW>;
+		hp-plug-gpio			= <&r_pio PL 11 GPIO_ACTIVE_HIGH>;
+		hp-det-gpio			= <&pio PB 2 GPIO_ACTIVE_HIGH>;
 		jack-det-threshold		= <1>;
 		jack-key-det-threshold		= <10>;
 		jack-det-debouce-time		= <15>;
@@ -2112,7 +2096,7 @@
 };
 
 &dsi0 {
-	status = "disabled";
+	status = "okay";
 	pinctrl-0 = <&dsi0_4lane_pins_a>;
 	pinctrl-1 = <&dsi0_4lane_pins_b>;
 	pinctrl-names = "active","sleep";
@@ -2255,8 +2239,8 @@
 
 &rfkill {
 	compatible = "allwinner,sunxi-rfkill";
-	chip_en;
-	power_en;
+	// chip_en = <&r_pio PM 1 GPIO_ACTIVE_HIGH>;
+	// power_en = <&r_pio PM 0 GPIO_ACTIVE_HIGH>;
 	pinctrl-0;
 	pinctrl-names;
 	status = "okay";
@@ -2269,7 +2253,7 @@
 		wlan_power    = "axp8191-dcdc1"; /* vcc-pg/vcc-pm */
 		wlan_power_vol= <3300000>;
 		wlan_busnum   = <0x1>;
-		wlan_regon    = <&r_pio PM 1 GPIO_ACTIVE_HIGH>;
+		//wlan_regon    = <&r_pio PM 1 GPIO_ACTIVE_HIGH>;
 		//wlan_hostwake = <&r_pio PM 3 GPIO_ACTIVE_HIGH>;
 		wakeup-source;
 	};
@@ -2583,16 +2567,17 @@
 
 &gpadc0 {
     channel_num = <8>;
-    channel_select = <0xf0>;
-    channel_data_select = <0x0>;
+	gpadc_mode_select = <0x2>;
+    channel_select = <0xff>;
+    channel_data_select = <0xff>;
     channel_compare_select = <0x0>;
     channel_cld_select = <0x0>;
     channel_chd_select = <0x0>;
-    channel0_compare_lowdata = <1700000>;
-    channel0_compare_higdata = <1200000>;
-    channel1_compare_lowdata = <460000>;
-    channel1_compare_higdata = <1200000>;
-    status = "disabled";
+    // channel0_compare_lowdata = <1700000>;
+    // channel0_compare_higdata = <1200000>;
+    // channel1_compare_lowdata = <460000>;
+    // channel1_compare_higdata = <1200000>;
+    status = "okay";
 };
 
 &s_irrx {
