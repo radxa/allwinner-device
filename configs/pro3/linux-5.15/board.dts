@@ -16,12 +16,20 @@
 	};
 
 	standby_param: standby_param {
-		vcc-io  = <0x00000000400>;
-		vcc-efuse = <0x0000e000000>;
-		vdd-cpub = <0x00000004>;
-		vdd-cpu = <0x000000010>;
-		vdd-sys = <0x00000002>;
-		vcc-pll = <0x00001000000>;
+		vdd-cpub = <0x00000004 0x00000000>;
+		vdd-cpu = <0x00000010 0x00000000>;
+		vdd-sys = <0x00000002 0x00000000>;
+		vdd-gpu = <0x00000008 0x00000000>;
+		vdd-npu = <0x00000002 0x00000000>;
+		vcc-pll = <0x01000000 0x00000000>;
+		vcc18-hdmi = <0x00800000 0x00000000>;
+		avdd-h-combo = <0x04000000 0x00000000>;
+		vcc-io  = <0x00000400 0x00000000>;
+		vcc25-ufs = <0x00000000 0x00000001>;
+		vcc18-12-ufs = <0x00000080 0x00000000>;
+		vcc-efuse = <0x08000000 0x00000000>;
+
+		vdd-usb = <0x00000001>;
 		osc24m-on = <0>;
 	};
 
@@ -978,12 +986,14 @@
 		compatible = "awinic,aw87xxx_pa";
 		reg = <0x58>;
 		dev_index = < 0 >;
+		det_battery_supply = <&bat_power_supply>;
 		status = "okay";
 	};
 	aw87xxx_pa@5a {
 		compatible = "awinic,aw87xxx_pa";
 		reg = <0x5a>;
 		dev_index = < 1 >;
+		det_battery_supply = <&bat_power_supply>;
 		status = "okay";
 	};
 	/* spkr */
@@ -991,12 +1001,14 @@
 		compatible = "awinic,aw87xxx_pa";
 		reg = <0x59>;
 		dev_index = < 2 >;
+		det_battery_supply = <&bat_power_supply>;
 		status = "okay";
 	};
 	aw87xxx_pa@5b {
 		compatible = "awinic,aw87xxx_pa";
 		reg = <0x5b>;
 		dev_index = < 3 >;
+		det_battery_supply = <&bat_power_supply>;
 		status = "okay";
 	};
 };
@@ -1992,6 +2004,8 @@
 	soundcard-mach,slot-num		= <4>;
 	soundcard-mach,slot-width	= <16>;
 	soundcard-mach,jack-support	= <4>;
+	soundcard-mach,widgets		= "Microphone", "HS MIC Jack",
+					  "Headphone", "HP Jack";
 	soundcard-mach,pin-switches	= "MIC1", "MIC2",
 					  "LINEINL","LINEINR",
 					  "HPOUTL","HPOUTR",

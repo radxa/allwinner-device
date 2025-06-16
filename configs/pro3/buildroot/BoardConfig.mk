@@ -3,3 +3,5 @@ LICHEE_BR_VER:=202205
 LICHEE_BR_DEFCONF:=sun60iw2p1_aiot_defconfig
 LICHEE_KERN_DEFCONF:=bsp_defconfig
 LICHEE_NO_RAMDISK_NEEDED:=y
+LICHEE_KERN_DEFCONF_RECOVERY:=bsp_recovery_defconfig
+LICHEE_BR_RAMFS_CONF:=sun60iw2p1_recovery_ramfs_defconfig

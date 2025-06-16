@@ -80,11 +80,14 @@ activated   = 1
 program     = "gsensortester.sh"
 category    = 1
 run_type    = 1
-module_count= 1
+module_count= 2
 module1_path= "/system/vendor/modules/msa.ko"
-device_count= 1
+module2_path= "/system/vendor/modules/sc7a20.ko"
+device_count= 2
 device1_name = "msa"
 device1_convert = 1024
+device2_name = "sc7a20"
+device2_convert = 32
 
 ;-------------------------------------------------------------------------------
 ; TODO:霍尔传感器
@@ -105,7 +108,7 @@ device1_name = "MH248"
 ;-------------------------------------------------------------------------------
 [ethernet]
 display_name= "以太网"
-activated   = 0
+activated   = 1
 program     = "ethtester.sh"
 category    = 0
 run_type    = 1
@@ -143,11 +146,18 @@ test_size   = 16
 
 [emmc]
 display_name = "eMMC闪存"
-activated   = 1
+activated   = 0
 program     = "emmctester.sh"
 category    = 0
 run_type    = 1
 test_size   = 128
+
+[ufs]
+display_name= "UFS闪存"
+activated   = 1
+program     = "ufstester.sh"
+category    = 0
+run_type    = 1
 
 [mmc]
 display_name= "SD卡"
@@ -179,29 +189,34 @@ run_type    = 1
 
 [Usb_OTG]
 display_name= "USB_OTG"
-activated   = 1
+activated   = 0
 program     = "otgtester.sh"
 category    = 1
 run_type    = 1
 
 [camera]
 activated   = 1
-module_count= 8
+module_count= 9
 module1_path= "/system/vendor/modules/videobuf2-common.ko"
 module2_path= "/system/vendor/modules/videobuf2-memops.ko"
 module3_path= "/system/vendor/modules/videobuf2-dma-contig.ko"
 module4_path= "/system/vendor/modules/videobuf2-v4l2.ko"
 module5_path= "/system/vendor/modules/vin_io.ko"
-module6_path= "/system/vendor/modules/imx319_mipi.ko"
-module7_path= "/system/vendor/modules/s5k5e8.ko"
-module8_path= "/system/vendor/modules/vin_v4l2.ko"
-dev_cnt     = 2
-csi_cnt     = 2
-fps         = 15
+module6_path= "/system/vendor/modules/ov13850_mipi.ko"
+module7_path= "/system/vendor/modules/gc05a2_mipi.ko"
+module8_path= "/system/vendor/modules/gc030a_mipi.ko"
+module9_path= "/system/vendor/modules/vin_v4l2.ko"
+video_cnt   = 3
+video_id0   = 1
+video_fps0  = 30
+video_id1   = 8
+video_fps1  = 30
+video_id2   = 2
+video_fps2  = 30
 
 [flashlight]
 activated   = 1
-sensor_name = "imx319_mipi"
+sensor_name = "ov13850_mipi"
 
 ;-------------------------------------------------------------------------------
 ; internal_loopback_test:
@@ -229,7 +244,7 @@ sensor_name = "imx319_mipi"
 [mic]
 display_name= "音频测试"
 activated   = 1
-program     = "mictester"
+program     = "soundtest.sh"
 category    = 1
 run_type    = 1
 delay       = 3
@@ -294,7 +309,7 @@ device_name = "fts_ts"
 ;-------------------------------------------------------------------------------
 [hdmi]
 display_name= "HDMI"
-activated   = 0
+activated   = 1
 program     = "hdmitester.sh"
 category    = 1
 run_type    = 1
@@ -436,3 +451,35 @@ tp_draw_color       = 0
 
 pass_str            = "通过"
 fail_str            = "失败"
+
+;-------------------------------------------------------------------------------
+; video_cnt:
+;   the total number of video nodes to be tested.
+; vodeo_id:
+;   the id of /dev/video device node, range from 0 to 17.
+; video_fps:
+;   the frame rate of video node, must be no less than 15fps.
+;-------------------------------------------------------------------------------
+[camera]
+activated   = 1
+module_count= 9
+module1_path= "/system/vendor/modules/videobuf2-common.ko"
+module2_path= "/system/vendor/modules/videobuf2-memops.ko"
+module3_path= "/system/vendor/modules/videobuf2-dma-contig.ko"
+module4_path= "/system/vendor/modules/videobuf2-v4l2.ko"
+module5_path= "/system/vendor/modules/vin_io.ko"
+module6_path= "/system/vendor/modules/ov13850_mipi.ko"
+module7_path= "/system/vendor/modules/gc05a2_mipi.ko"
+module8_path= "/system/vendor/modules/gc030a_mipi.ko"
+module9_path= "/system/vendor/modules/vin_v4l2.ko"
+video_cnt   = 3
+video_id0   = 1
+video_fps0  = 30
+video_id1   = 8
+video_fps1  = 30
+video_id2   = 2
+video_fps2  = 30
+
+[flashlight]
+activated   = 1
+sensor_name = "ov13850_mipi"
