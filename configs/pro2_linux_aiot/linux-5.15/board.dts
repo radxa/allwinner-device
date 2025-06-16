@@ -1941,6 +1941,8 @@
 };
 
 &codec_mach {
+	soundcard-mach,widgets = "Microphone", "HS MIC Jack",
+				 "Headphone", "HP Jack";
 	soundcard-mach,jack-support = <1>;
 	status = "okay";
 	soundcard-mach,cpu {
