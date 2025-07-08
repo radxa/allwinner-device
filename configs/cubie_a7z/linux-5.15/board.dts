@@ -221,13 +221,13 @@
 	};
 
 	pwm1_9_pins_active: pwm1@0 {
-		pins = "PE15";
+		pins = "PJ27";
 		function = "pwm1_9";
 		drive-strength = <10>;
 	};
 
 	pwm1_9_pins_sleep: pwm1@1 {
-		pins = "PE15";
+		pins = "PJ27";
 		function = "gpio_in";
 		bias-pull-down;
 	};
@@ -710,9 +710,9 @@
 	fan0: pwm-fan {
 		compatible = "pwm-fan";
 		#cooling-cells = <2>; 
-		cooling-levels = <0 18 102 170 255>;
+		cooling-levels = <0 50 102 170 255>;
 		//fan-supply = <&vdd_5v>;
-		pwms = <&s_pwm0 7 25000 0>;
+		pwms = <&pwm1 9 25000 0>;
 	};
 };
 
@@ -1402,6 +1402,8 @@
 			reg_dc1sw1: dc1sw1 {
 				regulator-name = "axp8191-dc1sw1";
 				swin-supply = <&reg_dcdc1>;
+				regulator-always-on;
+				regulator-boot-on;
 			};
 			reg_dc1sw2: dc1sw2 {
 				regulator-name = "axp8191-dc1sw2";
