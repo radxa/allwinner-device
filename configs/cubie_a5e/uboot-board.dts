@@ -1013,3 +1013,37 @@
 		status="okay";
 	};
 };
+
+&pcie {
+       status = "okay";
+};
+
+&combophy {
+       status = "okay";
+};
+
+&spi0_pins_a {
+       allwinner,pins = "PC12", "PC2", "PC4";
+       allwinner,pname = "spi0_clk", "spi0_mosi", "spi0_miso";
+       allwinner,function = "spi0";
+       allwinner,muxsel = <4>;
+       allwinner,drive = <1>;
+       allwinner,pull = <1>;
+};
+
+&spi0_pins_b {
+       allwinner,pins = "PC3", "PC15", "PC16";
+       allwinner,pname = "spi0_cs0", "spi0_wp", "spi0_hold";
+       allwinner,function = "spi0";
+       allwinner,muxsel = <4>;
+       allwinner,drive = <1>;
+       allwinner,pull = <1>;   // only CS should be pulled up
+};
+
+&spi0_pins_c {
+       allwinner,pins = "PC12", "PC2", "PC4", "PC3", "PC15", "PC16";
+       allwinner,function = "io_disabled";
+       allwinner,muxsel = <15>;
+       allwinner,drive = <1>;
+       allwinner,pull = <0>;
+};
