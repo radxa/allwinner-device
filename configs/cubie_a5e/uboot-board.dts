@@ -303,17 +303,7 @@
 };
 
 &sunxi_drm {
-	route {
-		disp0_dsi1 {
-			status = "okay";
-		};
-	/*	disp0_hdmi {
-            status = "okay";
-        };
-		disp1_hdmi {
-            status = "okay";
-        };*/
-	};
+	status = "okay";
 };
 
 
