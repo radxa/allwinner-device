@@ -572,6 +572,56 @@
 	allwinner,pull = <2>;
 };
 
+&spi0_pins_a {
+	allwinner,pins = "PC12", "PC2", "PC4";
+	allwinner,pname = "spi0_sclk", "spi0_mosi", "spi0_miso";
+	allwinner,function = "spi0";
+	allwinner,muxsel = <5>;
+	allwinner,drive = <1>;
+	allwinner,pull = <0>;
+};
+
+&spi0_pins_b {
+	allwinner,pins = "PC3", "PC15", "PC16";
+	allwinner,pname = "spi0_cs0", "spi0_wp", "spi0_hold";
+	allwinner,function = "spi0";
+	allwinner,muxsel = <5>;
+	allwinner,drive = <1>;
+	allwinner,pull = <1>;
+};
+
+&spi0_pins_c {
+	allwinner,pins = "PC2", "PC3", "PC4", "PC12",
+					"PC15", "PC16";
+	allwinner,function = "gpio_in";
+	allwinner,muxsel = <0>;
+	allwinner,drive = <1>;
+	allwinner,pull = <0>;
+};
+
+&spi0 {
+	clock-frequency = <5000000>;
+	pinctrl-0 = <&spi0_pins_a &spi0_pins_b>;
+	pinctrl-1 = <&spi0_pins_c>;
+	pinctrl-names = "default", "sleep";
+	/*spi-supply = <&reg_cldo5>;*/
+	spi_slave_mode = <0>;
+	spi0_cs_number = <1>;
+	spi0_cs_bitmap = <1>;
+	status = "okay";
+
+	spi_board0 {
+		device_type = "spi_board0";
+		compatible = "spi-nor";
+		spi-max-frequency = <5000000>;
+		m25p,fast-read = <1>;
+		reg = <0x0>;
+		spi-rx-bus-width = <0x1>;
+		spi-tx-bus-width = <0x1>;
+		status = "okay";
+	};
+};
+
 &card0_boot_para {
 		/* Avoid dtc compiling warnings. @TODO: Developer should modify this to the actual value */
 		/* reg = <0x0 0x2 0x0 0x0>;  [> Avoid dtc compiling warnings. @TODO: Developer should modify this to the actual value <] */
