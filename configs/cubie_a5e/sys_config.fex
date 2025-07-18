@@ -130,7 +130,7 @@ dram_tpr6      = 0x3a000000
 dram_tpr10     = 0x802f3333
 dram_tpr11     = 0xc0c0bbbf
 dram_tpr12     = 0x35352f31
-dram_tpr13     = 0x00000c60
+dram_tpr13     = 0x00000c64
 dram_tpr14     = 0x48484848
 
 
