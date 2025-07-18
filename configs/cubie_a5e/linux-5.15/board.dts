@@ -1567,3 +1567,7 @@
 		reset-deassert-us = <150000>;
 	};
 };
+
+&rtc {
+	status = "disabled";
+};
