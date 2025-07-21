@@ -154,6 +154,12 @@
 			linux,default-trigger = "heartbeat";
 		};
 
+		led-1 {
+			label = "radxa:green:power";
+			gpios = <&r_pio PL 4 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "default-on";
+		};
+
 	};
 
 	backlight0: backlight0 {
