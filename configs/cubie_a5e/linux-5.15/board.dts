@@ -1393,11 +1393,11 @@
 		powerkey0: powerkey@0 {
 			status = "okay";
 			compatible = "x-powers,axp2101-pek";
-			pmu_powkey_off_time = <6000>;
+			pmu_powkey_off_time = <4000>;
 			pmu_powkey_off_func = <0>;
 			pmu_powkey_off_en = <1>;
 			pmu_powkey_long_time = <1500>;
-			pmu_powkey_on_time = <512>;
+			pmu_powkey_on_time = <128>;
 			wakeup_rising;
 			wakeup_falling;
 		};
