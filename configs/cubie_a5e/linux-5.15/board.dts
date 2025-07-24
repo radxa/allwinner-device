@@ -183,7 +183,7 @@
 };
 
 &dsi1 {
-	status = "okay";
+	status = "disabled";
 	ports {
 		dsi1_out: port@1{
 			dsi1_out_panel: endpoint {
