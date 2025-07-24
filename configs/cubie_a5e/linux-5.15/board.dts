@@ -1535,8 +1535,8 @@
 		max-speed = <1000>;  /* Max speed capability */
 		reset-gpios = <&pio PH 8 GPIO_ACTIVE_LOW>;
 		/* PHY datasheet rst time */
-		reset-assert-us = <10000>;
-		reset-deassert-us = <150000>;
+		reset-assert-us = <50000>;
+		reset-deassert-us = <200000>;
 	};
 };
 
@@ -1563,8 +1563,8 @@
 		max-speed = <1000>;  /* Max speed capability */
 		reset-gpios = <&pio PJ 16 GPIO_ACTIVE_LOW>;
 		/* PHY datasheet rst time */
-		reset-assert-us = <10000>;
-		reset-deassert-us = <150000>;
+		reset-assert-us = <50000>;
+		reset-deassert-us = <200000>;
 	};
 };
 
