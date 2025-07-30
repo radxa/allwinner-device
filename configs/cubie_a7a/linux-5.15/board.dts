@@ -1054,7 +1054,7 @@
 	no-mmc;
 	sunxi-power-save-mode;
 	/*sunxi-dis-signal-vol-sw;*/
-	max-frequency = <150000000>;
+	max-frequency = <200000000>;
 	ctl-spec-caps = <0x428>;
 	vmmc-supply = <&reg_dc1sw2>;
 	vqmmc33sw-supply = <&reg_dc1sw2>;
