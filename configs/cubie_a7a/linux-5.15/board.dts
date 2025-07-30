@@ -5,8 +5,8 @@
 #include "sun60iw2p1.dtsi"
 #define TYPEC_DP 1
 /{
-	board = "A733", "A733-DEMO-AIOT";
-	compatible = "allwinner,a733", "arm,sun60iw2p1";
+	board = "A733", "A733-CUBIE-A7A-AXP318";
+	compatible = "radxa,cubie-a7a", "arm,sun60iw2p1";
 	aliases {
 		arisc-config = &arisc_config;
 		pmu0 = &pmu0;
