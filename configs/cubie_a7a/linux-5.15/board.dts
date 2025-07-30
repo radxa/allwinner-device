@@ -11,8 +11,6 @@
 		arisc-config = &arisc_config;
 		pmu0 = &pmu0;
 		bat_supply = &bat_power_supply;
-		// husb311 = &husb311;
-		// phy_switcher = &phy_switcher;
 	};
 
 	reg_usb0_vbus: usb0-vbus {
@@ -83,7 +81,6 @@
 		compatible = "pwm-fan";
 		#cooling-cells = <2>; 
 		cooling-levels = <0 18 102 170 255>;
-		//fan-supply = <&vdd_5v>;
 		pwms = <&s_pwm0 7 25000 0>;
 	};
 
@@ -372,36 +369,6 @@
 			linux,default-trigger = "default-on";
 		};
 	};
-
-	// phy_switcher: phy_switcher@10 {
-	// 	compatible = "allwinner,sunxi-phy-switcher";
-	// 	reg = <0x0 0x10 0x0 0x0>;
-	// 	//aux_p = <&r_pio PL 12 GPIO_ACTIVE_HIGH>;
-	// 	//aux_n = <&r_pio PL 13 GPIO_ACTIVE_HIGH>;
-	// 	phys = <&combo0_dp>, <&combo0_usb>;
-	// 	phy-names = "dp-phy", "usb-phy";
-	// 	//extcon = <&usb_power_supply>;
-	// 	//usb_psy = <&reg_usb0_vbus>;
-	// 	dp_configure_delay = <50>;
-
-	// 	status = "okay";
-
-	// 	mode-switch;
-	// 	orientation-switch;
-	// 	svid = <0xff01>;
-	// 	port {
-	// 		#address-cells = <1>;
-	// 		#size-cells = <0>;
-	// 		usbdp_orientation_switch: endpoint@0 {
-	// 			reg = <0>;
-	// 			remote-endpoint = <&usbc0_orien_sw>;
-	// 		};
-	// 		usbdp_dp_altmode_mux: endpoint@1 {
-	// 			reg = <1>;
-	// 			remote-endpoint = <&dp_altmode_mux>;
-	// 		};
-	// 	};
-	// };
 };
 
 &ccu {
@@ -1213,7 +1180,6 @@
 	status = "okay";
 };
 
-
 &serdes {
 	serdes1v8-supply = <&reg_cldo5>;
 	status = "okay";
@@ -1300,8 +1266,6 @@
 	twi-supply = <&reg_dc1sw2>;
 	status = "disabled";
 };
-
-
 
 &twi11 {
 	clock-frequency = <400000>;
@@ -1891,87 +1855,6 @@
 			dc1sw-supply = <&reg_dc1sw2>;
 		};
 	};
-
-// 	husb311: husb311@4e {
-// 		compatible = "hynetek,husb311";
-// 		reg = <0x4e>;
-// 		interrupt-parent = <&r_pio>;
-// 		husb311,intr_gpio = <&r_pio PL 10 GPIO_ACTIVE_LOW>;
-// 		// interrupts = <PM 5 GPIO_ACTIVE_LOW>;
-// 		// interrupt-names = "wakeup";
-// 		vbus-supply = <&reg_usb0_vbus>;
-// 		// det_usb_supply = <&usb_power_supply>;
-// 		// aw,port-reset-quirk;
-// 		wakeup-source;
-// 		status = "disabled";
-
-// #ifdef TYPEC_DP
-// 		ports {
-// 			#address-cells = <1>;
-// 			#size-cells = <0>;
-
-// 			port@0 {
-// 				reg = <0>;
-// 				usbc0_role_sw: endpoint@0 {
-// 					remote-endpoint = <&usbc0_role_switch>;
-// 				};
-// 			};
-// 		};
-// #endif
-
-		// usb_con: connector {
-		// 	compatible = "usb-c-connector";
-		// 	label = "USB-C";
-		// 	data-role = "dual";
-		// 	power-role = "dual";
-		// 	try-power-role = "sink";
-		// 	op-sink-microwatt = <1000000>;
-		// 	typec-power-opmode = "default";
-		// 	//pd-disable;
-		// 	slow-charger-loop;
-		// 	sink-pdos = < PDO_FIXED(5000, 500, (0x1<<29)|(0x1<<25))
-		// 				 PDO_VAR(5000, 5000, 2000)
-		// 				/* PDO_VAR(9000, 9000, 2000)
-		// 				 PDO_VAR(12000, 12000, 3000)
-		// 				 PDO_VAR(15000, 15000, 3000)
-		// 				 PDO_VAR(20000, 20000, 2250)*/
-		// 				>;
-		// 	source-pdos = < PDO_FIXED(5000, 500, (0x1<<29)|(0x1<<25))
-		// 					PDO_VAR(5000, 5000, 1200) >;
-		// 	/* fixme */
-		// 	sink-vdos = <0xd1002e99 0x00 0x03110000>;
-		// 	sink-vdos-v1 = <0xd1002e99 0x00 0x03110000>;
-
-		// 	altmodes {
-		// 		#address-cells = <1>;
-		// 		#size-cells = <0>;
-
-		// 		altmode@0 {
-		// 			reg = <0>;
-		// 			svid = <0xff01>;
-		// 			vdo = <0xffffffff>;
-		// 		};
-		// 	};
-
-		// 	ports {
-		// 		#address-cells = <1>;
-		// 		#size-cells = <0>;
-
-		// 		port@0 {
-		// 			reg = <0>;
-		// 			usbc0_orien_sw: endpoint@0 {
-		// 				remote-endpoint = <&usbdp_orientation_switch>;
-		// 			};
-		// 		};
-		// 		port@1 {
-		// 			reg = <1>;
-		// 			dp_altmode_mux: endpoint@1 {
-		// 				remote-endpoint = <&usbdp_dp_altmode_mux>;
-		// 			};
-		// 		};
-		// 	};
-		// };
-	//};
 };
 /*Disable soc rtc*/
 &rtc {
