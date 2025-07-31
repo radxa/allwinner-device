@@ -1103,9 +1103,9 @@
 			status = "okay";
 			pmu_powkey_off_en = <1>;
 			pmu_powkey_off_func = <1>;
-			pmu_powkey_off_time = <8000>;
+			pmu_powkey_off_time = <4000>;
 			pmu_powkey_long_time = <1500>;
-			pmu_powkey_on_time = <1000>;
+			pmu_powkey_on_time = <127>;
 			wakeup_rising;
 			wakeup_falling;
 		};
