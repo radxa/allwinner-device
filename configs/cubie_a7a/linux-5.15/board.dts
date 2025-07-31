@@ -1130,7 +1130,8 @@
 &usbc1 {
 	device_type = "usbc1";
 	usb_regulator_io = "nocare";
-	usb_wakeup_suspend = <0>;
+	usb_wakeup_suspend = <1>;
+	wakeup-source;
 	status = "okay";
 };
 
