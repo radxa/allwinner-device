@@ -700,7 +700,7 @@
 	fan0: pwm-fan {
 		compatible = "pwm-fan";
 		#cooling-cells = <2>; 
-		cooling-levels = <0 50 102 170 255>;
+		cooling-levels = <1 50 102 170 255>;
 		fan-supply = <&reg_dc1sw1>;
 		pwms = <&pwm1 9 25000 0>;
 	};
