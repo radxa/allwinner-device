@@ -1394,7 +1394,7 @@
 				swin-supply = <&reg_dcdc1>;
 				regulator-boot-on;
 				regulator-state-mem {
-					regulator-on-in-suspend;
+					regulator-off-in-suspend;
 				};
 			};
 			reg_dc1sw2: dc1sw2 {
