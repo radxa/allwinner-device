@@ -1721,52 +1721,12 @@
 	status = "okay";
 };
 
-&rfkill {
-	compatible = "allwinner,sunxi-rfkill";
-	// chip_en = <&r_pio PM 1 GPIO_ACTIVE_HIGH>;
-	// power_en = <&r_pio PM 0 GPIO_ACTIVE_HIGH>;
-	pinctrl-0;
-	pinctrl-names;
-	status = "okay";
-
-	/* wlan session */
-	wlan {
-		compatible    = "allwinner,sunxi-wlan";
-		clocks;
-		clock-names;
-		wlan_power    = "axp8191-dcdc1"; /* vcc-pg/vcc-pm */
-		wlan_power_vol= <3300000>;
-		wlan_busnum   = <0x1>;
-		//wlan_regon    = <&r_pio PM 1 GPIO_ACTIVE_HIGH>;
-		//wlan_hostwake = <&r_pio PM 3 GPIO_ACTIVE_HIGH>;
-		wakeup-source;
-	};
-
-	/* bt session */
-	bt {
-		compatible    = "allwinner,sunxi-bt";
-		clocks;
-		clock-names;
-		bt_power    = "axp8191-dcdc1"; /* vcc-pg/vcc-pm */
-		bt_power_vol= <3300000>;
-		//bt_rst_n      = <&r_pio PM 0 GPIO_ACTIVE_LOW>;
-	};
-};
-
 &addr_mgt {
 	compatible     = "allwinner,sunxi-addr_mgt";
 	type_addr_wifi = <0x0>;
 	type_addr_bt   = <0x0>;
 	type_addr_eth  = <0x0>;
 	status         = "okay";
-};
-
-&btlpm {
-	compatible  = "allwinner,sunxi-btlpm";
-	uart_index  = <0x1>;
-	// bt_wake     = <&r_pio PM 1 GPIO_ACTIVE_HIGH>;
-	// bt_hostwake = <&r_pio PM 2 GPIO_ACTIVE_HIGH>;
-	status      = "okay";
 };
 
 &hdmi_codec {
