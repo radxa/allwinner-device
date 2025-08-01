@@ -1821,7 +1821,7 @@
 
 &gpadc0 {
     channel_num = <8>;
-    channel_select = <0xf0>;
+    channel_select = <0x0f>;
     channel_data_select = <0x0>;
     channel_compare_select = <0x0>;
     channel_cld_select = <0x0>;
@@ -1830,7 +1830,7 @@
     channel0_compare_higdata = <1200000>;
     channel1_compare_lowdata = <460000>;
     channel1_compare_higdata = <1200000>;
-    status = "disabled";
+    status = "okay";
 };
 
 &s_irrx {
