@@ -819,7 +819,7 @@
 		compatible = "pwm-fan";
 		#cooling-cells = <2>; 
 		cooling-levels = <0 50 102 170 255>;
-		//fan-supply = <&vdd_5v>;
+		fan-supply = <&reg_dc1sw1>;
 		pwms = <&pwm1 9 25000 0>;
 	};
 };
@@ -1498,8 +1498,10 @@
 			reg_dc1sw1: dc1sw1 {
 				regulator-name = "axp8191-dc1sw1";
 				swin-supply = <&reg_dcdc1>;
-				regulator-always-on;
 				regulator-boot-on;
+				regulator-state-mem {
+					regulator-off-in-suspend;
+				};
 			};
 			reg_dc1sw2: dc1sw2 {
 				regulator-name = "axp8191-dc1sw2";
