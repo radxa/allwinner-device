@@ -24,6 +24,16 @@
 		enable-active-high;
 	};
 
+	reg_usb1_vbus: usb1-vbus {
+		compatible = "regulator-fixed";
+		regulator-name = "usb1-vbus";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		regulator-enable-ramp-delay = <1000>;
+		gpio = <&r_pio PM 5 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+	};
+
 	wifi_power_en: wifi_power_en {
 		compatible = "regulator-fixed";
 		regulator-name = "wifi_power_en";
@@ -74,7 +84,7 @@
 		phys = <&combo0_dp>, <&combo0_usb>;
 		phy-names = "dp-phy", "usb-phy";
 		// extcon = <&usb_power_supply>;
-		usb_psy = <&reg_usb0_vbus>;
+		// usb_psy = <&reg_usb0_vbus>;
 		dp_configure_delay = <50>;
 
 		status = "okay";
@@ -87,7 +97,7 @@
 			#size-cells = <0>;
 			usbdp_orientation_switch: endpoint@0 {
 				reg = <0>;
-				remote-endpoint = <&usbc2_orien_sw>;
+				remote-endpoint = <&usbc0_orien_sw>;
 			};
 			usbdp_dp_altmode_mux: endpoint@1 {
 				reg = <1>;
@@ -969,13 +979,11 @@
 
 &ehci0 {
 	phy_range = <0x188>;
-	drvvbus-supply = <&reg_usb0_vbus>;
 	status = "okay";
 };
 
 &ohci0 {
 	phy_range = <0x188>;
-	drvvbus-supply = <&reg_usb0_vbus>;
 	status = "okay";
 };
 
@@ -987,45 +995,42 @@
 };
 
 &ehci1 {
-	drvvbus-supply = <&reg_usb0_vbus>;
 	phy_range = <0x188>;
 	status = "okay";
 };
 
 &ohci1 {
-	drvvbus-supply = <&reg_usb0_vbus>;
 	phy_range = <0x188>;
 	status = "okay";
 };
 
 &usbc2 {
 	device_type = "usbc2";
-	drvvbus-supply = <&reg_usb0_vbus>;
+	drvvbus-supply = <&reg_usb1_vbus>;
 	status = "okay";
 };
 
 &xhci2 {
-	dr_mode = "host"; //dr_mode option: host, peripheral, otg
-	drvvbus-supply = <&reg_usb0_vbus>;
-#ifdef TYPEC_DP
-	phys = <&u2phy>, <&combo0_usb>;
-#else
-	phys = <&u2phy>, <&combo1_usb>;
-#endif
+	dr_mode = "otg"; //dr_mode option: host, peripheral, otg
+	role-switch-default-mode = "host";
+	drvvbus-supply = <&reg_usb1_vbus>;
 	phy-names = "usb2-phy", "usb3-phy";
 	status = "okay";
+
+#ifdef TYPEC_DP
+	phys = <&u2phy>, <&combo0_usb>;
 	usb-role-switch;
-	//extcon = <&>;
-	
 	port {
 		#address-cells = <1>;
 		#size-cells = <0>;
 		dwc3_0_role_switch: endpoint@0 {
 			reg = <0>;
-			remote-endpoint = <&fusb302_role_switch>;
+			remote-endpoint = <&usbc2_role_sw>;
 		};
 	};
-	
+#else
+	phys = <&u2phy>, <&combo1_usb>;
+#endif	
  };
 
 &u2phy {
@@ -1037,7 +1042,11 @@
 	status = "okay";
 	combophy0: combo-phy0@6c01000 {
 		lane_invert = <1 1 1 1>;
+#ifdef TYPEC_DP
+		lane_remap = <0 1 2 3>;
+#else
 		lane_remap = <2 3 0 1>;
+#endif
 		typec_remap = <2 3 0 1>;
 	};
 };
@@ -1644,24 +1653,31 @@
 	no_suspend = <1>;
 	status = "okay";
 
-	fusb302: typec-portc@22 {
-		compatible = "fcs,fusb302";
-		reg = <0x22>;
+#if 1
+	et7304: et7304@4e {
+		compatible = "etek,et7304";
+		reg = <0x4e>;
 		interrupt-parent = <&r_pio>;
-		interrupts = <PL 3 IRQ_TYPE_LEVEL_LOW>;
+		et7304,intr_gpio = <&r_pio PL 3 IRQ_TYPE_LEVEL_LOW>;
+		vbus-supply = <&reg_usb0_vbus>;
+		// det_usb_supply = <&usb_power_supply>;
+		// aw,port-reset-quirk;
+		wakeup-source;
 		status = "okay";
 
+#ifdef TYPEC_DP
 		ports {
 			#address-cells = <1>;
 			#size-cells = <0>;
 
 			port@0 {
 				reg = <0>;
-				fusb302_role_switch: endpoint@0 {
+				usbc2_role_sw: endpoint@0 {
 					remote-endpoint = <&dwc3_0_role_switch>;
 				};
 			};
 		};
+#endif
 
 		usb_con: connector {
 			compatible = "usb-c-connector";
@@ -1673,7 +1689,6 @@
 			typec-power-opmode = "default";
 			//pd-disable;
 			slow-charger-loop;
-			status = "okay";
 			sink-pdos = < PDO_FIXED(5000, 500, (0x1<<29)|(0x1<<25))
 						 PDO_VAR(5000, 5000, 2000)
 						/* PDO_VAR(9000, 9000, 2000)
@@ -1704,7 +1719,7 @@
 
 				port@0 {
 					reg = <0>;
-					usbc2_orien_sw: endpoint@0 {
+					usbc0_orien_sw: endpoint@0 {
 						remote-endpoint = <&usbdp_orientation_switch>;
 					};
 				};
@@ -1717,7 +1732,7 @@
 			};
 		};
 	};
-
+#endif
 };
 
 &de {
