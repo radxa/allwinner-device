@@ -886,7 +886,7 @@
 	cd-gpios = <&pio PF 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
 	/*non-removable;*/
 	/*broken-cd;*/
-	/*cd-inverted*/
+	/*cd-inverted;*/
 	/*data3-detect;*/
 	/*card-pwr-gpios = <&pio PH 14 1 1 2 0xffffffff>;*/
 	cd-used-24M;
@@ -1018,8 +1018,8 @@
 	};
 #else
 	phys = <&u2phy>, <&combo1_usb>;
-#endif	
- };
+#endif
+};
 
 &u2phy {
 	status = "okay";
@@ -1853,8 +1853,8 @@
 };
 
 &hdmi_codec {
-        extcon = <&hdmi0>;
-        status = "okay";
+	extcon = <&hdmi0>;
+	status = "okay";
 };
 
 &i2s3_plat {
@@ -1915,17 +1915,17 @@
 };
 
 &gpadc0 {
-    channel_num = <8>;
-    channel_select = <0x0f>;
-    channel_data_select = <0x0>;
-    channel_compare_select = <0x0>;
-    channel_cld_select = <0x0>;
-    channel_chd_select = <0x0>;
-    channel0_compare_lowdata = <1700000>;
-    channel0_compare_higdata = <1200000>;
-    channel1_compare_lowdata = <460000>;
-    channel1_compare_higdata = <1200000>;
-    status = "okay";
+	channel_num = <8>;
+	channel_select = <0x0f>;
+	channel_data_select = <0x0>;
+	channel_compare_select = <0x0>;
+	channel_cld_select = <0x0>;
+	channel_chd_select = <0x0>;
+	channel0_compare_lowdata = <1700000>;
+	channel0_compare_higdata = <1200000>;
+	channel1_compare_lowdata = <460000>;
+	channel1_compare_higdata = <1200000>;
+	status = "okay";
 };
 
 &s_irrx {
