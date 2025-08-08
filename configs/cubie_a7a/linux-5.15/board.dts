@@ -2112,7 +2112,7 @@
 };
 
 &gmac0_phy0 {
-	compatible = "ethernet-phy-idffff.fffe";
+	compatible = "ethernet-phy-id7b74.4412";
 	reset-gpios = <&pio PH 16 GPIO_ACTIVE_LOW>;
 };
 
