@@ -14,9 +14,9 @@
 		phy_switcher = &phy_switcher;
 	};
 
-	reg_usb0_vbus: usb0-vbus {
+	reg_usb2_vbus: usb2-vbus {
 		compatible = "regulator-fixed";
-		regulator-name = "usb0-vbus";
+		regulator-name = "usb2-vbus";
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
 		regulator-enable-ramp-delay = <1000>;
@@ -74,7 +74,7 @@
 		phys = <&combo0_dp>, <&combo0_usb>;
 		phy-names = "dp-phy", "usb-phy";
 		// extcon = <&usb_power_supply>;
-		// usb_psy = <&reg_usb0_vbus>;
+		// usb_psy = <&reg_usb2_vbus>;
 		dp_configure_delay = <50>;
 
 		status = "okay";
@@ -87,7 +87,7 @@
 			#size-cells = <0>;
 			usbdp_orientation_switch: endpoint@0 {
 				reg = <0>;
-				remote-endpoint = <&usbc0_orien_sw>;
+				remote-endpoint = <&usbc2_orien_sw>;
 			};
 			usbdp_dp_altmode_mux: endpoint@1 {
 				reg = <1>;
@@ -916,20 +916,6 @@
 	status = "okay";
 };
 
-#ifdef TYPEC_DP
-// &usbc0 {
-// 	usb-role-switch;
-// 	port {
-// 		#address-cells = <1>;
-// 		#size-cells = <0>;
-// 		usbc0_role_switch: endpoint@0 {
-// 			reg = <0>;
-// 			remote-endpoint = <&usbc0_role_sw>;
-// 		};
-// 	};
-// };
-#endif
-
 /*
  * usb_port_type: usb mode. 0-device, 1-host, 2-otg.
  * usb_detect_type: usb hotplug detect mode. 0-none, 1-vbus/id detect, 2-pmu detect, 3-tcpm detect.
@@ -1641,13 +1627,12 @@
 	no_suspend = <1>;
 	status = "okay";
 
-#if 1
 	et7304: et7304@4e {
 		compatible = "etek,et7304";
 		reg = <0x4e>;
 		interrupt-parent = <&r_pio>;
 		et7304,intr_gpio = <&r_pio PL 3 IRQ_TYPE_LEVEL_LOW>;
-		vbus-supply = <&reg_usb0_vbus>;
+		vbus-supply = <&reg_usb2_vbus>;
 		// det_usb_supply = <&usb_power_supply>;
 		// aw,port-reset-quirk;
 		wakeup-source;
@@ -1707,7 +1692,7 @@
 
 				port@0 {
 					reg = <0>;
-					usbc0_orien_sw: endpoint@0 {
+					usbc2_orien_sw: endpoint@0 {
 						remote-endpoint = <&usbdp_orientation_switch>;
 					};
 				};
@@ -1720,7 +1705,6 @@
 			};
 		};
 	};
-#endif
 };
 
 &de {
@@ -1804,7 +1788,7 @@
 
 	edp_lane_rate = <1>;
 	edp_lane_cnt = <4>;
-	//extcon = <&serdes>;
+	extcon = <&serdes>;
 
 	status = "okay";
 	ports {
