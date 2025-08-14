@@ -824,7 +824,16 @@
 	};
 };
 
+&cpul_target {
+	temperature = <60000>;
+};
+
+&cpul_threshold{
+	temperature = <50000>;
+};
+
 &cpul_thermal_zone {
+	sustainable-power = <333>;
 	cooling-maps {
 		map0 {
 			trip = <&cpul_target>;
@@ -840,7 +849,17 @@
 	};
 };
 
+
+&cpub_target {
+	temperature = <60000>;
+};
+
+&cpub_threshold{
+	temperature = <50000>;
+};
+
 &cpub_thermal_zone {
+	sustainable-power = <768>;
 	cooling-maps {
 		map0 {
 			trip = <&cpub_target>;
