@@ -2057,6 +2057,7 @@
 	soundcard-mach,bitclock-master	= <&i2s3_cpu>;
 	/* soundcard-mach,frame-inversion; */
 	/* soundcard-mach,bitclock-inversion; */
+	soundcard-mach,name = "allwinner-hdmi";
 	soundcard-mach,slot-num		= <2>;
 	soundcard-mach,slot-width	= <32>;
 	status		= "okay";
