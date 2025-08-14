@@ -119,7 +119,7 @@ select_gpio0	= port:PH16<0><1><default><default>
 ;
 ;*****************************************************************************
 [dram_para]
-dram_clk = 1200
+dram_clk = 1800
 dram_type = 8
 dram_dx_odt = 0x08080808
 dram_dx_dri = 0x0e0e0e0e
@@ -149,7 +149,7 @@ dram_tpr6 = 0x402a
 dram_tpr10 = 0x721f0000
 dram_tpr11 = 0
 dram_tpr12 = 0
-dram_tpr13 = 0x60
+dram_tpr13 = 0x64
 dram_tpr14 = 0
 
 ;[dram_para1]
