@@ -826,24 +826,21 @@
 
 &cpul_target {
 	temperature = <60000>;
+	hysteresis = <2000>;
 };
 
 &cpul_threshold{
-	temperature = <50000>;
+	type = "active";
+	temperature = <60000>;
+	hysteresis = <2000>;
 };
 
 &cpul_thermal_zone {
-	sustainable-power = <333>;
+	sustainable-power = <3000>;
 	cooling-maps {
-		map0 {
-			trip = <&cpul_target>;
-			cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-			contribution = <1024>;
-		};
-
 		map1 {
 			trip = <&cpul_threshold>;
-			cooling-device = <&fan0 2 THERMAL_NO_LIMIT>;
+			cooling-device = <&fan0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
 			contribution = <1024>;
 		};
 	};
@@ -852,24 +849,21 @@
 
 &cpub_target {
 	temperature = <60000>;
+	hysteresis = <2000>;
 };
 
 &cpub_threshold{
-	temperature = <50000>;
+	type = "active";
+	temperature = <60000>;
+	hysteresis = <2000>;
 };
 
 &cpub_thermal_zone {
-	sustainable-power = <768>;
+	sustainable-power = <4000>;
 	cooling-maps {
-		map0 {
-			trip = <&cpub_target>;
-			cooling-device = <&cpu6 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-			contribution = <1024>;
-		};
-
 		map1 {
 			trip = <&cpub_threshold>;
-			cooling-device = <&fan0 2 THERMAL_NO_LIMIT>;
+			cooling-device = <&fan0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
 			contribution = <1024>;
 		};
 	};
