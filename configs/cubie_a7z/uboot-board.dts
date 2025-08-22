@@ -818,3 +818,9 @@
 	pinctrl-1 = <&pwm19_pin_sleep>;
 	status = "okay";
 };
+
+&pcie_rc {
+	status = "okay";
+	pcie1v8-supply = <&reg_bldo2>;
+	pcie3v3-supply = <&reg_dc1sw1>;
+};
