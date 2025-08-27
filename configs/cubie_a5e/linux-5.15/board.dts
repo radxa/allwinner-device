@@ -1242,8 +1242,8 @@
 	vmmc-supply = <&reg_cldo3>;
 	vqmmc33sw-supply = <&reg_cldo3>;
 	vdmmc33sw-supply = <&reg_cldo3>;
-	vqmmc18sw-supply = <&reg_cldo3>;
-	vdmmc18sw-supply = <&reg_cldo3>;
+	vqmmc18sw-supply = <&reg_cldo1>;
+	vdmmc18sw-supply = <&reg_cldo1>;
 	status = "okay";
 };
 
