@@ -11,6 +11,11 @@
 		arisc-config = &arisc_config;
 		pmu0 = &pmu0;
 		bat_supply = &bat_power_supply;
+		standby_param = &standby_param;
+	};
+
+	standby_param: standby_param {
+		vcc-io  = <0x00000000400>;
 	};
 
 	reg_usb0_vbus: usb0-vbus {
@@ -901,6 +906,7 @@
 	no-sdio;
 	no-mmc;
 	sunxi-power-save-mode;
+	execute_tuning_in_kernel;
 	/*sunxi-dis-signal-vol-sw;*/
 	max-frequency = <200000000>;
 	ctl-spec-caps = <0x428>;
