@@ -11,7 +11,8 @@
 		arisc-config = &arisc_config;
 		pmu0 = &pmu0;
 		bat_supply = &bat_power_supply;
-		standby_param = &standby_param;
+		rtc0 = &rtc_hym;
+		rtc1 = &rtc;
 	};
 
 	standby_param: standby_param {
@@ -1658,7 +1659,7 @@
 };
 /*Disable soc rtc*/
 &rtc {
-	status = "disabled";
+	status = "okay";
 };
 
 &s_twi1 {
@@ -1671,7 +1672,7 @@
  	no_suspend = <1>;
  	status = "okay";
 
- 	rtc@51 {
+ 	rtc_hym: rtc_hym@51 {
  		compatible = "haoyu,hym8563";
  		reg = <0x51>;
  		#clock-cells = <0>;
