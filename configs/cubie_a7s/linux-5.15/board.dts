@@ -911,8 +911,8 @@
 	sunxi-power-save-mode;
 	sunxi-dis-signal-vol-sw;
 	mmc-bootpart-noacc;
-	/*cap-hsq;*/
-	cqe-on;
+	cap-hsq;
+	/*cqe-on;*/
 	ctl-cmdq-md = <0x2>;
 	max-frequency = <200000000>;
 	/*vmmc-supply = <&reg_cldo3>;*/
@@ -920,6 +920,11 @@
 	/*vqmmc-supply = <&reg_aldo1>;*/
 	/*emmc io vol 1.8v*/
 	/*vqmmc-supply = <&reg_cldo1>;*/
+	vmmc-supply = <&reg_dc1sw2>;
+	vqmmc33sw-supply = <&reg_dc1sw2>;
+	vdmmc33sw-supply = <&reg_dc1sw2>;
+	vqmmc18sw-supply = <&reg_cldo5>;
+	vdmmc18sw-supply = <&reg_cldo5>;
 	status = "okay";
 };
 
