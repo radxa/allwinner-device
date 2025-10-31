@@ -1878,6 +1878,7 @@
 	soundcard-mach,format		= "i2s";
 	soundcard-mach,frame-master	= <&i2s3_cpu>;
 	soundcard-mach,bitclock-master	= <&i2s3_cpu>;
+	soundcard-mach,playback-only;
 	/* soundcard-mach,frame-inversion; */
 	/* soundcard-mach,bitclock-inversion; */
 	soundcard-mach,name = "allwinner-hdmi";
