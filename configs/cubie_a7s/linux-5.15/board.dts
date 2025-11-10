@@ -83,7 +83,7 @@
 
 		led-0 {
 			label = "radxa:green:sys";
-			gpios = <&r_pio PM 2 GPIO_ACTIVE_LOW>;
+			gpios = <&r_pio PM 2 GPIO_ACTIVE_HIGH>;
 			linux,default-trigger = "default-on";
 		};
 
@@ -147,9 +147,9 @@
 	"", "", "", "",
 	"", "", "", "",
 	/* PB */
-	"PIN_7", "PIN_11", "PIN_29", "PIN_31",
-	"PIN_36", "PIN_12", "PIN_35", "PIN_40",
-	"PIN_38", "PIN_8", "PIN_10", "",
+	"PIN_7", "PIN_11", "PIN_29", "",
+	"", "", "", "",
+	"", "PIN_8", "PIN_10", "",
 	"", "", "", "",
 	"", "", "", "",
 	"", "", "", "",
@@ -651,7 +651,7 @@
 	gpio-line-names =
 	/* PL */
 	"", "", "", "",
-	"", "PIN_22", "PIN_13", "PIN_15",
+	"PIN_12", "PIN_22", "PIN_13", "PIN_15",
 	"", "", "", "",
 	"", "", "", "",
 	"", "", "", "",
@@ -659,8 +659,8 @@
 	"", "", "", "",
 	"", "", "", "",
 	/* PM */
-	"", "", "", "PIN_33",
-	"PIN_37", "PIN_32", "", "",
+	"", "", "", "",
+	"", "", "", "",
 	"", "", "", "",
 	"", "", "", "",
 	"", "", "", "",
@@ -1809,51 +1809,6 @@
 	status = "okay";
 };
 
-&hdmi0 {
-	dcdc2-supply = <&reg_dcdc2>;
-	cldo2-supply = <&reg_cldo2>;
-	hdmi_power0 = "dcdc2";
-	hdmi_power1 = "cldo2";
-	hdmi_power_cnt = <2>;
-
-	/*
-	 * @hdmi_hdcp1x_enable: control hdcp1x function
-	 *	- 1: enable hdcp1x
-	 *	- 0: disable hdcp1x
-	 * @hdmi_hdcp2x_enable: control hdcp2x function
-	 *	- 1: enable hdcp2x
-	 *	- 0: disable hdcp2x
-	 * @hdmi_cec_enable: control cec function
-	 *	- 1: enable cec function
-	 *	- 0: disable cec function
-	 * @hdmi_clock_source: select hdmi pixel clock source
-	 *	- 1: from ccmu clock
-	 *	- 0: from phypll clock
-	 * @hdmi_resistor_select: select hdmi resistor config. Actual onboard config!!!
-	 *	- 1: use onboard resistor
-	 *	- 0: use onchip resisehci0 tor
-	 * @hdmi_ddc_index: config hdmi ddc adapter index.
-	 *	- index: ddc adapter index. don't conflict with TWI!
-	 */
-	hdmi_hdcp1x_enable = <1>;
-	hdmi_hdcp2x_enable = <1>;
-	hdmi_cec_enable = <1>;
-	hdmi_clock_source = <0>;
-	hdmi_resistor_select = <1>;
-	hdmi_ddc_index = <20>;
-	priority = <6>;
-
-	/* match rule: min clk <= clock < max clk */
-	snps_phy = <
-		 25000 185625 0x0007 0x8160 0x8188
-		185625 185625 0x0007 0x8160 0x8198
-		185625 340000 0x0004 0x8040 0x8E85
-		340000 600000 0x0000 0x80c0 0x82F6>;
-
-	status = "okay";
-};
-
-
 &edp0 {
 	#sound-dai-cells = <0>; /* audio driver match method arg */
 	compatible = "allwinner,drm-dp";
@@ -1916,11 +1871,6 @@
 	status         = "okay";
 };
 
-&hdmi_codec {
-	extcon = <&hdmi0>;
-	status = "okay";
-};
-
 &i2s3_plat {
 	tdm-num		= <3>;
 	tx-pin          = <0 1 2 3>;
@@ -1936,8 +1886,6 @@
 
 	tx-hub-en;
 	rx-sync-en;
-	/* hdmi: */
-	dai-type = "hdmi";
 	/* av:  */
 	/* av not need dai-type */
 	status		= "okay";
@@ -1954,17 +1902,13 @@
 	status		= "okay";
 	i2s3_cpu: soundcard-mach,cpu {
 		sound-dai = <&i2s3_plat>;
-		soundcard-mach,pll-fs	= <1>;
-		soundcard-mach,mclk-fs	= <0>;
 		/* av: */
-		/* soundcard-mach,pll-fs	= <4>; */
-		/* soundcard-mach,mclk-fs	= <512>; */
+		soundcard-mach,pll-fs	= <4>;
+		soundcard-mach,mclk-fs	= <512>;
 	};
 	i2s3_codec: soundcard-mach,codec {
-		/* hdmi: */
-		sound-dai               = <&hdmi_codec>;
 		/* av: */
-		/* sound-dai               = <&edp0>; */
+		sound-dai               = <&edp0>;
 	};
 };
 
