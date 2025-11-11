@@ -110,7 +110,7 @@
 		// aux_n = <&r_pio PL 11 GPIO_ACTIVE_HIGH>;
 		phys = <&combo0_dp>, <&combo0_usb>;
 		phy-names = "dp-phy", "usb-phy";
-
+		dp_configure_delay = <20>;
 		status = "okay";
 
 		mode-switch;
@@ -1715,7 +1715,6 @@
 		interrupt-parent = <&r_pio>;
 		husb311,intr_gpio = <&r_pio PL 3 IRQ_TYPE_LEVEL_LOW>;
 		vbus-supply = <&reg_usb0_vbus>;
-		det_usb_supply = <&usb_power_supply>;
 		/* aw,vbus-wakeup-quirk; */
 		/* aw,port-reset-quirk; */
 		status = "okay";
@@ -1739,9 +1738,10 @@
 			power-role = "dual";
 			try-power-role = "source";
 			op-sink-microwatt = <1000000>;
-			//typec-power-opmode = "default";
-			//pd-disable;
+			typec-power-opmode = "default";
 			slow-charger-loop;
+			source-pdos = < PDO_FIXED(5000, 500, (0x1<<29)|(0x1<<25))
+							PDO_VAR(5000, 5000, 1200) >;
 			sink-pdos = < PDO_FIXED(5000, 500, (0x1<<29)|(0x1<<25))
 						 PDO_VAR(5000, 5000, 2000)
 						 /* PDO_VAR(9000, 9000, 2000)
@@ -1749,8 +1749,6 @@
 						 PDO_VAR(15000, 15000, 3000)
 						 PDO_VAR(20000, 20000, 2250)*/
 						>;
-			source-pdos = < PDO_FIXED(5000, 500, (0x1<<29)|(0x1<<25))
-							PDO_VAR(5000, 5000, 1200) >;
 			/* fixme */
 			sink-vdos = <0xd1002e99 0x00 0x03110000>;
 			sink-vdos-v1 = <0xd1002e99 0x00 0x03110000>;
@@ -1823,7 +1821,7 @@
 
 	edp_lane_rate = <1>;
 	edp_lane_cnt = <4>;
-	//extcon = <&serdes>;
+	extcon = <&serdes>;
 
 	status = "okay";
 	ports {
