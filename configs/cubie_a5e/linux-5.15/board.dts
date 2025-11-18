@@ -153,6 +153,29 @@
 
 };
 
+&e906_rproc {
+	mboxes = <&msgbox 8>;
+	mbox-names = "arm-kick";
+	memory-region = <&riscvsram0_reserved>, <&riscvsram1_reserved>, <&rv_vdev0buffer>, <&rv_vdev0vring0>, <&rv_vdev0vring1>, <&e906_dram_reserved>;
+	auto-boot;
+	fw-region = <&e906_mem_fw>;
+	memory-mappings =
+		/* < DA		len		PA >	*/
+		/* DSP RAM */
+		< 0x20000	0x20000		0x20000 >,
+		/* SRAM A2 */
+		< 0x40000	0x24000		0x40000 >,
+		/* DDR */
+		< 0x8000000	0x37f00000	0x8000000 >,
+		/* SRAM SPACE 0 */
+		< 0x3ffc0000	0x40000		0x07280000 >,
+		/* SRAM SPACE 1 */
+		< 0x40000000	0x40000		0x072c0000 >,
+		/* DRAM SPACE */
+		< 0x40040000	0x3ffc0000	0x40040000>;
+	status = "okay";
+};
+
 &de {
 	chn_cfg_mode = <3>;
 	status = "okay";
