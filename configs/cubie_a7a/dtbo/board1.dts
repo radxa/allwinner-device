@@ -1,0 +1,31 @@
+/dts-v1/;
+/plugin/;
+/ {
+  /* As DTS design, these properties only for loader, won't overlay */
+  compatible = "board_manufacturer,board_model";
+
+  /* These properties are examples */
+  board_id = <0x00000001>;
+  board_rev = <0x00000000>;
+  another_hw_information = "some_data";
+  soc_id = <0x68000000>;
+
+};
+
+&soc {
+	dtbo_version = <0x00000001>;
+	dtbo{
+		compatible = "allwinner,sunxi-dtbo";
+		dtbo_type = <1>;
+	};
+};
+
+&twi2 {
+	focaltech@38{
+		focaltech,display-coords =  <0 0 1200 2000>;
+		focaltech,swap-x2y = <0>;
+		focaltech,revert_x = <1>;
+		focaltech,revert_y = <1>;
+	};
+};
+

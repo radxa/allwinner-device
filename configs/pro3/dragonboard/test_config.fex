@@ -108,7 +108,7 @@ device1_name = "MH248"
 ;-------------------------------------------------------------------------------
 [ethernet]
 display_name= "以太网"
-activated   = 1
+activated   = 0
 program     = "ethtester.sh"
 category    = 0
 run_type    = 1
@@ -189,11 +189,19 @@ run_type    = 1
 
 [Usb_OTG]
 display_name= "USB_OTG"
-activated   = 0
+activated   = 1
 program     = "otgtester.sh"
 category    = 1
 run_type    = 1
 
+;-------------------------------------------------------------------------------
+; video_cnt:
+;   the total number of video nodes to be tested.
+; vodeo_id:
+;   the id of /dev/video device node, range from 0 to 17.
+; video_fps:
+;   the frame rate of video node, must be no less than 15fps.
+;-------------------------------------------------------------------------------
 [camera]
 activated   = 1
 module_count= 9
@@ -217,6 +225,13 @@ video_fps2  = 30
 [flashlight]
 activated   = 1
 sensor_name = "ov13850_mipi"
+
+[USB_DIG_JACK]
+display_name= "USB数字耳机"
+activated   = 0
+program     = "usbdigjack.sh"
+category    = 1
+run_type    = 1
 
 ;-------------------------------------------------------------------------------
 ; internal_loopback_test:
@@ -259,14 +274,14 @@ mic2_threshold = 4096
 mic3_threshold = 4096
 
 [soundcard]
-card = 0;
-device = 0;
-mic_spk_test = 1;
-test_wav_time = 5;
+card_name = "sndi2s0"
+device = 0
+mic_spk_test = 1
+test_wav_time = 5
 ;only used for singal codec output and default LINEOUTR/HPOUTR output.
-dac_swap = 0;
+dac_swap = 0
 ;only used to dual Speaker L channel and R chennel test, singal Speaker should not use.
-dual_spk_channel_test = 1;
+dual_spk_channel_test = 1
 
 ;-------------------------------------------------------------------------------
 ;type(may unuesd):
@@ -309,7 +324,7 @@ device_name = "fts_ts"
 ;-------------------------------------------------------------------------------
 [hdmi]
 display_name= "HDMI"
-activated   = 1
+activated   = 0
 program     = "hdmitester.sh"
 category    = 1
 run_type    = 1
@@ -451,35 +466,3 @@ tp_draw_color       = 0
 
 pass_str            = "通过"
 fail_str            = "失败"
-
-;-------------------------------------------------------------------------------
-; video_cnt:
-;   the total number of video nodes to be tested.
-; vodeo_id:
-;   the id of /dev/video device node, range from 0 to 17.
-; video_fps:
-;   the frame rate of video node, must be no less than 15fps.
-;-------------------------------------------------------------------------------
-[camera]
-activated   = 1
-module_count= 9
-module1_path= "/system/vendor/modules/videobuf2-common.ko"
-module2_path= "/system/vendor/modules/videobuf2-memops.ko"
-module3_path= "/system/vendor/modules/videobuf2-dma-contig.ko"
-module4_path= "/system/vendor/modules/videobuf2-v4l2.ko"
-module5_path= "/system/vendor/modules/vin_io.ko"
-module6_path= "/system/vendor/modules/ov13850_mipi.ko"
-module7_path= "/system/vendor/modules/gc05a2_mipi.ko"
-module8_path= "/system/vendor/modules/gc030a_mipi.ko"
-module9_path= "/system/vendor/modules/vin_v4l2.ko"
-video_cnt   = 3
-video_id0   = 1
-video_fps0  = 30
-video_id1   = 8
-video_fps1  = 30
-video_id2   = 2
-video_fps2  = 30
-
-[flashlight]
-activated   = 1
-sensor_name = "ov13850_mipi"

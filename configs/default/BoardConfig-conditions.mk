@@ -12,6 +12,13 @@ ifeq ($(filter-out %5.15,$(LICHEE_KERN_VER)),)
 		ifeq ($(LICHEE_LINUX_DEV),dragonabts)
 			LICHEE_KERN_DEFCONF:=dragonabts_defconfig
 		endif
+		ifeq ($(LICHEE_LINUX_DEV),debian)
+			ifeq ($(LICHEE_BOARD),cubie_a7a)
+				LICHEE_KERN_DEFCONF:=cubie_a7a_defconfig
+			else ifeq ($(LICHEE_PLATFORM),cubie_a7z)
+				LICHEE_KERN_DEFCONF:=cubie_a7z_defconfig
+			endif
+		endif
 	else ifeq ($(LICHEE_PLATFORM),android)
 		LICHEE_KERN_DEFCONF := android13_arm64_defconfig
 	endif

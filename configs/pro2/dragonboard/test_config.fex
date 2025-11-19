@@ -194,14 +194,15 @@ run_type    = 1
 ;-------------------------------------------------------------------------------
 [camera]
 activated   = 1
-module_count= 8
+module_count= 9
 module1_path= "/system/vendor/modules/videobuf2-common.ko"
 module2_path= "/system/vendor/modules/videobuf2-memops.ko"
 module3_path= "/system/vendor/modules/videobuf2-dma-contig.ko"
 module4_path= "/system/vendor/modules/videobuf2-v4l2.ko"
 module5_path= "/system/vendor/modules/vin_io.ko"
 module6_path= "/system/vendor/modules/ov13850_mipi.ko"
-module7_path= "/system/vendor/modules/gc05a2.ko"
+module7_path= "/system/vendor/modules/gc05a2_mipi.ko"
+module7_path= "/system/vendor/modules/gc030a_mipi.ko"
 module8_path= "/system/vendor/modules/vin_v4l2.ko"
 video_cnt   = 3
 video_id0   = 1
@@ -257,7 +258,7 @@ mic3_threshold = 4096
 
 
 [soundcard]
-card = 0;
+card_name = "sndi2s0";
 device = 0;
 mic_spk_test = 1;
 test_wav_time = 5;

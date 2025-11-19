@@ -1,0 +1,3 @@
+LICHEE_KERN_DEFCONF:=cubie_a7z_defconfig
+LICHEE_BRANDY_DEFCONF:=radxa-cubie-a7z_defconfig
+LICHEE_NO_RAMDISK_NEEDED:=y
