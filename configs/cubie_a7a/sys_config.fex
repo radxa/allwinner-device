@@ -155,7 +155,7 @@ dram_tpr14     = 0
 
 ;cxmt 6g ddr
 [dram_para1]
-dram_clk       = 1800
+dram_clk       = 2400
 dram_type      = 9
 dram_dx_odt    = 0x0e0e0e0e
 dram_dx_dri    = 0x0f0f0f0f
@@ -170,16 +170,16 @@ dram_mr3       = 0x6
 dram_mr4       = 0
 dram_mr5       = 0
 dram_mr6       = 0
-dram_mr11      = 0x12
+dram_mr11      = 0x13
 dram_mr12      = 0x44
 dram_mr13      = 0
-dram_mr14      = 0x34
+dram_mr14      = 0x2e
 dram_mr16      = 0
-dram_mr17      = 0x86
+dram_mr17      = 0x6
 dram_mr22      = 0
 dram_tpr0      = 0x4040
 dram_tpr1      = 0
-dram_tpr2      = 0x11080503
+dram_tpr2      = 0x170b0703
 dram_tpr3      = 0x3800
 dram_tpr6      = 0x3514
 dram_tpr10     = 0x325f0000
