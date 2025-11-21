@@ -929,6 +929,10 @@
 	status = "okay";
 };
 
+&sdc1 {
+	status = "disabled";
+};
+
 &sdc0 {
 	bus-width = <4>;
 	cd-gpios = <&pio PF 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
