@@ -821,24 +821,11 @@
 	status = "okay";
 };
 
-&disp1_hdmi0 {
+&disp0_hdmi0 {
 	enable = <1>;
-	logo,uboot = "bootlogo.bmp";
-};
-
-&disp0_dsi0 {
-	enable = <1>;
-	logo,uboot = "bootlogo.bmp";
-};
-
-&disp0_lvds0 {
-	enable = <0>;
-	logo,uboot = "bootlogo.bmp";
-};
-
-&disp0_edp0 {
-	enable = <0>;
-	logo,uboot = "bootlogo.bmp";
+	logo,uboot = "logo.bmp";
+	force-output;
+	status = "okay";
 };
 
 &pwm4{
