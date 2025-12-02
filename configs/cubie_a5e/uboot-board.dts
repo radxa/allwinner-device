@@ -306,6 +306,12 @@
 	status = "okay";
 };
 
+&disp0_hdmi {
+	enable = <1>;
+	status = "okay";
+	force-output;
+	logo,uboot = "logo.bmp";
+};
 
 &de {
 	chn_cfg_mode = <3>;
