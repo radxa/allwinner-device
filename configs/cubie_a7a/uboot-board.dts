@@ -81,7 +81,7 @@
 			15 00 02 1A 00
 			15 00 02 1B B7
 			15 00 02 1C 00
-			
+
 			15 00 02 24 FE
 			15 00 02 37 19
 			15 00 02 38 05
@@ -110,7 +110,7 @@
 			15 00 02 5D 78
 			15 00 02 5E 63
 			15 00 02 5F 54
-			
+
 			15 00 02 60 49
 			15 00 02 61 45
 			15 00 02 62 38
@@ -127,7 +127,7 @@
 			15 00 02 6D 37
 			15 00 02 6E 23
 			15 00 02 6F 10
-			
+
 			15 00 02 70 78
 			15 00 02 71 63
 			15 00 02 72 54
@@ -144,7 +144,7 @@
 			15 00 02 7D 57
 			15 00 02 7E 49
 			15 00 02 7F 44
-			
+
 			15 00 02 80 37
 			15 00 02 81 23
 			15 00 02 82 10
@@ -857,7 +857,8 @@
 };
 
 &pcie_rc {
-	status = "okay";
-	pcie1v8-supply = <&reg_bldo1>;
-	pcie3v3-supply = <&reg_dcdc1>;
+	/* Disabled to prevent U-Boot hang with Radxa Dual 2.5G Router HAT (ASM2806 PCIe switch).
+	 * Linux kernel will re-initialize PCIe after boot with proper quirks.
+	 */
+	status = "disabled";
 };
