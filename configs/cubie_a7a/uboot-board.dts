@@ -860,5 +860,7 @@
 	/* Disabled to prevent U-Boot hang with Radxa Dual 2.5G Router HAT (ASM2806 PCIe switch).
 	 * Linux kernel will re-initialize PCIe after boot with proper quirks.
 	 */
+	pcie1v8-supply = <&reg_pcie1v8>;
+	pcie3v3-supply = <&reg_pcie3v3>;
 	status = "disabled";
 };
