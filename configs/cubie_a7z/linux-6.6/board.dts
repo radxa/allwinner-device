@@ -5,32 +5,39 @@
 #include "sun60iw2p1.dtsi"
 #define TYPEC_DP 1
 /{
-	board = "A733", "A733-CUBIE-A7S-AXP318";
-	compatible = "radxa,cubie-a7s", "arm,sun60iw2p1", "allwinner,sun60i-a733";
+	board = "A733", "A733-CUBIE-A7Z-AXP318";
+	compatible = "radxa,cubie-a7z", "arm,sun60iw2p1";
 	aliases {
+		standby_param = &standby_param;
 		arisc-config = &arisc_config;
 		pmu0 = &pmu0;
 		bat_supply = &bat_power_supply;
 		phy_switcher = &phy_switcher;
 	};
 
-	reg_usb0_vbus: usb0-vbus {
+	standby_param: standby_param {
+		vdd-sys = <0x00000002 0x00000000>;
+		vdd-cpub = <0x00000004 0x00000000>;
+		vdd-gpu = <0x00000008 0x00000000>;
+		vdd-cpu = <0x00000010 0x00000000>;
+		vcc-io  = <0x00000001 0x00000000>;
+		vcc-pll = <0x01000000 0x00000000>;
+		vcc25-ufs = <0x00000000 0x00000001>;
+		vcc18-12-ufs = <0x00000080 0x00000000>;
+		vcc-efuse = <0x08000000 0x00000000>;
+		vcc18-hdmi = <0x00800000 0x00000000>;
+		avdd-h-combo = <0x04000000 0x00000000>;
+
+		vdd-usb = <0x00000001>;
+	};
+
+	reg_usb2_vbus: usb2-vbus {
 		compatible = "regulator-fixed";
-		regulator-name = "usb0-vbus";
+		regulator-name = "usb2-vbus";
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
 		regulator-enable-ramp-delay = <1000>;
 		gpio = <&r_pio PL 2 GPIO_ACTIVE_HIGH>;
-		enable-active-high;
-	};
-
-	reg_usb1_vbus: usb1-vbus {
-		compatible = "regulator-fixed";
-		regulator-name = "usb1-vbus";
-		regulator-min-microvolt = <5000000>;
-		regulator-max-microvolt = <5000000>;
-		regulator-enable-ramp-delay = <1000>;
-		gpio = <&r_pio PM 5 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 	};
 
@@ -58,18 +65,6 @@
 		regulator-boot-on;
 	};
 
-	eeprom_wp: eeprom-wp {
-		compatible = "regulator-fixed";
-		regulator-name = "eeprom_wp";
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
-		regulator-enable-ramp-delay = <1000>;
-		gpio = <&pio PC 7 GPIO_ACTIVE_HIGH>;
-		enable-active-high;
-		regulator-always-on;
-		regulator-boot-on;
-	};
-
 	arisc_config: arisc_config {
 		s_uart_config{
 			pins = "PL2", "PL3";
@@ -82,35 +77,23 @@
 		compatible = "gpio-leds";
 
 		led-0 {
-			label = "radxa:green:sys";
-			gpios = <&r_pio PM 2 GPIO_ACTIVE_HIGH>;
-			linux,default-trigger = "default-on";
-		};
-
-		led-1 {
 			label = "radxa:blue:user";
-			gpios = <&pio PJ 26 GPIO_ACTIVE_HIGH>;
+			gpios = <&r_pio PM 2 GPIO_ACTIVE_HIGH>;
 			linux,default-trigger = "heartbeat";
 		};
-	};
-
-	fan0: pwm-fan {
-		compatible = "pwm-fan";
-		#cooling-cells = <2>;
-		cooling-levels = <0 50 102 170 255>;
-		fan-supply = <&reg_dc1sw1>;
-		pwms = <&pwm1 9 25000 0>;
 	};
 
 	phy_switcher: phy_switcher@10 {
 		compatible = "allwinner,sunxi-phy-switcher";
 		reg = <0x0 0x10 0x0 0x0>;
-		// hotplug = <&pio PH 4 GPIO_ACTIVE_HIGH>;
-		// aux_p = <&r_pio PL 10 GPIO_ACTIVE_HIGH>;
-		// aux_n = <&r_pio PL 11 GPIO_ACTIVE_HIGH>;
+		//aux_p = <&r_pio PL 12 GPIO_ACTIVE_HIGH>;
+		//aux_n = <&r_pio PL 13 GPIO_ACTIVE_HIGH>;
 		phys = <&combo0_dp>, <&combo0_usb>;
 		phy-names = "dp-phy", "usb-phy";
-		dp_configure_delay = <20>;
+		// extcon = <&usb_power_supply>;
+		// usb_psy = <&reg_usb2_vbus>;
+		dp_configure_delay = <50>;
+
 		status = "okay";
 
 		mode-switch;
@@ -148,8 +131,8 @@
 	"", "", "", "",
 	/* PB */
 	"PIN_7", "PIN_11", "PIN_29", "PIN_31",
-	"PIN_36", "PIN_12", "PIN_35", "PIN_38",
-	"PIN_37", "PIN_8", "PIN_10", "",
+	"PIN_36", "PIN_12", "PIN_35", "PIN_40",
+	"PIN_38", "PIN_8", "PIN_10", "",
 	"", "", "", "",
 	"", "", "", "",
 	"", "", "", "",
@@ -192,8 +175,8 @@
 	"", "", "", "",
 	"", "", "", "",
 	/* PG */
-	"PIN_40", "PIN_41", "PIN_42", "PIN_43",
-	"PIN_44", "PIN_45", "", "",
+	"", "", "", "",
+	"", "", "", "",
 	"", "", "", "",
 	"", "", "", "",
 	"", "", "", "",
@@ -370,14 +353,14 @@
 	};
 
 	twi0_pins_default: twi0@0 {
-		pins = "PG8", "PG9";
+		pins = "PD22", "PD23";
 		function = "twi0";
 		drive-strength = <10>;
 		bias-pull-up;
 	};
 
 	twi0_pins_sleep: twi0@1 {
-		pins = "PG8", "PG9";
+		pins = "PD22", "PD23";
 		function = "gpio_in";
 	};
 
@@ -659,9 +642,8 @@
 	"", "", "", "",
 	"", "", "", "",
 	/* PM */
-	"", "", "", "PIN_32",
-	"PIN_33", "", "", "",
-	"", "", "", "",
+	"", "", "", "PIN_33",
+	"PIN_37", "PIN_32", "", "",
 	"", "", "", "",
 	"", "", "", "",
 	"", "", "", "",
@@ -771,6 +753,13 @@
 	status = "okay";
 };
 
+&uart1 {
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&uart1_pins_active>;
+	pinctrl-1 = <&uart1_pins_sleep>;
+	status = "okay";
+};
+
 &uart2 {
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&uart2_pins_active>;
@@ -843,27 +832,37 @@
 
 &soc{
 
+	fan0: pwm-fan {
+		compatible = "pwm-fan";
+		#cooling-cells = <2>; 
+		cooling-levels = <0 50 102 170 255>;
+		fan-supply = <&reg_dc1sw1>;
+		pwms = <&pwm1 9 25000 0>;
+	};
 };
 
-&cpul_target {
-	temperature = <60000>;
-	hysteresis = <2000>;
+&cpul_thres {
+	temperature = <70000>;
 };
 
-&cpul_threshold{
-	type = "active";
-	temperature = <60000>;
-	hysteresis = <2000>;
+&cpul_overshot {
+	temperature = <90000>;
+};
+
+&cpul_idle_zone {
+	cooling-maps {
+		map0 {
+			cooling-device = <&cpu2_idle 0 100>,
+						<&cpu3_idle 0 100>,
+						<&cpu4_idle 0 100>,
+						<&cpu5_idle 0 100>;
+		};
+	};
 };
 
 &cpul_thermal_zone {
+	sustainable-power = <3000>;
 	cooling-maps {
-		map0 {
-			trip = <&cpul_target>;
-			cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-			contribution = <1024>;
-		};
-
 		map1 {
 			trip = <&cpul_threshold>;
 			cooling-device = <&fan0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
@@ -872,28 +871,20 @@
 	};
 };
 
-&cpub_target {
-	temperature = <60000>;
-	hysteresis = <2000>;
+&cpub_thres {
+	temperature = <70000>;
 };
 
-&cpub_threshold{
-	type = "active";
-	temperature = <60000>;
-	hysteresis = <2000>;
+&cpub_overshot {
+	temperature = <90000>;
 };
 
 &cpub_thermal_zone {
+	sustainable-power = <4000>;
 	cooling-maps {
-		map0 {
-			trip = <&cpub_target>;
-			cooling-device = <&cpu6 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-			contribution = <1024>;
-		};
-
 		map1 {
 			trip = <&cpub_threshold>;
-			cooling-device = <&fan0 2 THERMAL_NO_LIMIT>;
+			cooling-device = <&fan0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
 			contribution = <1024>;
 		};
 	};
@@ -912,8 +903,8 @@
 	sunxi-power-save-mode;
 	sunxi-dis-signal-vol-sw;
 	mmc-bootpart-noacc;
-	cap-hsq;
-	/*cqe-on;*/
+	/*cap-hsq;*/
+	cqe-on;
 	ctl-cmdq-md = <0x2>;
 	max-frequency = <200000000>;
 	/*vmmc-supply = <&reg_cldo3>;*/
@@ -921,16 +912,7 @@
 	/*vqmmc-supply = <&reg_aldo1>;*/
 	/*emmc io vol 1.8v*/
 	/*vqmmc-supply = <&reg_cldo1>;*/
-	vmmc-supply = <&reg_dc1sw2>;
-	vqmmc33sw-supply = <&reg_dc1sw2>;
-	vdmmc33sw-supply = <&reg_dc1sw2>;
-	vqmmc18sw-supply = <&reg_cldo5>;
-	vdmmc18sw-supply = <&reg_cldo5>;
 	status = "okay";
-};
-
-&sdc1 {
-	status = "disabled";
 };
 
 &sdc0 {
@@ -938,7 +920,7 @@
 	cd-gpios = <&pio PF 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
 	/*non-removable;*/
 	/*broken-cd;*/
-	/*cd-inverted*/
+	/*cd-inverted;*/
 	/*data3-detect;*/
 	/*card-pwr-gpios = <&pio PH 14 1 1 2 0xffffffff>;*/
 	cd-used-24M;
@@ -967,20 +949,6 @@
 	vccq2-supply = <&reg_dcdc8>;
 	status = "okay";
 };
-
-#ifdef TYPEC_DP
-// &usbc0 {
-// 	usb-role-switch;
-// 	port {
-// 		#address-cells = <1>;
-// 		#size-cells = <0>;
-// 		usbc0_role_switch: endpoint@0 {
-// 			reg = <0>;
-// 			remote-endpoint = <&usbc0_role_sw>;
-// 		};
-// 	};
-// };
-#endif
 
 /*
  * usb_port_type: usb mode. 0-device, 1-host, 2-otg.
@@ -1038,13 +1006,11 @@
 
 &ehci1 {
 	phy_range = <0x188>;
-	drvvbus-supply = <&reg_usb1_vbus>;
 	status = "okay";
 };
 
 &ohci1 {
 	phy_range = <0x188>;
-	drvvbus-supply = <&reg_usb1_vbus>;
 	status = "okay";
 };
 
@@ -1073,7 +1039,7 @@
 #else
 	phys = <&u2phy>, <&combo1_usb>;
 #endif
- };
+};
 
 &u2phy {
 	status = "okay";
@@ -1094,31 +1060,12 @@
 };
 
 &pcie_rc {
-	pcie1v8-supply = <&reg_dc1sw1>;
-	pcie3v3-supply = <&reg_bldo2>;
 	power-gpios =  <&pio PD 20 GPIO_ACTIVE_HIGH>;
 	reset-gpios = <&pio PD 22 GPIO_ACTIVE_HIGH>;
 	wake-gpios = <&pio PD 21 GPIO_ACTIVE_HIGH>;
+	pcie1v8-supply = <&reg_bldo1>;
+	pcie3v3-supply = <&reg_dcdc1>;
 	status = "okay";
-};
-
-&twi0 {
-	clock-frequency = <400000>;
-	pinctrl-0 = <&twi0_pins_default>;
-	pinctrl-1 = <&twi0_pins_sleep>;
-	pinctrl-names = "default", "sleep";
-	/* For stability and backwards compatibility, we recommend setting ‘twi_drv_used’ to 1 */
-	twi_drv_used = <0>;
-	no_suspend = <1>;
-	twi-supply = <&reg_aldo1>;
-	status = "okay";
-
-	eeprom@50 {
-		compatible = "atmel,24c16";
-		reg = <0x50>;
-		//num-addresses = <1>;
-		status = "okay";
-	};
 };
 
 &s_twi0 {
@@ -1714,16 +1661,18 @@
 	no_suspend = <1>;
 	status = "okay";
 
-	husb311: husb311@4e {
-		compatible = "hynetek,husb311";
+	et7304: et7304@4e {
+		compatible = "etek,et7304";
 		reg = <0x4e>;
 		interrupt-parent = <&r_pio>;
-		husb311,intr_gpio = <&r_pio PL 3 IRQ_TYPE_LEVEL_LOW>;
-		vbus-supply = <&reg_usb0_vbus>;
-		/* aw,vbus-wakeup-quirk; */
-		/* aw,port-reset-quirk; */
+		et7304,intr_gpio = <&r_pio PL 3 IRQ_TYPE_LEVEL_LOW>;
+		vbus-supply = <&reg_usb2_vbus>;
+		// det_usb_supply = <&usb_power_supply>;
+		// aw,port-reset-quirk;
+		wakeup-source;
 		status = "okay";
 
+#ifdef TYPEC_DP
 		ports {
 			#address-cells = <1>;
 			#size-cells = <0>;
@@ -1735,25 +1684,27 @@
 				};
 			};
 		};
+#endif
 
 		usb_con: connector {
 			compatible = "usb-c-connector";
 			label = "USB-C";
 			data-role = "dual";
 			power-role = "dual";
-			try-power-role = "source";
+			try-power-role = "sink";
 			op-sink-microwatt = <1000000>;
 			typec-power-opmode = "default";
+			//pd-disable;
 			slow-charger-loop;
-			source-pdos = < PDO_FIXED(5000, 500, (0x1<<29)|(0x1<<25))
-							PDO_VAR(5000, 5000, 1200) >;
 			sink-pdos = < PDO_FIXED(5000, 500, (0x1<<29)|(0x1<<25))
 						 PDO_VAR(5000, 5000, 2000)
-						 /* PDO_VAR(9000, 9000, 2000)
+						/* PDO_VAR(9000, 9000, 2000)
 						 PDO_VAR(12000, 12000, 3000)
 						 PDO_VAR(15000, 15000, 3000)
 						 PDO_VAR(20000, 20000, 2250)*/
 						>;
+			source-pdos = < PDO_FIXED(5000, 500, (0x1<<29)|(0x1<<25))
+							PDO_VAR(5000, 5000, 1200) >;
 			/* fixme */
 			sink-vdos = <0xd1002e99 0x00 0x03110000>;
 			sink-vdos-v1 = <0xd1002e99 0x00 0x03110000>;
@@ -1811,6 +1762,59 @@
 &tv1 {
 	status = "okay";
 };
+
+&hdmi0 {
+	dcdc2-supply = <&reg_dcdc2>;
+	cldo2-supply = <&reg_cldo2>;
+	hdmi_power0 = "dcdc2";
+	hdmi_power1 = "cldo2";
+	hdmi_power_cnt = <2>;
+
+	/*
+	 * @hdmi_hdcp1x_enable: control hdcp1x function
+	 *	- 1: enable hdcp1x
+	 *	- 0: disable hdcp1x
+	 * @hdmi_hdcp2x_enable: control hdcp2x function
+	 *	- 1: enable hdcp2x
+	 *	- 0: disable hdcp2x
+	 * @hdmi_cec_enable: control cec function
+	 *	- 1: enable cec function
+	 *	- 0: disable cec function
+	 * @hdmi_clock_source: select hdmi pixel clock source
+	 *	- 1: from ccmu clock
+	 *	- 0: from phypll clock
+	 * @hdmi_resistor_select: select hdmi resistor config. Actual onboard config!!!
+	 *	- 1: use onboard resistor
+	 *	- 0: use onchip resisehci0 tor
+	 * @hdmi_ddc_index: config hdmi ddc adapter index.
+	 *	- index: ddc adapter index. don't conflict with TWI!
+	 * @force-output: control hdmi use dts timing output.
+	 *  - 1: output use dts timing
+	 *  - 0: output by sink edid
+	 * @force-output-timing: hdmi dts timing.
+	 *  - params: clock-hdisplay-hsync_start-hsync_end-htotal-vdisplay-vsync_start-vsync_end-vtotal
+	 */
+	hdmi_hdcp1x_enable = <1>;
+	hdmi_hdcp2x_enable = <1>;
+	hdmi_cec_enable = <1>;
+	hdmi_clock_source = <0>;
+	hdmi_resistor_select = <1>;
+	hdmi_ddc_index = <20>;
+	priority = <6>;
+
+	force-output = <0>;
+	force-output-timing = "440000-3440-3450-4500-4800-1440-1455-1464-1494";
+
+	/* match rule: min clk <= clock < max clk */
+	snps_phy = <
+		 25000 185625 0x0007 0x8160 0x8188
+		185625 185625 0x0007 0x8160 0x8198
+		185625 340000 0x0004 0x8040 0x8E85
+		340000 600000 0x0000 0x80c0 0x82F6>;
+
+	status = "okay";
+};
+
 
 &edp0 {
 	#sound-dai-cells = <0>; /* audio driver match method arg */
@@ -1874,6 +1878,11 @@
 	status         = "okay";
 };
 
+&hdmi_codec {
+	extcon = <&hdmi0>;
+	status = "okay";
+};
+
 &i2s3_plat {
 	tdm-num		= <3>;
 	tx-pin          = <0 1 2 3>;
@@ -1889,6 +1898,8 @@
 
 	tx-hub-en;
 	rx-sync-en;
+	/* hdmi: */
+	dai-type = "hdmi";
 	/* av:  */
 	/* av not need dai-type */
 	status		= "okay";
@@ -1900,40 +1911,24 @@
 	soundcard-mach,bitclock-master	= <&i2s3_cpu>;
 	/* soundcard-mach,frame-inversion; */
 	/* soundcard-mach,bitclock-inversion; */
+	soundcard-mach,name = "allwinner-hdmi";
 	soundcard-mach,slot-num		= <2>;
 	soundcard-mach,slot-width	= <32>;
-	soundcard-mach,playback-only;
-	soundcard-mach,name = "allwinner-edp";
 	status		= "okay";
 	i2s3_cpu: soundcard-mach,cpu {
 		sound-dai = <&i2s3_plat>;
+		soundcard-mach,pll-fs	= <1>;
+		soundcard-mach,mclk-fs	= <0>;
 		/* av: */
-		soundcard-mach,pll-fs	= <4>;
-		soundcard-mach,mclk-fs	= <512>;
+		/* soundcard-mach,pll-fs	= <4>; */
+		/* soundcard-mach,mclk-fs	= <512>; */
 	};
 	i2s3_codec: soundcard-mach,codec {
+		/* hdmi: */
+		sound-dai               = <&hdmi_codec>;
 		/* av: */
-		sound-dai               = <&edp0>;
+		/* sound-dai               = <&edp0>; */
 	};
-};
-
-&gmac0_phy0 {
-	compatible = "ethernet-phy-id7b74.4412";
-	reset-gpios = <&pio PH 16 GPIO_ACTIVE_LOW>;
-};
-
-&gmac0 {
-	phy-mode = "rgmii";
-	pinctrl-0 = <&gmac0_pins_default>;
-	pinctrl-1 = <&gmac0_pins_sleep>;
-	pinctrl-names = "default", "sleep";
-	aw,soc-phy-clk-en;
-	/delete-property/ aw,rgmii-clk-ext;
-	tx-delay = <12>;
-	rx-delay = <10>;
-	dwmac3v3-supply = <&reg_dc1sw2>;
-	phy3v3-supply = <&reg_dc1sw1>;
-	status = "okay";
 };
 
 &lradc {
