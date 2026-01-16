@@ -1928,6 +1928,7 @@
 	pinctrl-1 = <&gmac0_pins_sleep>;
 	pinctrl-names = "default", "sleep";
 	aw,soc-phy-clk-en;
+	/delete-property/ aw,rgmii-clk-ext;
 	tx-delay = <12>;
 	rx-delay = <10>;
 	dwmac3v3-supply = <&reg_dc1sw2>;
