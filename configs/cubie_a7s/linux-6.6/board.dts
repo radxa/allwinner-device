@@ -1727,7 +1727,6 @@
 			label = "USB-C";
 			data-role = "dual";
 			power-role = "dual";
-			try-power-role = "source";
 			op-sink-microwatt = <1000000>;
 			typec-power-opmode = "default";
 			slow-charger-loop;
