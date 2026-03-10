@@ -1970,3 +1970,199 @@
 	sid-supply = <&reg_dldo1>;
 	voltage = <1800>;
 };
+
+&vind0 {
+	status = "disabled";
+};
+
+&csi0 {
+	status = "disabled";
+};
+
+&csi1 {
+	status = "disabled";
+};
+
+&csi2 {
+	status = "disabled";
+};
+
+&mipi0 {
+	status = "disabled";
+};
+
+&mipi1 {
+	status = "disabled";
+};
+
+&mipi2 {
+	status = "disabled";
+};
+
+&tdm0 {
+	status = "disabled";
+};
+
+&isp00 {
+	status = "disabled";
+};
+
+&isp01 {
+	status = "disabled";
+};
+
+&isp02 {
+	status = "disabled";
+};
+
+&isp03 {
+	status = "disabled";
+};
+
+&isp10 {
+	status = "disabled";
+};
+
+&isp20 {
+	status = "disabled";
+};
+
+&isp30 {
+	status = "disabled";
+};
+
+&scaler00 {
+	status = "disabled";
+};
+
+&scaler01 {
+	status = "disabled";
+};
+
+&scaler02 {
+	status = "disabled";
+};
+
+&scaler03 {
+	status = "disabled";
+};
+
+&scaler10 {
+	status = "disabled";
+};
+
+&scaler20 {
+	status = "disabled";
+};
+
+&scaler30 {
+	status = "disabled";
+};
+
+&scaler40 {
+	status = "disabled";
+};
+
+&scaler50 {
+	status = "disabled";
+};
+
+&actuator0 {
+	status = "disabled";
+};
+
+&flash0 {
+	status = "disabled";
+};
+
+&sensor0 {
+	status = "disabled";
+};
+
+&sensor1 {
+	status = "disabled";
+};
+
+&sensor2 {
+	status = "disabled";
+};
+
+&sensor_list0 {
+	status = "disabled";
+};
+
+&sensor_list1 {
+	status = "disabled";
+};
+
+&vinc00 {
+	status = "disabled";
+};
+
+&vinc01 {
+	status = "disabled";
+};
+
+&vinc02 {
+	status = "disabled";
+};
+
+&vinc03 {
+	status = "disabled";
+};
+
+&vinc10 {
+	status = "disabled";
+};
+
+&vinc11 {
+	status = "disabled";
+};
+
+&vinc12 {
+	status = "disabled";
+};
+
+&vinc13 {
+	status = "disabled";
+};
+
+&vinc20 {
+	status = "disabled";
+};
+
+&vinc21 {
+	status = "disabled";
+};
+
+&vinc22 {
+	status = "disabled";
+};
+
+&vinc23 {
+	status = "disabled";
+};
+
+&vinc30 {
+	status = "disabled";
+};
+
+&vinc31 {
+	status = "disabled";
+};
+
+&vinc32 {
+	status = "disabled";
+};
+
+&vinc33 {
+	status = "disabled";
+};
+
+&vinc40 {
+	status = "disabled";
+};
+
+&vinc50 {
+	status = "disabled";
+};
