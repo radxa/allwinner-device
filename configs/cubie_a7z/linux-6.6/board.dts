@@ -860,6 +860,17 @@
 	};
 };
 
+&cpul_target {
+	temperature = <60000>;
+	hysteresis = <2000>;
+};
+
+&cpul_threshold{
+	type = "active";
+	temperature = <60000>;
+	hysteresis = <2000>;
+};
+
 &cpul_thermal_zone {
 	sustainable-power = <3000>;
 	cooling-maps {
@@ -871,12 +882,15 @@
 	};
 };
 
-&cpub_thres {
-	temperature = <70000>;
+&cpub_target {
+	temperature = <60000>;
+	hysteresis = <2000>;
 };
 
-&cpub_overshot {
-	temperature = <90000>;
+&cpub_threshold{
+	type = "active";
+	temperature = <60000>;
+	hysteresis = <2000>;
 };
 
 &cpub_thermal_zone {
