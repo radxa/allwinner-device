@@ -151,6 +151,16 @@
 
 	};
 
+	wifi_bt_reg: wifi-bt-reg {
+		compatible = "regulator-gpio";
+		gpios = <&r_pio PM 1 GPIO_ACTIVE_HIGH>; /* wl_reg_on */
+		states = <0x07 3300000>;
+		regulator-name = "wifi_bt_reg";
+		regulator-always-on;
+		startup-delay-us = <100>;
+		enable-high;
+	};
+
 };
 
 &e906_rproc {
@@ -1318,7 +1328,6 @@
 
 &rfkill {
 	compatible = "allwinner,sunxi-rfkill";
-	// chip_en  = <&r_pio PM 5 GPIO_ACTIVE_HIGH>;
 	power_en = <&r_pio PM 2 GPIO_ACTIVE_HIGH>;
 	pinctrl-0;
 	pinctrl-names;
@@ -1329,11 +1338,9 @@
 		compatible    = "allwinner,sunxi-wlan";
 		clocks        = <&rtc_ccu CLK_OSC32K_OUT>;
 		clock-names   = "osc32k-out";
-		wlan_power    = "axp2202-bldo1"; /* vcc-pl/vcc-pg/vcc-pm */
-		wlan_power_vol= <1800000>;
+		wlan_power    = "axp2202-bldo1"; /* vcc-io-wifi vcc-pg */
+		wlan_power_vol= <3300000>;
 		wlan_busnum   = <0x1>;
-		wlan_regon    = <&r_pio PM 1 GPIO_ACTIVE_HIGH>;
-		wlan_hostwake = <&r_pio PM 0 GPIO_ACTIVE_HIGH>;
 		wakeup-source;
 	};
 };
