@@ -1,0 +1,14 @@
+/* SPDX-License-Identifier: (GPL-2.0+ or MIT) */
+
+/dts-v1/;
+/ {
+	phy_key: phy_key {
+		type = <1>; /* disabled: 0; lradc key: 1; gpadc key: 2; gpio key: 3 */
+
+		gpio0: gpio0 {
+		};
+
+		gpio1: gpio1 {
+		};
+	};
+};

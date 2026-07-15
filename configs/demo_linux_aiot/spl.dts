@@ -1,0 +1,7 @@
+/* SPDX-License-Identifier: (GPL-2.0+ or MIT) */
+
+#include "spl.dtsi"
+
+&phy_key {
+	type = <1>; /* disabled: 0; lradc key: 1; gpadc key: 2; gpio key: 3 */
+};

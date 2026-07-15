@@ -1,0 +1,2 @@
+LICHEE_BRANDY_DEFCONF:=sun55iw3p1_linux_car_defconfig
+LICHEE_KERN_VER:=
