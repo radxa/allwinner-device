@@ -1954,6 +1954,7 @@
 
 &gpu  {
 	gpu-supply = <&reg_dcdc4>;
+	clk_rate = <600000000>;
 };
 
 &sid {
