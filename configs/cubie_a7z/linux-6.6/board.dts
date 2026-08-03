@@ -6,7 +6,7 @@
 #define TYPEC_DP 1
 /{
 	board = "A733", "A733-CUBIE-A7Z-AXP318";
-	compatible = "radxa,a733", "radxa,cubie-a7z", "arm,sun60iw2p1", "allwinner,sun60i-a733";
+	compatible = "radxa,cubie-a7z", "radxa,a733", "arm,sun60iw2p1", "allwinner,sun60i-a733";
 	aliases {
 		standby_param = &standby_param;
 		arisc-config = &arisc_config;
