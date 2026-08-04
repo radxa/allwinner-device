@@ -36,6 +36,30 @@
 		enable-active-high;
 	};
 
+	wifi_power_en: wifi_power_en {
+		compatible = "regulator-fixed";
+		regulator-name = "wifi_power_en";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-enable-ramp-delay = <1000>;
+		gpio = <&r_pio PM 2 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-always-on;
+		regulator-boot-on;
+	};
+
+	wifi_chip_en: wifi_chip_en {
+		compatible = "regulator-fixed";
+		regulator-name = "wifi_chip_en";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-enable-ramp-delay = <1000>;
+		gpio = <&r_pio PM 1 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-always-on;
+		regulator-boot-on;
+	};
+
 	reg_pcie_3v3: pcie-3v3 {
 		compatible = "regulator-fixed";
 		regulator-name = "pcie-3v3";
@@ -1296,7 +1320,6 @@
 &rfkill {
 	compatible = "allwinner,sunxi-rfkill";
 	// chip_en  = <&r_pio PM 5 GPIO_ACTIVE_HIGH>;
-	power_en = <&r_pio PM 2 GPIO_ACTIVE_HIGH>;
 	pinctrl-0;
 	pinctrl-names;
 	status = "okay";
@@ -1309,8 +1332,7 @@
 		wlan_power    = "axp2202-bldo1"; /* vcc-pl/vcc-pg/vcc-pm */
 		wlan_power_vol= <1800000>;
 		wlan_busnum   = <0x1>;
-		wlan_regon    = <&r_pio PM 1 GPIO_ACTIVE_HIGH>;
-		wlan_hostwake = <&r_pio PM 0 GPIO_ACTIVE_HIGH>;
+			wlan_hostwake = <&r_pio PM 0 GPIO_ACTIVE_HIGH>;
 		wakeup-source;
 	};
 };
