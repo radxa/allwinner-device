@@ -445,6 +445,16 @@
 		function = "gpio_in";
 	};
 
+	uart1_pins_a: uart1_pins@0 {
+		pins = "PG6", "PG7", "PG8", "PG9";
+		function = "uart1";
+	};
+
+	uart1_pins_b: uart1_pins@1 {
+		pins = "PG6", "PG7", "PG8", "PG9";
+		function = "gpio_in";
+	};
+
 	uart2_pins_a: uart2_pins@0 {
 		pins = "PB0", "PB1";
 		function = "uart2";
@@ -723,6 +733,9 @@
 };
 
 &uart1 {
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&uart1_pins_a>;
+	pinctrl-1 = <&uart1_pins_b>;
 	status = "okay";
 };
 
