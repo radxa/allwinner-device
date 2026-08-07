@@ -1469,6 +1469,9 @@
 };
 
 &gpu {
+	compatible = "arm,mali-valhall-jm"; /* panfrost for Mali-G57 */
+	clock-names = "gpu", "bus", "pll_gpu", "clk_800", "clk_600", "clk_400", "clk_300", "clk_200";
+	interrupt-names = "job", "mmu", "gpu";
 	gpu_idle = <1>;
 	dvfs_status = <1>;
 	mali-supply = <&reg_dcdc2>;
