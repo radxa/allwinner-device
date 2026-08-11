@@ -6,7 +6,7 @@
 #define TYPEC_DP 1
 /{
 	board = "A733", "A733-CUBIE-A7A-AXP318";
-	compatible = "radxa,cubie-a7a", "radxa,a733", "arm,sun60iw2p1", "allwinner,sun60i-a733";
+	compatible = "radxa,cm-a7-rpi-cm5-io", "radxa,a733", "arm,sun60iw2p1", "allwinner,sun60i-a733";
 	aliases {
 		arisc-config = &arisc_config;
 		pmu0 = &pmu0;
@@ -39,7 +39,7 @@
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		regulator-enable-ramp-delay = <1000>;
-		gpio = <&r_pio PM 0 GPIO_ACTIVE_HIGH>;
+		gpio = <&pio PB 0 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 		regulator-always-on;
 		regulator-boot-on;
@@ -51,7 +51,7 @@
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		regulator-enable-ramp-delay = <1000>;
-		gpio = <&r_pio PM 1 GPIO_ACTIVE_HIGH>;
+		gpio = <&pio PB 1 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 		regulator-always-on;
 		regulator-boot-on;
@@ -79,9 +79,14 @@
 
 	fan0: pwm-fan {
 		compatible = "pwm-fan";
-		#cooling-cells = <2>; 
-		cooling-levels = <0 18 102 170 255>;
-		pwms = <&s_pwm0 7 25000 0>;
+		#cooling-cells = <2>;
+		cooling-levels = <0 100 130 160 190 220 255>;
+		pwms = <&s_pwm0 7 40000 0>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&fan_tach_pin>;
+		interrupt-parent = <&r_pio>;
+		interrupts = <PL 8 IRQ_TYPE_EDGE_FALLING>;
+		pulses-per-revolution = <2>;
 	};
 
 	leds {
@@ -89,14 +94,8 @@
 
 		led-0 {
 			label = "radxa:blue:user";
-			gpios = <&pio PJ 27 GPIO_ACTIVE_HIGH>;
+			gpios = <&pio PK 25 GPIO_ACTIVE_HIGH>;
 			linux,default-trigger = "heartbeat";
-		};
-
-		led-1 {
-			label = "radxa:green:power";
-			gpios = <&pio PJ 26 GPIO_ACTIVE_LOW>;
-			linux,default-trigger = "default-on";
 		};
 	};
 };
@@ -117,7 +116,7 @@
 	"", "", "", "",
 	"", "", "", "",
 	/* PB */
-	"PIN_7", "PIN_11", "", "",
+	"", "", "", "",
 	"", "", "", "",
 	"", "PIN_8", "PIN_10", "",
 	"", "", "", "",
@@ -138,15 +137,15 @@
 	"", "", "", "",
 	"", "", "", "",
 	"", "", "PIN_24", "PIN_23",
-	"PIN_19", "PIN_21", "PIN_26", "",
-	"PIN_28", "PIN_27", "", "",
-	"PIN_32", "", "", "",
+	"PIN_19", "PIN_21", "", "PIN_26",
+	"PIN_5", "PIN_3", "", "",
+	"", "", "", "",
 	"", "", "", "",
 	"", "", "", "",
 	/* PE */
 	"", "", "", "",
 	"", "", "", "",
-	"", "", "", "",
+	"", "", "PIN_28", "PIN_27",
 	"", "", "", "",
 	"", "", "", "",
 	"", "", "", "",
@@ -162,10 +161,10 @@
 	"", "", "", "",
 	"", "", "", "",
 	/* PG */
-	"", "", "", "",
-	"", "", "", "",
-	"", "", "", "",
-	"", "", "", "",
+	"PIN_7", "PIN_37", "PIN_22", "PIN_18",
+	"", "", "PIN_32", "PIN_33",
+	"PIN_29", "PIN_31", "PIN_36", "PIN_12",
+	"PIN_35", "PIN_40", "PIN_38", "",
 	"", "", "", "",
 	"", "", "", "",
 	"", "", "", "",
@@ -194,13 +193,13 @@
 	"", "", "", "",
 	"", "", "", "",
 	"", "", "", "",
-	"", "", "PIN_5", "PIN_3",
-	"PIN_16", "PIN_18", "", "",
+	"", "", "", "",
+	"", "", "", "",
 	"", "", "", "",
 	/* PK */
-	"PIN_12", "PIN_36", "PIN_35", "PIN_38",
-	"PIN_40", "PIN_29", "PIN_31", "PIN_33",
-	"PIN_37", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
 	"", "", "", "",
 	"", "", "", "",
 	"", "", "", "",
@@ -606,34 +605,36 @@
 };
 
 &r_pio {
+
+
 	gpio-line-names =
 	/* PL */
-        "", "", "", "",
-        "", "", "PIN_13", "PIN_15",
-        "", "", "PIN_22", "",
-        "", "", "", "",
-        "", "", "", "",
-        "", "", "", "",
-        "", "", "", "",
-        "", "", "", "",
-	/* PM */
 	"", "", "", "",
-        "", "", "", "",
-        "", "", "", "",
-        "", "", "", "",
-        "", "", "", "",
-        "", "", "", "",
-        "", "", "", "",
-        "", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
+	/* PM */
+	"PIN_16", "PIN_11", "PIN_13", "PIN_15",
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
 	/* PN */
 	"", "", "", "",
-        "", "", "", "",
-        "", "", "", "",
-        "", "", "", "",
-        "", "", "", "",
-        "", "", "", "",
-        "", "", "", "",
-        "", "", "", "";
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "",
+	"", "", "", "";
 
 	s_twi0_pins_default: s_twi0@0 {
 		pins = "PL0", "PL1";
@@ -691,6 +692,12 @@
 		pins = "PL9";
 		function = "gpio_in";
 		bias-pull-down;
+	};
+
+	fan_tach_pin: fan-tach-pin {
+		pins = "PL8";
+		function = "gpio_in";
+		bias-pull-up;
 	};
 };
 
@@ -843,6 +850,7 @@
 };
 
 &sdc2 {
+	cap-mmc-hw-reset;
 	non-removable;
 	bus-width = <8>;
 	mmc-ddr-1_8v;
@@ -898,9 +906,9 @@
 
 &sdc0 {
 	bus-width = <4>;
-	cd-gpios = <&pio PF 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-	/*non-removable;*/
-	/*broken-cd;*/
+	//cd-gpios = <&pio PF 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+	non-removable;
+	broken-cd;
 	/*cd-inverted*/
 	/*data3-detect;*/
 	/*card-pwr-gpios = <&pio PH 14 1 1 2 0xffffffff>;*/
@@ -1035,9 +1043,9 @@
 };
 
 &pcie_rc {
-	power-gpios =  <&pio PE 11 GPIO_ACTIVE_HIGH>;
-	reset-gpios = <&pio PE 13 GPIO_ACTIVE_HIGH>;
-	wake-gpios = <&pio PE 12 GPIO_ACTIVE_HIGH>;
+	power-gpios =  <&pio PD 20 GPIO_ACTIVE_HIGH>;
+	reset-gpios = <&pio PD 22 GPIO_ACTIVE_HIGH>;
+	wake-gpios = <&pio PD 21 GPIO_ACTIVE_HIGH>;
 	pcie1v8-supply = <&reg_bldo1>;
 	pcie3v3-supply = <&reg_dcdc1>;
 	status = "okay";
@@ -1049,18 +1057,11 @@
  	pinctrl-1 = <&twi0_pins_sleep>;
  	pinctrl-names = "default", "sleep";
  	/* For stability and backwards compatibility, we recommend setting ‘twi_drv_used’ to 1 */
- 	twi_drv_used = <0>;
- 	no_suspend = <1>;
- 	twi-supply = <&reg_cldo3>;
- 	status = "okay";
-
-		eeprom@50 {
-			compatible = "atmel,24c16";
-			reg = <0x50>;
-			//num-addresses = <1>;
-			status = "okay";
-		};
-	};
+	twi_drv_used = <0>;
+	no_suspend = <1>;
+	twi-supply = <&reg_cldo3>;
+	status = "disabled";
+};
 
 &twi5 {
 	clock-frequency = <400000>;
@@ -1696,6 +1697,13 @@
 	twi_drv_used = <1>;
 	no_suspend = <1>;
 	status = "okay";
+
+	eeprom@50 {
+		compatible = "atmel,24c16";
+		reg = <0x50>;
+		//num-addresses = <1>;
+		status = "okay";
+	};
 
 	ac101b: ac101b@3e {
 		#sound-dai-cells = <0>;
