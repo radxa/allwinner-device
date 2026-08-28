@@ -2157,3 +2157,10 @@
 &vinc50 {
 	status = "disabled";
 };
+
+&pmu0 {
+	watchdog {
+		compatible = "x-powers,axp2xx-watchdog";
+		status = "okay";
+	};
+};
