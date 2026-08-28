@@ -239,13 +239,13 @@
 	"", "", "", "";
 
 	uart0_pins_active: uart0_pins@0 {
-		pins = "", "";
+		pins = "PB9", "PB10";
 		function = "uart0";
 		drive-strength = <10>;
 	};
 
 	uart0_pins_sleep: uart0_pins@1 {
-		pins = "", "";
+		pins = "PB9", "PB10";
 		function = "gpio_in";
 		drive-strength = <10>;
 	};
