@@ -932,7 +932,7 @@
 
 &sdc0 {
 	bus-width = <4>;
-	cd-gpios = <&pio PF 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+	cd-gpios = <&pio PF 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
 	/*non-removable;*/
 	/*broken-cd;*/
 	/*cd-inverted;*/
