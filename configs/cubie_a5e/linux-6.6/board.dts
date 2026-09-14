@@ -1399,7 +1399,7 @@
 
 #ifdef  USE_PCIE
 &pcie {
-	reset-gpios = <&pio PH 11 GPIO_ACTIVE_HIGH>;
+	reset-gpios = <&pio PH 11 GPIO_ACTIVE_LOW>;
 	wake-gpios = <&pio PH 12 GPIO_ACTIVE_HIGH>;
 	num-lanes  = <1>;
 	clk-freq-100M;
