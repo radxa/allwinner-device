@@ -152,6 +152,17 @@
 
 	};
 
+	wifi_bt_reg: wifi-bt-reg {
+		compatible = "regulator-fixed";
+		regulator-name = "wifi_bt_reg";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-always-on;
+		gpio = <&r_pio PM 1 GPIO_ACTIVE_HIGH>; /* wl_reg_on */
+		enable-active-high;
+		startup-delay-us = <100>;
+	};
+
 };
 
 &de {
@@ -1320,10 +1331,9 @@
 		compatible    = "allwinner,sunxi-wlan";
 		clocks        = <&rtc_ccu CLK_OSC32K_OUT>;
 		clock-names   = "osc32k-out";
-		wlan_power    = "axp2202-bldo1"; /* vcc-pl/vcc-pg/vcc-pm */
-		wlan_power_vol= <1800000>;
+		wlan_power    = "axp2202-bldo1"; /* vcc-io-wifi vcc-pg */
+		wlan_power_vol= <3300000>;
 		wlan_busnum   = <0x1>;
-		wlan_regon    = <&r_pio PM 1 GPIO_ACTIVE_HIGH>;
 		wlan_hostwake = <&r_pio PM 0 GPIO_ACTIVE_HIGH>;
 		wakeup-source;
 	};
