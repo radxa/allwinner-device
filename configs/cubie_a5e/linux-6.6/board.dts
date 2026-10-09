@@ -17,6 +17,8 @@
 		serial0 = &uart0;
 		lcd0 = &lcd0;
 		hdmi = &hdmi;
+		ethernet0 = &gmac0;
+		ethernet1 = &gmac1;
 		// reg-tcs0 = &reg_tcs0;
 		// reg-sy0 = &reg_sy0;
 		reg-axp1530 = &reg_ext_axp1530_dcdc1;
