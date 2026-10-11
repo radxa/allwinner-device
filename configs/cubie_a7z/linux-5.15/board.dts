@@ -825,13 +825,13 @@
 };
 
 &cpul_target {
-	temperature = <60000>;
+	temperature = <65000>;
 	hysteresis = <2000>;
 };
 
 &cpul_threshold{
-	type = "active";
-	temperature = <60000>;
+	type = "passive";
+	temperature = <55000>;
 	hysteresis = <2000>;
 };
 
@@ -848,13 +848,13 @@
 
 
 &cpub_target {
-	temperature = <60000>;
+	temperature = <65000>;
 	hysteresis = <2000>;
 };
 
 &cpub_threshold{
-	type = "active";
-	temperature = <60000>;
+	type = "passive";
+	temperature = <55000>;
 	hysteresis = <2000>;
 };
 
