@@ -204,13 +204,13 @@
 	"", "", "", "";
 
 	uart0_pins_active: uart0_pins@0 {
-		pins = "", "";
+		pins = "PB9", "PB10";
 		function = "uart0";
 		drive-strength = <10>;
 	};
 
 	uart0_pins_sleep: uart0_pins@1 {
-		pins = "", "";
+		pins = "PB9", "PB10";
 		function = "gpio_in";
 		drive-strength = <10>;
 	};
@@ -825,13 +825,13 @@
 };
 
 &cpul_target {
-	temperature = <60000>;
+	temperature = <65000>;
 	hysteresis = <2000>;
 };
 
 &cpul_threshold{
-	type = "active";
-	temperature = <60000>;
+	type = "passive";
+	temperature = <55000>;
 	hysteresis = <2000>;
 };
 
@@ -848,13 +848,13 @@
 
 
 &cpub_target {
-	temperature = <60000>;
+	temperature = <65000>;
 	hysteresis = <2000>;
 };
 
 &cpub_threshold{
-	type = "active";
-	temperature = <60000>;
+	type = "passive";
+	temperature = <55000>;
 	hysteresis = <2000>;
 };
 

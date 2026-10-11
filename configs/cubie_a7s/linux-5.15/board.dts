@@ -238,13 +238,13 @@
 	"", "", "", "";
 
 	uart0_pins_active: uart0_pins@0 {
-		pins = "", "";
+		pins = "PB9", "PB10";
 		function = "uart0";
 		drive-strength = <10>;
 	};
 
 	uart0_pins_sleep: uart0_pins@1 {
-		pins = "", "";
+		pins = "PB9", "PB10";
 		function = "gpio_in";
 		drive-strength = <10>;
 	};
@@ -846,13 +846,13 @@
 };
 
 &cpul_target {
-	temperature = <60000>;
+	temperature = <75000>;
 	hysteresis = <2000>;
 };
 
 &cpul_threshold{
-	type = "active";
-	temperature = <60000>;
+	type = "passive";
+	temperature = <65000>;
 	hysteresis = <2000>;
 };
 
@@ -873,13 +873,13 @@
 };
 
 &cpub_target {
-	temperature = <60000>;
+	temperature = <75000>;
 	hysteresis = <2000>;
 };
 
 &cpub_threshold{
-	type = "active";
-	temperature = <60000>;
+	type = "passive";
+	temperature = <65000>;
 	hysteresis = <2000>;
 };
 
@@ -926,7 +926,7 @@
 	vdmmc33sw-supply = <&reg_dc1sw2>;
 	vqmmc18sw-supply = <&reg_cldo5>;
 	vdmmc18sw-supply = <&reg_cldo5>;
-	status = "okay";
+	status = "disabled";
 };
 
 &sdc1 {
@@ -965,7 +965,7 @@
 	vcc-supply = <&reg_dldo6>;
 	vccq-supply = <&reg_dcdc8>;
 	vccq2-supply = <&reg_dcdc8>;
-	status = "okay";
+	status = "disabled";
 };
 
 #ifdef TYPEC_DP
