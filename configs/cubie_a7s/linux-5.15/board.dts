@@ -926,7 +926,7 @@
 	vdmmc33sw-supply = <&reg_dc1sw2>;
 	vqmmc18sw-supply = <&reg_cldo5>;
 	vdmmc18sw-supply = <&reg_cldo5>;
-	status = "okay";
+	status = "disabled";
 };
 
 &sdc1 {
