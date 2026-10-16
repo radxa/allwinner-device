@@ -1375,7 +1375,7 @@
 	usb_det_vbus_gpio = "axp_ctrl";
 	det_vbus_supply = <&usb_power_supply>;
 	usb_regulator_io = "nocare";
-	usb_wakeup_suspend = <1>;
+	usb_wakeup_suspend = <2>;
 	usb_luns = <3>;
 	usb_serial_unique = <0>;
 	usb_serial_number = "20080411";
@@ -1442,7 +1442,7 @@
 &usbc1 {
 	device_type = "usbc1";
 	usb_regulator_io = "nocare";
-	usb_wakeup_suspend = <1>;
+	usb_wakeup_suspend = <2>;
 	wakeup-source;
 	status = "okay";
 };
