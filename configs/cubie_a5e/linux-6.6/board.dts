@@ -1312,6 +1312,8 @@
 	sunxi-dis-signal-vol-sw;
 	mmc-bootpart-noacc;
 	/*cap-hsq;*/
+	cqe-on;
+	ctl-cmdq-md = <0x2>;
 	max-frequency = <200000000>;
 	vmmc-supply  = <&reg_cldo3>;
 	vqmmc-supply = <&reg_cldo1>;
