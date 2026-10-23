@@ -206,6 +206,12 @@
 	"", "", "", "",
 	"", "", "", "";
 
+	sdc0_pins_power_cycle: sdc0-power-cycle {
+		pins = "PF0", "PF1", "PF2", "PF3", "PF4", "PF5";
+		function = "gpio_in";
+		bias-disable;
+	};
+
 	uart0_pins_active: uart0_pins@0 {
 		pins = "PB9", "PB10";
 		function = "uart0";
@@ -905,13 +911,19 @@
 };
 
 &sdc0 {
+	pinctrl-names = "default", "mmc_1v8", "sleep", "uart_jtag",
+			"power-cycle";
+	pinctrl-4 = <&sdc0_pins_power_cycle>;
 	bus-width = <4>;
 	//cd-gpios = <&pio PF 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 	non-removable;
 	broken-cd;
 	/*cd-inverted*/
 	/*data3-detect;*/
-	/*card-pwr-gpios = <&pio PH 14 1 1 2 0xffffffff>;*/
+	card-pwr-gpios = <&r_pio PM 4 GPIO_ACTIVE_HIGH>;
+	allwinner,card-power-cycle-on-power-up;
+	time_pwroff_ms = <2000>;
+	post-power-on-delay-ms = <1000>;
 	cd-used-24M;
 	cd-set-debounce = <0x1>;
 	cap-sd-highspeed;
