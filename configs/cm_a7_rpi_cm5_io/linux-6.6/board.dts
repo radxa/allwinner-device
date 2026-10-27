@@ -1695,7 +1695,7 @@
  		#clock-cells = <0>;
  		clock-output-names = "xin32k";
  		interrupt-parent = <&r_pio>;
- 		interrupts = <PL 3 IRQ_TYPE_NONE>;
+		interrupts = <PL 3 IRQ_TYPE_LEVEL_LOW>;
  	};
  };
 
