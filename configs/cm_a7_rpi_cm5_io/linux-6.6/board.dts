@@ -916,7 +916,6 @@
 	pinctrl-4 = <&sdc0_pins_power_cycle>;
 	bus-width = <4>;
 	//cd-gpios = <&pio PF 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-	non-removable;
 	broken-cd;
 	/*cd-inverted*/
 	/*data3-detect;*/
