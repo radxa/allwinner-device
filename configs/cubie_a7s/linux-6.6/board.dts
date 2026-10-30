@@ -70,6 +70,19 @@
 		regulator-boot-on;
 	};
 
+	reg_pcie_pwr: pcie-pwr {
+		/* FPC PCIe/NVMe HAT power-enable: PD20 = PCIE_PWR_EN (J3 pin14). */
+		compatible = "regulator-fixed";
+		regulator-name = "pcie-pwr";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-enable-ramp-delay = <1000>;
+		gpio = <&pio PD 20 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-always-on;
+		regulator-boot-on;
+	};
+
 	arisc_config: arisc_config {
 		s_uart_config{
 			pins = "PL2", "PL3";
@@ -1083,7 +1096,6 @@
 &pcie_rc {
 	pcie1v8-supply = <&reg_dc1sw1>;
 	pcie3v3-supply = <&reg_bldo2>;
-	power-gpios =  <&pio PD 20 GPIO_ACTIVE_HIGH>;
 	reset-gpios = <&pio PD 22 GPIO_ACTIVE_HIGH>;
 	wake-gpios = <&pio PD 21 GPIO_ACTIVE_HIGH>;
 	status = "okay";
