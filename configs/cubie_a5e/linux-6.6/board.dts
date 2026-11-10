@@ -1301,6 +1301,8 @@
 &sdc2 {
 	non-removable;
 	bus-width = <8>;
+	execute_tuning_in_kernel;
+	allwinner,hs400-ds-tuning;
 	mmc-ddr-1_8v;
 	mmc-hs200-1_8v;
 	mmc-hs400-1_8v;
