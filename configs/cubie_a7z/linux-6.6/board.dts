@@ -5,6 +5,7 @@
 #include "sun60iw2p1.dtsi"
 #define TYPEC_DP 1
 /{
+	model = "Radxa Cubie A7Z";
 	board = "A733", "A733-CUBIE-A7Z-AXP318";
 	compatible = "radxa,cubie-a7z", "radxa,a733", "arm,sun60iw2p1", "allwinner,sun60i-a733";
 	aliases {
