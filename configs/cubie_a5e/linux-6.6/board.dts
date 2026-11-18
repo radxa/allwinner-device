@@ -8,6 +8,7 @@
 #define USE_PCIE 1
 
 /{
+	model = "Radxa Cubie A5E";
 	board = "A527", "A527-CUBIE-A5-AXP717C";
 	compatible = "radxa,a527", "radxa,cubie-a5e", "arm,sun55iw3p1",
 		     "allwinner,sun55i-a527";
