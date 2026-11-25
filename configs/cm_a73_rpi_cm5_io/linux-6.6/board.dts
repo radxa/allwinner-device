@@ -887,6 +887,8 @@
 	cqe-on;
 	ctl-cmdq-md = <0x2>;
 	max-frequency = <200000000>;
+	/* HS400 data strobe delay: tap 4 at 150 MHz, tap 8 at 200 MHz. */
+	sdc_tm4_sm4_freq1 = <0x00000804>;
 	/*vmmc-supply = <&reg_cldo3>;*/
 	/*emmc io vol 3.3v*/
 	/*vqmmc-supply = <&reg_aldo1>;*/
