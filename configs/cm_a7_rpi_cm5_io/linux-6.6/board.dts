@@ -34,6 +34,18 @@
 		enable-active-high;
 	};
 
+	reg_pcie3v3: regulator-pcie-3v3 {
+		compatible = "regulator-fixed";
+		regulator-name = "pcie-3v3";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+
+		vin-supply = <&reg_dcdc1>;
+		gpio = <&pio PD 20 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		startup-delay-us = <50000>;
+	};
+
 	wifi_power_en: wifi_power_en {
 		compatible = "regulator-fixed";
 		regulator-name = "wifi_power_en";
@@ -1055,11 +1067,10 @@
 };
 
 &pcie_rc {
-	power-gpios =  <&pio PD 20 GPIO_ACTIVE_HIGH>;
 	reset-gpios = <&pio PD 22 GPIO_ACTIVE_HIGH>;
 	wake-gpios = <&pio PD 21 GPIO_ACTIVE_HIGH>;
 	pcie1v8-supply = <&reg_bldo1>;
-	pcie3v3-supply = <&reg_dcdc1>;
+	pcie3v3-supply = <&reg_pcie3v3>;
 	status = "okay";
 };
 
