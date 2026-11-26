@@ -5,9 +5,10 @@
 #include "sun60iw2p1.dtsi"
 #define TYPEC_DP 1
 /{
-	model = "Radxa CM A7 with RPi CM5 IO Board";
+	model = "Radxa CM-A73 with RPi CM5 IO Board";
 	board = "A733", "A733-CUBIE-A7A-AXP318";
-	compatible = "radxa,cm-a7-rpi-cm5-io", "radxa,a733", "arm,sun60iw2p1", "allwinner,sun60i-a733";
+	compatible = "radxa,cm-a73-rpi-cm5-io", "radxa,a733",
+		     "arm,sun60iw2p1", "allwinner,sun60i-a733";
 	aliases {
 		arisc-config = &arisc_config;
 		pmu0 = &pmu0;
